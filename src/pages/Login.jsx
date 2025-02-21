@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import icon from "../../public/icon_login.svg";
+import icon from "../assets/icon_login.svg";
 
 const Login = () => {
    const { login, register, authError, user, loading } =
