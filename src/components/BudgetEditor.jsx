@@ -22,7 +22,7 @@ const BudgetEditor = ({
    };
 
    const categoryColors = {
-      "Makannan": "bg-red-100",
+      "Makanan": "bg-red-100",
       "Transportasi": "bg-blue-100",
       "Darurat": "bg-yellow-100",
       "Tabungan": "bg-green-100",
