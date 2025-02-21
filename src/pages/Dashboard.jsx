@@ -10,6 +10,8 @@ const Dashboard = () => {
    const [transactions, setTransactions] = useState([]);
    const [budgets, setBudgets] = useState([]);
    const [monthlyIncome, setMonthlyIncome] = useState(null);
+   const [isSavingIncome, setIsSavingIncome] = useState(false);
+
 
    const [showHistoryModal, setShowHistoryModal] = useState(false);
 
@@ -68,6 +70,7 @@ const Dashboard = () => {
 
    const handleSaveIncome = async () => {
       try {
+         setIsSavingIncome(true);
          const amount = document.getElementById("monthlyIncome").value;
          const res = await api.post("/pemasukan", {
             month: new Date().getMonth() + 1,
@@ -77,6 +80,8 @@ const Dashboard = () => {
          setMonthlyIncome(res.data.pemasukan);
       } catch (error) {
          console.error("Error updating income", error);
+      } finally {
+         setIsSavingIncome(false);
       }
    };
 
@@ -126,9 +131,12 @@ const Dashboard = () => {
                   />
                   <button
                      onClick={handleSaveIncome}
-                     className="px-4 py-2 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
+                     disabled={isSavingIncome}
+                     className={`px-4 py-2 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition ${
+                        isSavingIncome ? "opacity-50 cursor-not-allowed" : ""
+                     }`}
                   >
-                     Simpan
+                     {isSavingIncome ? "Menyimpan..." : "Simpan"}
                   </button>
                </div>
             </section>
