@@ -25,11 +25,12 @@ const decodeJWT = (token) => {
 export const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
    const [authError, setAuthError] = useState("");
-   const [loading, setLoading] = useState(false); // <-- tambahkan loading state
+   const [loading, setLoading] = useState(false);
 
    // Inisialisasi user dari token yang tersimpan di localStorage
    useEffect(() => {
       const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
       if (token) {
          try {
             const decoded = decodeJWT(token);
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }) => {
                localStorage.removeItem("token");
             } else {
                api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-               setUser({ id: decoded.userId });
+               setUser(JSON.parse(storedUser));
             }
          } catch (err) {
             console.error("Token invalid", err);
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
    const register = async (formData) => {
       try {
-         setLoading(true); // mulai loading
+         setLoading(true);
          setAuthError("");
          await api.post("/auth/register", formData);
          await login({ email: formData.email, password: formData.password });
@@ -56,16 +57,17 @@ export const AuthProvider = ({ children }) => {
          console.error("Register error:", error.response?.data);
          setAuthError(error.response?.data?.message || "Register error");
       } finally {
-         setLoading(false); // selesai loading
+         setLoading(false);
       }
    };
 
    const login = async (credentials) => {
       try {
-         setLoading(true); // mulai loading
+         setLoading(true);
          setAuthError("");
          const res = await api.post("/auth/login", credentials);
          setUser(res.data.user);
+         localStorage.setItem("user", JSON.stringify(res.data.user));
          localStorage.setItem("token", res.data.token);
          api.defaults.headers.common[
             "Authorization"
@@ -81,6 +83,7 @@ export const AuthProvider = ({ children }) => {
    const logout = () => {
       setUser(null);
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       delete api.defaults.headers.common["Authorization"];
    };
 

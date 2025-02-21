@@ -103,7 +103,7 @@ const Dashboard = () => {
       <div className="min-h-screen bg-white text-black">
          {/* Header */}
          <header className="border-b-4 border-black p-4 mb-4">
-            <div className="container mx-auto flex justify-between items-center">
+            <div className="container mx-auto flex justify-between items-center px-4">
                <h1 className="text-2xl md:text-3xl font-bold">
                   Dashboard Keuangan Pribadi
                </h1>
@@ -118,7 +118,16 @@ const Dashboard = () => {
 
          {/* Main Content */}
          <main className="container mx-auto px-4">
+            {/* section welcome */}
+            <section className="mb-6 border-2 border-black p-4 rounded-md">
+               <h2 className="text-xl font-semibold">
+                  {" "}
+                  Selamat Datang
+                  <span className="font-bold text-blue-400">{user && user.name ? `, ${user.name}` : ""}</span> !
+               </h2>
+            </section>
             {/* Pemasukan Bulanan */}
+
             <section className="mb-6 border-2 border-black p-4 rounded-md">
                <h2 className="text-xl font-bold mb-2">Pemasukan Bulanan</h2>
                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
