@@ -170,7 +170,7 @@ const Login = () => {
 
                   <p className="mb-4">
                      Jika ada pertanyaan lebih lanjut, silakan hubungi admin
-                     di <a target="_blank" href="https:abdulrahemfaqih.works" className="text-blue-500 underline">link ini</a> pada menu Contact.
+                     di <a target="_blank" href="https://abdulrahemfaqih.works" className="text-blue-500 underline">link ini</a> pada menu Contact.
                   </p>
 
                   <div className="flex justify-end">
