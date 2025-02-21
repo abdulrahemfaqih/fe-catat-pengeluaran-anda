@@ -4,6 +4,7 @@ import api from "../utils/api";
 
 export const AuthContext = createContext();
 
+// Fungsi decodeJWT buatan sendiri
 const decodeJWT = (token) => {
    try {
       const payload = token.split(".")[1];
@@ -24,6 +25,7 @@ const decodeJWT = (token) => {
 export const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
    const [authError, setAuthError] = useState("");
+   const [loading, setLoading] = useState(false); // <-- tambahkan loading state
 
    // Inisialisasi user dari token yang tersimpan di localStorage
    useEffect(() => {
@@ -46,17 +48,21 @@ export const AuthProvider = ({ children }) => {
 
    const register = async (formData) => {
       try {
+         setLoading(true); // mulai loading
          setAuthError("");
          await api.post("/auth/register", formData);
          await login({ email: formData.email, password: formData.password });
       } catch (error) {
          console.error("Register error:", error.response?.data);
          setAuthError(error.response?.data?.message || "Register error");
+      } finally {
+         setLoading(false); // selesai loading
       }
    };
 
    const login = async (credentials) => {
       try {
+         setLoading(true); // mulai loading
          setAuthError("");
          const res = await api.post("/auth/login", credentials);
          setUser(res.data.user);
@@ -67,6 +73,8 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
          console.error("Login error:", error.response?.data);
          setAuthError(error.response?.data?.message || "Login error");
+      } finally {
+         setLoading(false); // selesai loading
       }
    };
 
@@ -78,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 
    return (
       <AuthContext.Provider
-         value={{ user, authError, register, login, logout }}
+         value={{ user, authError, loading, register, login, logout }}
       >
          {children}
       </AuthContext.Provider>
