@@ -36,32 +36,33 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
    };
 
    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-         <div className="bg-white p-6 rounded-md w-96">
-            <h2 className="text-xl font-semibold mb-4">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+         {/* Modal Box */}
+         <div className="bg-white p-6 rounded-md w-96 border-2 border-black">
+            <h2 className="text-xl font-bold mb-4">
                {editData ? "Edit" : "Tambah"} Transaksi
             </h2>
             <form onSubmit={handleSubmit}>
                <div className="mb-3">
-                  <label className="block mb-1">Nama</label>
+                  <label className="block mb-1 font-medium">Nama</label>
                   <input
                      type="text"
                      value={formData.name}
                      onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                      }
-                     className="w-full border p-2 rounded"
+                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
                      required
                   />
                </div>
                <div className="mb-3">
-                  <label className="block mb-1">Kategori</label>
+                  <label className="block mb-1 font-medium">Kategori</label>
                   <select
                      value={formData.category}
                      onChange={(e) =>
                         setFormData({ ...formData, category: e.target.value })
                      }
-                     className="w-full border p-2 rounded"
+                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
                      required
                   >
                      <option value="Makanan">Makanan</option>
@@ -71,40 +72,40 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                   </select>
                </div>
                <div className="mb-3">
-                  <label className="block mb-1">Nominal</label>
+                  <label className="block mb-1 font-medium">Nominal</label>
                   <input
                      type="number"
                      value={formData.amount}
                      onChange={(e) =>
                         setFormData({ ...formData, amount: e.target.value })
                      }
-                     className="w-full border p-2 rounded"
+                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
                      required
                   />
                </div>
                <div className="mb-3">
-                  <label className="block mb-1">Tanggal</label>
+                  <label className="block mb-1 font-medium">Tanggal</label>
                   <input
                      type="date"
                      value={formData.date}
                      onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                      }
-                     className="w-full border p-2 rounded"
+                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
                      required
                   />
                </div>
-               <div className="flex justify-end">
+               <div className="flex justify-end mt-4">
                   <button
                      type="button"
                      onClick={onClose}
-                     className="px-4 py-2 mr-2 bg-gray-300 rounded"
+                     className="px-4 py-2 mr-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                   >
                      Batal
                   </button>
                   <button
                      type="submit"
-                     className="px-4 py-2 bg-blue-500 text-white rounded"
+                     className="px-4 py-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                   >
                      Simpan
                   </button>

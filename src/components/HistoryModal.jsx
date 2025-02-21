@@ -17,14 +17,18 @@ const HistoryModal = ({ onClose }) => {
    }, []);
 
    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-         <div className="bg-white p-6 rounded-md w-96 max-h-[80vh] overflow-auto">
-            <h2 className="text-xl font-semibold mb-4">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+         {/* Modal Box */}
+         <div className="bg-white p-6 rounded-md w-96 max-h-[80vh] overflow-auto border-2 border-black">
+            <h2 className="text-xl font-bold mb-4">
                History Pengeluaran Bulanan
             </h2>
             {history.length ? (
                history.map((item) => (
-                  <div key={item._id} className="mb-3 border-b pb-2">
+                  <div
+                     key={item._id}
+                     className="mb-3 border-b border-black pb-2"
+                  >
                      <div className="flex justify-between">
                         <span>
                            {item.month}/{item.year}
@@ -46,7 +50,7 @@ const HistoryModal = ({ onClose }) => {
             <div className="flex justify-end mt-4">
                <button
                   onClick={onClose}
-                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                  className="px-4 py-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                >
                   Tutup
                </button>
