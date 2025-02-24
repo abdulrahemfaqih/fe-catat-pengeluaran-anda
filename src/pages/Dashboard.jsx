@@ -97,7 +97,7 @@ const Dashboard = () => {
       }
    };
 
-   if (!user) return null; // atau redirect
+   if (!user) return null; 
 
    return (
       <div className="min-h-screen bg-white text-black">

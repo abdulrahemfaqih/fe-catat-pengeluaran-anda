@@ -73,7 +73,6 @@ const TransactionTable = ({ transactions, setTransactions }) => {
                            {tx.amount}
                         </td>
                         <td className="py-2 px-2 border-2 border-black">
-                           {/* TOMBOL ACTION DIBUAT LEBIH RESPONSIF */}
                            <div className="flex  gap-2 justify-center">
                               <button
                                  onClick={() => openModalForEdit(tx)}

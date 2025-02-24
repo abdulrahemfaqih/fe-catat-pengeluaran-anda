@@ -1,10 +1,10 @@
-// src/context/AuthContext.jsx
+
 import React, { createContext, useState, useEffect } from "react";
 import api from "../utils/api";
 
 export const AuthContext = createContext();
 
-// Fungsi decodeJWT buatan sendiri
+// Fungsi decodeJWT
 const decodeJWT = (token) => {
    try {
       const payload = token.split(".")[1];
@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
          console.error("Login error:", error.response?.data);
          setAuthError(error.response?.data?.message || "Login error");
       } finally {
-         setLoading(false); // selesai loading
+         setLoading(false); 
       }
    };
 
