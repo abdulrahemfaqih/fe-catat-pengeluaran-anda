@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from "../utils/api";
 import Header from '../components/Header';
 import Wishlist from '../components/Wishlists';
-import WishlistModal from '../components/wishlistModal';
+import WishlistModal from '../components/WishlistModal';
 
 const DashboardWishlist = () => {
     const [items, setItems] = useState([]);
