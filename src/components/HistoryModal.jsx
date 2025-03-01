@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import api from "../utils/api";
+
+
 
 const HistoryModal = ({ onClose }) => {
    const [history, setHistory] = useState([]);
@@ -36,11 +38,11 @@ const HistoryModal = ({ onClose }) => {
 
    return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-         <div className="bg-white p-6 rounded-md w-96 max-h-[80vh] overflow-auto border-2 border-black">
+         <div className="bg-white p-6 rounded-md w-96 max-h-[80vh] overflow-auto border-3 border-black">
             <h2 className="text-xl font-bold mb-4">
                History Pengeluaran Bulanan
             </h2>
-             {isLoading ? (
+            {isLoading ? (
                <div className="text-center py-4">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black mx-auto"></div>
                   <p className="mt-2">Loading...</p>
@@ -69,9 +71,9 @@ const HistoryModal = ({ onClose }) => {
                         <button
                            onClick={() => handleDelete(item._id)}
                            disabled={loadingDelete === item._id}
-                           className={`px-3 py-1 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition ${loadingDelete === item._id
-                                 ? "opacity-50 cursor-not-allowed"
-                                 : ""
+                           className={`px-3 py-1 border-3 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition ${loadingDelete === item._id
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
                               }`}
                         >
                            {loadingDelete === item._id
@@ -87,7 +89,7 @@ const HistoryModal = ({ onClose }) => {
             <div className="flex justify-end mt-4">
                <button
                   onClick={onClose}
-                  className="px-4 py-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
+                  className="px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                >
                   Tutup
                </button>

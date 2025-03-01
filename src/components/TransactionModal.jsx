@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import api from "../utils/api";
 
 const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
@@ -38,7 +38,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
    return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
          {/* Modal Box */}
-         <div className="bg-white p-6 rounded-md w-96 border-2 border-black">
+         <div className="bg-white p-6 rounded-md w-96 border-3 border-black">
             <h2 className="text-xl font-bold mb-4">
                {editData ? "Edit" : "Tambah"} Transaksi
             </h2>
@@ -51,7 +51,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                      onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                      }
-                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
+                     className="w-full border-3 border-black p-2 rounded focus:outline-none"
                      required
                   />
                </div>
@@ -62,7 +62,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                      onChange={(e) =>
                         setFormData({ ...formData, category: e.target.value })
                      }
-                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
+                     className="w-full border-3 border-black p-2 rounded focus:outline-none"
                      required
                   >
                      <option value="Makanan">Makanan</option>
@@ -79,7 +79,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                      onChange={(e) =>
                         setFormData({ ...formData, amount: e.target.value })
                      }
-                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
+                     className="w-full border-3 border-black p-2 rounded focus:outline-none"
                      required
                   />
                </div>
@@ -91,7 +91,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                      onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                      }
-                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
+                     className="w-full border-3 border-black p-2 rounded focus:outline-none"
                      required
                   />
                </div>
@@ -99,13 +99,13 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                   <button
                      type="button"
                      onClick={onClose}
-                     className="px-4 py-2 mr-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
+                     className="px-4 py-2 mr-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                   >
                      Batal
                   </button>
                   <button
                      type="submit"
-                     className="px-4 py-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
+                     className="px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                   >
                      Simpan
                   </button>

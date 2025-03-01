@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import api from "../utils/api";
+
 
 const BudgetEditor = ({
    budgets,
@@ -52,15 +53,14 @@ const BudgetEditor = ({
    };
 
    return (
-      <div className="mb-6 border-2 border-black p-4 rounded-md">
+      <div className="mb-6 border-3 border-black p-4 rounded-md">
          <h2 className="text-xl font-bold mb-2">Budget Per Kategori</h2>
          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {editBudgets.map((item) => (
                <div
                   key={item._id}
-                  className={`flex flex-col border-2 border-black p-2 rounded-md ${
-                     categoryColors[item.category] || "bg-gray-100"
-                  }`}
+                  className={`flex flex-col border-3 border-black p-2 rounded-md ${categoryColors[item.category] || "bg-gray-100"
+                     }`}
                >
                   <span className="font-semibold mb-1">{item.category}</span>
                   <div className="flex items-center gap-2 mb-2">
@@ -74,7 +74,7 @@ const BudgetEditor = ({
                               parseFloat(e.target.value)
                            )
                         }
-                        className="border-2 border-black p-1 rounded w-24 focus:outline-none bg-white"
+                        className="border-3 border-black p-1 rounded w-24 focus:outline-none bg-white"
                      />
                   </div>
                   <div>
@@ -92,12 +92,14 @@ const BudgetEditor = ({
 
          <button
             onClick={handleSave}
-            className="mt-3 px-4 py-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
+            className="mt-3 px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
          >
             Simpan Budget
          </button>
       </div>
    );
 };
+
+
 
 export default BudgetEditor;

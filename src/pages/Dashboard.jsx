@@ -4,6 +4,8 @@ import TransactionTable from "../components/TransactionTable";
 import BudgetEditor from "../components/BudgetEditor";
 import HistoryModal from "../components/HistoryModal";
 import api from "../utils/api";
+import Header from "../components/Header";
+import WelcomeMessage from "../components/WelcomeMessage";
 
 const Dashboard = () => {
    const { user, logout } = useContext(AuthContext);
@@ -97,53 +99,34 @@ const Dashboard = () => {
       }
    };
 
-   if (!user) return null; 
+   if (!user) return null;
 
    return (
       <div className="min-h-screen bg-white text-black">
          {/* Header */}
-         <header className="border-b-4 border-black p-4 mb-4">
-            <div className="container mx-auto flex justify-between items-center px-4">
-               <h1 className="text-2xl md:text-3xl font-bold">
-                  Dashboard Keuangan Pribadi
-               </h1>
-               <button
-                  onClick={logout}
-                  className="px-4 py-2 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
-               >
-                  Logout
-               </button>
-            </div>
-         </header>
+         <Header logout={logout} />
 
          {/* Main Content */}
          <main className="container mx-auto px-4">
             {/* section welcome */}
-            <section className="mb-6 border-2 border-black p-4 rounded-md">
-               <h2 className="text-xl font-semibold">
-                  {" "}
-                  Selamat Datang
-                  <span className="font-bold text-blue-400">{user && user.name ? `, ${user.name}` : ""}</span> !
-               </h2>
-            </section>
+            <WelcomeMessage user={user} />
             {/* Pemasukan Bulanan */}
 
-            <section className="mb-6 border-2 border-black p-4 rounded-md">
+            <section className="mb-6 border-3 border-black p-4 rounded-md">
                <h2 className="text-xl font-bold mb-2">Pemasukan Bulanan</h2>
                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                   <input
                      type="number"
                      placeholder="Masukkan pemasukan"
                      defaultValue={monthlyIncome?.amount || ""}
-                     className="border-2 border-black p-2 rounded w-full sm:w-auto focus:outline-none"
+                     className="border-3 border-black p-2 rounded w-full sm:w-auto focus:outline-none"
                      id="monthlyIncome"
                   />
                   <button
                      onClick={handleSaveIncome}
                      disabled={isSavingIncome}
-                     className={`px-4 py-2 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition ${
-                        isSavingIncome ? "opacity-50 cursor-not-allowed" : ""
-                     }`}
+                     className={`px-4 py-2 border-3 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition ${isSavingIncome ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                   >
                      {isSavingIncome ? "Menyimpan..." : "Simpan"}
                   </button>
@@ -164,13 +147,13 @@ const Dashboard = () => {
             <section className="flex flex-col md:flex-row gap-4">
                <button
                   onClick={() => setShowHistoryModal(true)}
-                  className="px-4 py-2 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
+                  className="px-4 py-2 border-3 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
                >
                   History Pengeluaran Bulanan
                </button>
                <button
                   onClick={handleSaveHistory}
-                  className="px-4 py-2 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
+                  className="px-4 py-2 border-3 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
                >
                   Simpan Pengeluaran Bulan Ini
                </button>

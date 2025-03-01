@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import icon from "../assets/icon_login.svg";
 
 const Login = () => {
-   const { login, register, authError, user, loading } =
-      useContext(AuthContext);
+   const { login, register, authError, user, loading, isAuthChecked } = useContext(AuthContext);
    const [isRegister, setIsRegister] = useState(false);
    const [formData, setFormData] = useState({
       name: "",
@@ -16,10 +15,14 @@ const Login = () => {
    const navigate = useNavigate();
 
    useEffect(() => {
-      if (user) {
+      if (isAuthChecked && user) {
          navigate("/");
       }
-   }, [user, navigate]);
+   }, [user, navigate, isAuthChecked]);
+
+   if (!isAuthChecked) {
+      return <p>Loading...</p>; // Atau bisa pakai spinner
+   }
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,7 +42,7 @@ const Login = () => {
          <img src={icon} alt="Login Icon" className="w-28 mb-4" />
          <form
             onSubmit={handleSubmit}
-            className="border-2 border-black bg-white p-6 rounded-md shadow-md w-full max-w-sm"
+            className="border-3 border-black bg-white p-6 rounded-md shadow-md w-full max-w-sm"
          >
             <h1 className="text-2xl font-bold mb-4 text-center">
                {isRegister ? "Register" : "Login"}
@@ -52,7 +55,7 @@ const Login = () => {
                      type="text"
                      name="name"
                      onChange={handleChange}
-                     className="w-full border-2 border-black p-2 rounded focus:outline-none"
+                     className="w-full border-3 border-black p-2 rounded focus:outline-none"
                      required
                   />
                </div>
@@ -64,7 +67,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   onChange={handleChange}
-                  className="w-full border-2 border-black p-2 rounded focus:outline-none"
+                  className="w-full border-3 border-black p-2 rounded focus:outline-none"
                   required
                />
             </div>
@@ -75,7 +78,7 @@ const Login = () => {
                   type="password"
                   name="password"
                   onChange={handleChange}
-                  className="w-full border-2 border-black p-2 rounded focus:outline-none"
+                  className="w-full border-3 border-black p-2 rounded focus:outline-none"
                   required
                />
             </div>
@@ -91,9 +94,8 @@ const Login = () => {
             <button
                type="submit"
                disabled={loading}
-               className={`w-full border-2 border-black bg-white text-black py-2 rounded-md font-medium hover:bg-black hover:text-white transition ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-               }`}
+               className={`w-full border-3 border-black bg-white text-black py-2 rounded-md font-medium hover:bg-black hover:text-white transition ${loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
             >
                {isRegister ? "Register" : "Login"}
             </button>
@@ -113,7 +115,7 @@ const Login = () => {
                <button
                   type="button"
                   onClick={() => setShowTutorial(true)}
-                  className="px-4 py-2 border-2 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
+                  className="px-4 py-2 border-3 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition"
                >
                   Tutorial
                </button>
@@ -123,7 +125,7 @@ const Login = () => {
          {/* Modal Tutorial */}
          {showTutorial && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
-               <div className="bg-white border-2 border-black p-6 rounded-md w-full max-w-md max-h-[80vh] overflow-auto">
+               <div className="bg-white border-3 border-black p-6 rounded-md w-full max-w-md max-h-[80vh] overflow-auto">
                   <h2 className="text-xl font-bold mb-4 text-center">
                      Cara Menggunakan Aplikasi
                   </h2>
@@ -176,7 +178,7 @@ const Login = () => {
                   <div className="flex justify-end">
                      <button
                         onClick={() => setShowTutorial(false)}
-                        className="px-4 py-2 border-2 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
+                        className="px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                      >
                         Tutup
                      </button>

@@ -1,0 +1,109 @@
+import React, { useState, useEffect } from 'react';
+import api from '../utils/api';
+
+const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [purchaseLink, setPurchaseLink] = useState('');
+
+    useEffect(() => {
+        if (item) {
+            setName(item.name);
+            setPrice(item.price);
+            setDescription(item.description);
+            setPurchaseLink(item.purchaseLink);
+        } else {
+            setName('');
+            setPrice('');
+            setDescription('');
+            setPurchaseLink('');
+        }
+    }, [item]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const newItem = {
+            _id: item ? item._id : Date.now(),
+            name,
+            price: parseFloat(price),
+            description,
+            purchaseLink,
+        };
+
+        try {
+            onSave(newItem);
+            onClose();
+        } catch (error) {
+            console.error('Error saving wishlist item:', error);
+        }
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-96 border-3 border-black">
+                <h2 className="text-xl font-semibold mb-4">{item ? 'Update Item' : 'Tambah Item'}</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Nama</label>
+                        <input
+                            type="text"
+                            className="w-full px-3 py-2 border-3 border-black rounded"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Harga</label>
+                        <input
+                            type="number"
+                            className="w-full px-3 py-2 border-3 border-black rounded"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Deskripsi</label>
+                        <textarea
+                            className="w-full px-3 py-2 border-3 border-black rounded"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                        ></textarea>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Link Pembelian</label>
+                        <input
+                            type="url"
+                            className="w-full px-3 py-2 border-3 border-black rounded"
+                            value={purchaseLink}
+                            onChange={(e) => setPurchaseLink(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="flex justify-end gap-2">
+                        <button
+                            type="button"
+                            className="px-4 py-2 border-3 border-black text-black rounded hover:bg-black hover:text-white transition-colors"
+                            onClick={onClose}
+                        >
+                            Batal
+                        </button>
+                        <button
+                            type="submit"
+                            className="px-4 py-2 border-3 border-black text-black rounded hover:bg-black hover:text-white transition-colors"
+                        >
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default WishlistModal;
