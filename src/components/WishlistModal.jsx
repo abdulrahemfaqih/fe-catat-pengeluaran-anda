@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../utils/api';
+
 
 const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
     const [name, setName] = useState('');
