@@ -53,7 +53,7 @@ const BudgetEditor = ({
    };
 
    return (
-      <div className="mb-6 border-3 border-black p-4 rounded-md">
+      <div className="border-3 border-black p-4 rounded-md">
          <h2 className="text-xl font-bold mb-2">Budget Per Kategori</h2>
          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {editBudgets.map((item) => (
