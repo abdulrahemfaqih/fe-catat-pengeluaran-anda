@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import api from "../utils/api";
 import Header from '../components/Header';
 import Wishlist from '../components/Wishlists';
 import WishlistModal from '../components/WishlistModal';
+import { AuthContext } from '../context/AuthContext';
+
 
 const DashboardWishlist = () => {
+    const {logout} = useContext(AuthContext);
     const [items, setItems] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
@@ -68,7 +71,7 @@ const DashboardWishlist = () => {
 
     return (
         <div className="DashboardWishlist">
-            <Header />
+            <Header logout={logout} />
 
             <div className="container mx-auto p-4">
 
