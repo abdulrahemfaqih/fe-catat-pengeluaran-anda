@@ -82,7 +82,7 @@ const DashboardWishlist = () => {
                             <p className="text-3xl font-black">{totalItem}</p>
                         </div>
                         <div className="text-center">
-                            <h3 className="text-xl font-bold mb-2">Total Price</h3>
+                            <h3 className="text-xl font-bold mb-2">Total Harga</h3>
                             <p className="text-3xl font-black">Rp {totalPrice.toLocaleString()}</p>
                         </div>
                     </div>
