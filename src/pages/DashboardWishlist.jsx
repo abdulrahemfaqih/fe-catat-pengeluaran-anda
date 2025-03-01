@@ -13,6 +13,7 @@ const DashboardWishlist = () => {
     const [currentItem, setCurrentItem] = useState(null);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalItem, setTotalItem] = useState(0);
+    const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
     useEffect(() => {
         const fetchWishlist = async () => {
@@ -36,6 +37,7 @@ const DashboardWishlist = () => {
     };
 
     const handleDelete = async (itemId) => {
+        setIsLoadingDelete(true);
         try {
             const itemToDelete = items.find(item => item._id === itemId);
             await api.delete(`/wishlist/${itemId}`);
@@ -44,6 +46,8 @@ const DashboardWishlist = () => {
             setTotalItem(totalItem - 1);
         } catch (error) {
             console.error('Error deleting wishlist item:', error);
+        } finally {
+            setIsLoadingDelete(false);
         }
     };
 
@@ -100,6 +104,11 @@ const DashboardWishlist = () => {
                         Tambah Item
                     </button>
                 </div>
+                {isLoadingDelete && (
+                    <div className="flex justify-center items-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-black"></div>
+                    </div>
+                )}
 
                 <Wishlist items={items} onUpdate={handleUpdate} onDelete={handleDelete} />
                 <WishlistModal
