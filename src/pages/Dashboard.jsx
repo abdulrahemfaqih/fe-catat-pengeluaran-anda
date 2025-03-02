@@ -6,6 +6,7 @@ import HistoryModal from "../components/HistoryModal";
 import api from "../utils/api";
 import Header from "../components/Header";
 import WelcomeMessage from "../components/WelcomeMessage";
+import toast, {Toaster} from "react-hot-toast";
 
 const Dashboard = () => {
    const { user, logout } = useContext(AuthContext);
@@ -13,6 +14,7 @@ const Dashboard = () => {
    const [budgets, setBudgets] = useState([]);
    const [monthlyIncome, setMonthlyIncome] = useState(null);
    const [isSavingIncome, setIsSavingIncome] = useState(false);
+   const [isLoadingPengeluaran, setIsLoadingPengeluaran] = useState(false);
 
 
    const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -39,6 +41,7 @@ const Dashboard = () => {
             setMonthlyIncome(incomeRes.data[0]);
          } catch (error) {
             console.error("Error fetching data", error);
+            toast.error("Gagal mengambil data", {duration: 3000});
          }
       };
       if (user) fetchData();
@@ -82,20 +85,26 @@ const Dashboard = () => {
          setMonthlyIncome(res.data.pemasukan);
       } catch (error) {
          console.error("Error updating income", error);
+         toast.error("Gagal menyimpan pemasukan bulanan", {duration: 3000});
       } finally {
          setIsSavingIncome(false);
+         toast.success("Pemasukan bulanan berhasil disimpan", {duration: 3000});
       }
    };
 
    const handleSaveHistory = async () => {
       // Simpan pengeluaran bulanan ke history
+      setIsLoadingPengeluaran(true);
       try {
          const month = new Date().getMonth() + 1;
          const year = new Date().getFullYear();
          await api.post("/history", { month, year });
-         alert("Pengeluaran bulan ini berhasil disimpan ke history");
+         toast.success("Pengeluaran bulan ini berhasil disimpan ke history", {duration: 3000});
       } catch (error) {
          console.error("Error saving history", error);
+         toast.error("Gagal menyimpan pengeluaran bulan ini", {duration: 3000});
+      } finally {
+         setIsLoadingPengeluaran(false);
       }
    };
 
@@ -106,6 +115,7 @@ const Dashboard = () => {
    return (
       <div className="min-h-screen bg-white text-black">
          <Header logout={logout} />
+         <Toaster />
 
          <main className="container mx-auto px-4 py-8">
             {/* Welcome Message */}
@@ -170,7 +180,7 @@ const Dashboard = () => {
                   onClick={handleSaveHistory}
                   className="px-6 py-3 border-3 border-black bg-white text-black rounded-md font-medium hover:bg-black hover:text-white transition-all"
                >
-                  Simpan Pengeluaran Bulan Ini
+                  {isLoadingPengeluaran ? "Menyimpan..." : "Simpan Pengeluaran Bulan Ini"}
                </button>
             </div>
 

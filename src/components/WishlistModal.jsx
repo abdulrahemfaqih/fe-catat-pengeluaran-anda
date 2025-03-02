@@ -6,6 +6,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
     const [description, setDescription] = useState('');
     const [purchaseLink, setPurchaseLink] = useState('');
     const [imageUrls, setImageUrls] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (item) {
@@ -29,6 +30,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const newItem = {
             _id: item ? item._id : Date.now(),
             name,
@@ -43,6 +45,8 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
             onClose();
         } catch (error) {
             console.error('Error saving wishlist item:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 

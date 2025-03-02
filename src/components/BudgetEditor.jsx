@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
+import toast from "react-hot-toast";
 
 
 const BudgetEditor = ({
@@ -9,7 +10,7 @@ const BudgetEditor = ({
    monthlyIncome,
 }) => {
    const [editBudgets, setEditBudgets] = useState([]);
-
+   const [loading, setLoading] = useState(false);
    useEffect(() => {
       setEditBudgets(budgets);
    }, [budgets]);
@@ -35,10 +36,10 @@ const BudgetEditor = ({
    const handleSave = async () => {
       // Opsional: validasi totalBudget == monthlyIncome?.amount
       if (monthlyIncome?.amount && totalBudget !== monthlyIncome.amount) {
-         alert("Total budget harus sama dengan pemasukan bulanan!");
+         toast.error("Total budget harus sama dengan pemasukan bulanan", { duration: 4000 });
          return;
       }
-
+      setLoading(true);
       try {
          await Promise.all(
             editBudgets.map((budget) =>
@@ -46,9 +47,11 @@ const BudgetEditor = ({
             )
          );
          setBudgets(editBudgets);
-         alert("Budget berhasil diupdate");
       } catch (error) {
          console.error("Error updating budget", error);
+      } finally {
+         setLoading(false);
+         toast.success("Budget berhasil disimpan", { duration: 3000 });
       }
    };
 
@@ -92,9 +95,10 @@ const BudgetEditor = ({
 
          <button
             onClick={handleSave}
-            className="mt-3 px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
+            disabled={loading}
+            className="px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition mt-4"
          >
-            Simpan Budget
+            {loading ? "menyimpan.." : "simpan"}
          </button>
       </div>
    );

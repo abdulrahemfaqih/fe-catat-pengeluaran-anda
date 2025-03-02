@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import TransactionModal from "./TransactionModal";
 import api from "../utils/api";
+import toast from "react-hot-toast";
 
 const TransactionTable = ({ transactions, setTransactions }) => {
    const [showModal, setShowModal] = useState(false);
    const [editData, setEditData] = useState(null);
+   const [isLoading, setIsLoading] = useState(false);
 
    const handleDelete = async (id) => {
+      setIsLoading(true);
       try {
          await api.delete(`/transactions/${id}`);
          setTransactions(transactions.filter((tx) => tx._id !== id));
       } catch (error) {
          console.error("Delete transaction error", error);
+      } finally {
+         setIsLoading(false);
+         toast.success("Transaksi berhasil dihapus", { duration: 3000 });
       }
    };
 
@@ -84,7 +90,7 @@ const TransactionTable = ({ transactions, setTransactions }) => {
                                  onClick={() => handleDelete(tx._id)}
                                  className="px-2 py-1 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
                               >
-                                 Hapus
+                                 {isLoading ? "Loading..." : "Hapus"}
                               </button>
                            </div>
                         </td>

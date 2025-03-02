@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Wishlist from '../components/Wishlists';
 import WishlistModal from '../components/WishlistModal';
 import { AuthContext } from '../context/AuthContext';
+import toast,  { Toaster } from 'react-hot-toast';
 
 
 const DashboardWishlist = () => {
@@ -15,6 +16,7 @@ const DashboardWishlist = () => {
     const [totalItem, setTotalItem] = useState(0);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
+
     useEffect(() => {
         const fetchWishlist = async () => {
             try {
@@ -24,6 +26,7 @@ const DashboardWishlist = () => {
                 setTotalItem(response.data.totalItem || 0);
             } catch (error) {
                 console.error('Error fetching wishlist:', error);
+                toast.error('Error fetching wishlist', { duration: 3000 });
             }
         };
 
@@ -47,6 +50,7 @@ const DashboardWishlist = () => {
         } catch (error) {
             console.error('Error deleting wishlist item:', error);
         } finally {
+            toast.success('Item berhasil dihapus', { duration: 3000 });
             setIsLoadingDelete(false);
         }
     };
@@ -65,6 +69,8 @@ const DashboardWishlist = () => {
             }
         } catch (error) {
             console.error('Error saving wishlist item:', error);
+        } finally {
+            toast.success('Item berhasil disimpan', { duration: 3000 });
         }
     };
 
@@ -76,6 +82,7 @@ const DashboardWishlist = () => {
     return (
         <div className="DashboardWishlist">
             <Header logout={logout} />
+            <Toaster />
 
             <div className="container mx-auto p-4">
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
+import toast from "react-hot-toast";
 
 const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
    const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
       amount: "",
       date: new Date().toISOString().slice(0, 10),
    });
+   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
       if (editData) {
@@ -21,7 +23,9 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
    }, [editData]);
 
    const handleSubmit = async (e) => {
+
       e.preventDefault();
+      setLoading(true);
       try {
          if (editData) {
             await api.put(`/transactions/${editData._id}`, formData);
@@ -32,6 +36,14 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
          onClose();
       } catch (error) {
          console.error("Transaction submit error", error);
+         toast.error("Gagal menyimpan transaksi", { duration: 3000 });
+      } finally {
+         setLoading(false);
+         if (editData) {
+            toast.success("Transaksi berhasil diupdate", { duration: 3000 });
+         } else {
+            toast.success("Transaksi berhasil disimpan", { duration: 3000 });
+         }
       }
    };
 
@@ -106,8 +118,9 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                   <button
                      type="submit"
                      className="px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition"
+                     disabled={loading} // Disable button saat loading
                   >
-                     Simpan
+                     {loading ? "Menyimpan..." : "Simpan"}
                   </button>
                </div>
             </form>
