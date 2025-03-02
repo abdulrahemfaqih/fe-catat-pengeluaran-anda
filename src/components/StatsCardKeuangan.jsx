@@ -1,20 +1,27 @@
 import React from "react";
 
-const StatsCard = ({ number, title, value, bgColor }) => {
+const StatsCard = ({ number, title, value, bgColor, isLoading = false }) => {
     return (
         <div className={`relative overflow-hidden rounded-xl border-4 border-black ${bgColor} p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)]`}>
             <div className="absolute -top-2 -left-2 rounded-full bg-white border-4 border-black h-10 w-10 flex items-center justify-center font-bold">
                 #{number}
             </div>
             <h3 className="mt-4 text-lg font-bold">{title}</h3>
-            <p className="text-3xl font-bold mt-2">
-                Rp {value.toLocaleString()}
-            </p>
+
+            {isLoading ? (
+                <div className="animate-pulse mt-2">
+                    <div className="h-10 bg-black/10 rounded-lg w-3/4 mx-auto"></div>
+                </div>
+            ) : (
+                <p className="text-3xl font-bold mt-2">
+                    Rp {value.toLocaleString()}
+                </p>
+            )}
         </div>
     );
 };
 
-const StatsCardKeuangan = ({ budgets, actualSpending, monthlyIncome }) => {
+const StatsCardKeuangan = ({ budgets, actualSpending, monthlyIncome, isLoading = false }) => {
     // Calculate total budget
     const totalBudget = budgets.reduce((sum, item) => sum + item.budget, 0);
 
@@ -31,6 +38,7 @@ const StatsCardKeuangan = ({ budgets, actualSpending, monthlyIncome }) => {
                 title="Total Budget"
                 value={totalBudget}
                 bgColor="bg-green-100"
+                isLoading={isLoading}
             />
 
             <StatsCard
@@ -38,6 +46,7 @@ const StatsCardKeuangan = ({ budgets, actualSpending, monthlyIncome }) => {
                 title="Total Pengeluaran"
                 value={totalSpending}
                 bgColor="bg-red-100"
+                isLoading={isLoading}
             />
 
             <StatsCard
@@ -45,6 +54,7 @@ const StatsCardKeuangan = ({ budgets, actualSpending, monthlyIncome }) => {
                 title="Pemasukan Bulanan"
                 value={incomeAmount}
                 bgColor="bg-blue-100"
+                isLoading={isLoading}
             />
         </div>
     );

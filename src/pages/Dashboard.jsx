@@ -10,6 +10,7 @@ import Header from "../components/Header";
 import WelcomeMessage from "../components/WelcomeMessage";
 import toast, { Toaster } from "react-hot-toast";
 import StatsCardKeuangan from "../components/StatsCardKeuangan";
+import DataLoadingIndicator from "../components/DataLoadingIndicator";
 
 const Dashboard = () => {
    const { user, logout } = useContext(AuthContext);
@@ -90,11 +91,14 @@ const Dashboard = () => {
                <WelcomeMessage user={user} />
             </div>
 
+            <DataLoadingIndicator isLoading={isLoasding}/>
+
             {/* Stats Cards Row */}
             <StatsCardKeuangan
                budgets={budgets}
                actualSpending={actualSpending}
                monthlyIncome={monthlyIncome}
+               isLoading={isLoasding}
             />
 
             {/* Income and Budget Section */}
