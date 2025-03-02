@@ -75,7 +75,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-xl w-96 md:w-104 border-3 border-black shadow-xl transform transition-all animate-fadeIn my-4 mx-2 max-h-[calc(100vh-2rem)] overflow-y-auto">
-                <div className="flex justify-between items-center mb-4 sticky top-0 pt-1 bg-white z-10">
+                <div className="flex justify-between items-center mb-4  pt-1 bg-white z-10">
                     <h2 className="text-2xl font-bold flex items-center">
                         <span className="inline-flex items-center justify-center w-8 h-8 rounded-full mr-2 bg-yellow-200 border-2 border-black">
                             {item ? "✏️" : "✨"}
