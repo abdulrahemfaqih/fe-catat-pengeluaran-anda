@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-
 const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [purchaseLink, setPurchaseLink] = useState('');
+    const [imageUrls, setImageUrls] = useState('');
 
     useEffect(() => {
         if (item) {
@@ -13,13 +13,19 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
             setPrice(item.price);
             setDescription(item.description);
             setPurchaseLink(item.purchaseLink);
+            setImageUrls(item.imageUrls);
         } else {
-            setName('');
-            setPrice('');
-            setDescription('');
-            setPurchaseLink('');
+            resetForm();
         }
     }, [item]);
+
+    const resetForm = () => {
+        setName('');
+        setPrice('');
+        setDescription('');
+        setPurchaseLink('');
+        setImageUrls('');
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +35,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
             price: parseFloat(price),
             description,
             purchaseLink,
+            imageUrls,
         };
 
         try {
@@ -37,6 +44,11 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
         } catch (error) {
             console.error('Error saving wishlist item:', error);
         }
+    };
+
+    const handleClose = () => {
+        resetForm();
+        onClose();
     };
 
     if (!isOpen) return null;
@@ -85,11 +97,25 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                             required
                         />
                     </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">URL Gambar</label>
+                        <input
+                            type="url"
+                            className="w-full px-3 py-2 border-3 border-black rounded"
+                            value={imageUrls}
+                            onChange={(e) => setImageUrls(e.target.value)}
+                        />
+                    </div>
+                    {imageUrls && (
+                        <div className="mb-4">
+                            <img src={imageUrls} alt="Preview" className="w-full h-auto rounded-lg border-3 border-black" />
+                        </div>
+                    )}
                     <div className="flex justify-end gap-2">
                         <button
                             type="button"
                             className="px-4 py-2 border-3 border-black text-black rounded hover:bg-black hover:text-white transition-colors"
-                            onClick={onClose}
+                            onClick={handleClose}
                         >
                             Batal
                         </button>
