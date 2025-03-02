@@ -42,6 +42,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
 
         try {
             onSave(newItem);
+            resetForm();
             onClose();
         } catch (error) {
             console.error('Error saving wishlist item:', error);
@@ -127,7 +128,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                             type="submit"
                             className="px-4 py-2 border-3 border-black text-black rounded hover:bg-black hover:text-white transition-colors"
                         >
-                            Simpan
+                            {isLoading ? 'Menyimpan...' : 'Simpan'}
                         </button>
                     </div>
                 </form>

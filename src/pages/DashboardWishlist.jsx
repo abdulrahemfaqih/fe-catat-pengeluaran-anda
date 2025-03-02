@@ -86,16 +86,22 @@ const DashboardWishlist = () => {
 
             <div className="container mx-auto p-4">
 
-                <div className="border-3 border-black rounded-lg p-6 mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                    <div className="grid grid-cols-2 gap-8">
-                        <div className="text-center border-r-4 border-black pr-4 ">
-                            <h3 className="text-xl font-bold mb-2">Total Wishlist</h3>
-                            <p className="text-3xl font-black">{totalItem}</p>
+
+
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                    <div className="border-3 border-black rounded-lg p-4 bg-orange-100 flex-1 relative rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="absolute -top-3 -left-3 w-8 h-8 bg-white border-2 border-black rounded-full flex items-center justify-center font-bold">
+                            #1
                         </div>
-                        <div className="text-center">
-                            <h3 className="text-xl font-bold mb-2">Total Harga</h3>
-                            <p className="text-3xl font-black">Rp {totalPrice.toLocaleString()}</p>
+                        <h3 className="text-center font-bold mb-2">Total Wishlist</h3>
+                        <p className="text-center text-4xl font-black">{totalItem}</p>
+                    </div>
+                    <div className="border-3 border-black rounded-lg p-4 bg-purple-100 flex-1 relative -rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <div className="absolute -top-3 -left-3 w-8 h-8 bg-white border-2 border-black rounded-full flex items-center justify-center font-bold">
+                            #2
                         </div>
+                        <h3 className="text-center font-bold mb-2">Total Harga</h3>
+                        <p className="text-center text-3xl sm:text-2xl md:text-3xl font-black break-words">Rp {totalPrice.toLocaleString()}</p>
                     </div>
                 </div>
 
