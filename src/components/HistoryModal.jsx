@@ -52,18 +52,18 @@ const HistoryModal = ({ onClose }) => {
    };
 
    return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
          {/* Modal Box */}
-         <div className="bg-white p-6 rounded-xl w-11/12 max-w-4xl  max-h-[85vh] overflow-auto border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn relative">
+         <div className="bg-white p-4 sm:p-6 rounded-xl w-full max-w-4xl max-h-[85vh] overflow-auto border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn relative">
             {/* Decorative elements */}
             <div className="absolute -top-4 -left-4 w-12 h-12 bg-yellow-200 rounded-full border-4 border-black z-0"></div>
-        
 
             <div className="relative z-10">
                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                      <span className="inline-block p-1 bg-blue-200 rounded-md border-2 border-black">📊</span>
-                     History Pengeluaran Bulanan
+                     <span className="hidden sm:inline">History Pengeluaran Bulanan</span>
+                     <span className="inline sm:hidden">History</span>
                   </h2>
                   <button
                      onClick={onClose}
@@ -88,15 +88,17 @@ const HistoryModal = ({ onClose }) => {
                            className={`p-4 rounded-lg border-3 border-black ${getBgColor(index)} shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform hover:-translate-y-1`}
                         >
                            <div className="flex justify-between items-center mb-3 pb-2 border-b-2 border-black">
-                              <span className="font-bold text-xl flex items-center gap-2">
-                                 <span className="inline-block w-6 h-6 bg-white rounded-full border-2 border-black flex items-center justify-center text-xs">
+                              <span className="font-bold text-base sm:text-xl flex items-center gap-2">
+                                 {/* Fixed number alignment with flex and text centering */}
+                                 <span className="inline-flex items-center justify-center w-6 h-6 bg-white rounded-full border-2 border-black text-xs leading-none">
                                     {index + 1}
                                  </span>
                                  {getMonthName(item.month)} {item.year}
                               </span>
                            </div>
 
-                           <div className="grid grid-cols-2 gap-3 mb-4">
+                           {/* Improved responsive grid for mobile */}
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                               <div className="bg-white px-3 py-2 rounded-lg border-2 border-black">
                                  <div className="flex justify-between">
                                     <span className="font-semibold">Makanan:</span>
@@ -124,9 +126,9 @@ const HistoryModal = ({ onClose }) => {
                            </div>
 
                            <div className="bg-white px-4 py-3 rounded-lg border-2 border-black mb-4">
-                              <div className="flex justify-between items-center">
-                                 <span className="font-bold text-lg">Total Pengeluaran:</span>
-                                 <span className="font-bold text-lg">
+                              <div className="flex justify-between items-center flex-wrap">
+                                 <span className="font-bold text-base sm:text-lg">Total Pengeluaran:</span>
+                                 <span className="font-bold text-base sm:text-lg">
                                     Rp {calculateTotal(item.totals).toLocaleString('id-ID')}
                                  </span>
                               </div>
@@ -136,11 +138,10 @@ const HistoryModal = ({ onClose }) => {
                               <button
                                  onClick={() => handleDelete(item._id)}
                                  disabled={loadingDelete === item._id}
-                                 className={`px-4 py-2 border-3 border-black text-black rounded-xl bg-white font-bold hover:bg-black hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
-                                    loadingDelete === item._id
+                                 className={`px-4 py-2 border-3 border-black text-black rounded-xl bg-white font-bold hover:bg-black hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${loadingDelete === item._id
                                        ? "opacity-50 cursor-not-allowed"
                                        : ""
-                                 }`}
+                                    }`}
                               >
                                  {loadingDelete === item._id ? (
                                     <span className="flex items-center gap-2">
@@ -148,7 +149,8 @@ const HistoryModal = ({ onClose }) => {
                                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                        </svg>
-                                       Menghapus...
+                                       <span className="hidden sm:inline">Menghapus...</span>
+                                       <span className="inline sm:hidden">...</span>
                                     </span>
                                  ) : (
                                     <span>Hapus</span>
@@ -161,7 +163,7 @@ const HistoryModal = ({ onClose }) => {
                ) : (
                   <div className="text-center py-8 border-3 border-black rounded-lg bg-yellow-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                      <p className="text-xl font-bold mb-2">Tidak ada history pengeluaran</p>
-                     <p className="text-gray-700">Mulai simpan history pengeluaran bulanan Anda dengan tombol "Simpan Pengeluaran Bulan Ini"</p>
+                     <p className="text-gray-700 px-2">Mulai simpan history pengeluaran bulanan Anda dengan tombol "Simpan Pengeluaran Bulan Ini"</p>
                   </div>
                )}
             </div>
