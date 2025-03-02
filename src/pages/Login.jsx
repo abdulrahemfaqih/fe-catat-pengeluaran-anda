@@ -51,13 +51,13 @@ const Login = () => {
             onSubmit={handleSubmit}
             className="relative overflow-hidden rounded-xl border-4 border-black bg-white p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)] w-full max-w-md"
          >
-            <div className="absolute -top-2 -right-2 bg-yellow-300 w-24 h-24 rounded-bl-3xl border-b-4 border-l-4 border-black transform rotate-6">
-               <div className="absolute bottom-3 left-3 text-sm font-bold">
+            <div className="absolute -top-2 -right-2 bg-yellow-300 w-16 h-16 sm:w-24 sm:h-24 rounded-bl-3xl border-b-4 border-l-4 border-black transform rotate-6">
+               <div className="absolute bottom-2 left-2 text-xs sm:text-sm font-bold">
                   {isRegister ? "Register" : "Login"}
                </div>
             </div>
 
-            <h1 className="text-3xl font-bold mb-6 text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center max-w-[85%] mx-auto">
                {isRegister ? "Buat Akun Baru" : "Masuk ke Akun"}
             </h1>
 
