@@ -4,11 +4,11 @@ import Header from '../components/Header';
 import Wishlist from '../components/Wishlists';
 import WishlistModal from '../components/WishlistModal';
 import { AuthContext } from '../context/AuthContext';
-import toast,  { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const DashboardWishlist = () => {
-    const {logout} = useContext(AuthContext);
+    const { logout } = useContext(AuthContext);
     const [items, setItems] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
@@ -86,39 +86,55 @@ const DashboardWishlist = () => {
 
             <div className="container mx-auto p-4">
 
+                <div className="flex flex-col sm:flex-row gap-6 mb-8">
+                    <div className="border-4 border-black rounded-xl p-5 bg-orange-100 flex-1 relative shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden transform transition-all hover:-translate-y-1">
+                        {/* Decorative elements */}
+                        <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-black/10 rounded-full border-2 border-black z-0"></div>
 
-
-                <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                    <div className="border-3 border-black rounded-lg p-4 bg-orange-100 flex-1 relative rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="absolute -top-3 -left-3 w-8 h-8 bg-white border-2 border-black rounded-full flex items-center justify-center font-bold">
+                        <div className="absolute -top-3 -left-3 w-10 h-10 bg-white border-3 border-black rounded-full flex items-center justify-center font-bold text-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-10">
                             #1
                         </div>
-                        <h3 className="text-center font-bold mb-2">Total Wishlist</h3>
-                        <p className="text-center text-4xl font-black">{totalItem}</p>
+                        <h3 className="text-center font-bold text-lg mb-3 mt-2 relative z-10">Total Wishlist</h3>
+                        <div className="bg-white border-3 border-black rounded-lg p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] relative z-10">
+                            <p className="text-center text-4xl font-black">{totalItem}</p>
+                        </div>
                     </div>
-                    <div className="border-3 border-black rounded-lg p-4 bg-purple-100 flex-1 relative -rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <div className="absolute -top-3 -left-3 w-8 h-8 bg-white border-2 border-black rounded-full flex items-center justify-center font-bold">
+
+                    <div className="border-4 border-black rounded-xl p-5 bg-purple-100 flex-1 relative shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden transform transition-all hover:-translate-y-1">
+                        {/* Decorative elements */}
+                        <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-black/10 rounded-full border-2 border-black z-0"></div>
+
+                        <div className="absolute -top-3 -left-3 w-10 h-10 bg-white border-3 border-black rounded-full flex items-center justify-center font-bold text-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-10">
                             #2
                         </div>
-                        <h3 className="text-center font-bold mb-2">Total Harga</h3>
-                        <p className="text-center text-3xl sm:text-2xl md:text-3xl font-black break-words">Rp {totalPrice.toLocaleString()}</p>
+                        <h3 className="text-center font-bold text-lg mb-3 mt-2 relative z-10">Total Harga</h3>
+                        <div className="bg-white border-3 border-black rounded-lg p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] relative z-10">
+                            <p className="text-center text-3xl sm:text-2xl md:text-3xl font-black">Rp {totalPrice.toLocaleString()}</p>
+                        </div>
                     </div>
                 </div>
 
-
-                <div className="mb-6">
+                <div className="mb-8">
                     <button
-                        className="px-6 py-3 border-3 border-black text-black rounded-lg font-bold
-                                 hover:bg-black hover:text-white transition-all duration-200
-                                 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                                 hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+                        className="px-6 py-3 border-4 border-black text-black rounded-xl font-bold bg-yellow-200
+                 hover:bg-black hover:text-yellow-200 transition-all duration-300
+                 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]
+                 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 flex items-center gap-2"
                         onClick={handleAdd}
                     >
-                        Tambah Item
+                        <span className="text-xl">✨</span>
+                        <span>Tambah Item Wishlist</span>
                     </button>
                 </div>
+
                 {isLoadingDelete && (
-                    <p className='py-2 text-black font-semibold'>Loading..</p>
+                    <div className="py-3 px-4 text-black font-bold bg-yellow-100 border-3 border-black rounded-lg inline-flex items-center gap-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>Menghapus item...</span>
+                    </div>
                 )}
 
                 <Wishlist items={items} onUpdate={handleUpdate} onDelete={handleDelete} />

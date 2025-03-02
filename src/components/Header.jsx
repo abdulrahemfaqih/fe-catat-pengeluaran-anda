@@ -14,18 +14,28 @@ export default function Header({ logout }) {
     const insWishlist = location.pathname === '/wishlist';
 
     return (
-        <header className="border-3 border-black rounded-lg p-4 mb-6 bg-white relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
-            {/* Background accent */}
-            <div className="absolute -left-8 -bottom-8 w-24 h-24 bg-yellow-200 rounded-full border-2 border-black -z-10"></div>
+        <header className="border-4 border-black rounded-xl p-5 mb-8 bg-white relative shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+            {/* Background decorative elements */}
+            <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-yellow-200 rounded-full border-3 border-black -z-10"></div>
+            <div className="absolute -right-5 -top-5 w-20 h-20 bg-blue-100 rounded-full border-2 border-black -z-10"></div>
+            <div className="absolute right-32 bottom-0 w-12 h-12 bg-green-100 rounded-full border-2 border-black -z-10"></div>
 
-            <div className="container mx-auto flex justify-between items-center px-4 relative">
-                <h1 className="text-2xl md:text-3xl font-bold rotate-1">
-                    Dashboard Keuangan Pribadi
+            <div className="container mx-auto flex justify-between items-center relative z-10">
+                <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
+                    <span className="inline-flex items-center justify-center w-10 h-10 bg-purple-100 rounded-full border-3 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        💰
+                    </span>
+                    <span className="relative">
+                        Dashboard Keuangan
+                        <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-200 -z-10"></span>
+                    </span>
                 </h1>
+
+                {/* Mobile menu button */}
                 <div className="md:hidden">
                     <button
                         onClick={toggleMenu}
-                        className="text-black focus:outline-none border-2 border-black p-1 rounded-md bg-purple-100"
+                        className="text-black focus:outline-none border-3 border-black p-2 rounded-lg bg-purple-100 hover:bg-purple-200 transition-colors shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
                     >
                         {isMenuOpen ? (
                             <svg
@@ -60,55 +70,65 @@ export default function Header({ logout }) {
                         )}
                     </button>
                 </div>
-                <div className="hidden md:flex md:items-center gap-3">
+
+                {/* Desktop navigation */}
+                <div className="hidden md:flex md:items-center gap-4">
                     {insDashboard && (
                         <button
                             onClick={() => navigate('/wishlist')}
-                            className="px-4 py-2 border-3 border-black bg-orange-100 text-black rounded-md font-bold hover:bg-black hover:text-white transition relative shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] rotate-1"
+                            className="px-5 py-2.5 border-3 border-black bg-orange-100 text-black rounded-xl font-bold hover:bg-black hover:text-orange-100 transition-colors duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center gap-2"
                         >
-                            Dashboard Wishlist
+                            <span className="text-lg">✨</span>
+                            <span>Wishlist</span>
                         </button>
                     )}
                     {insWishlist && (
                         <button
                             onClick={() => navigate('/')}
-                            className="px-4 py-2 border-3 border-black bg-green-100 text-black rounded-md font-bold hover:bg-black hover:text-white transition relative shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-1"
+                            className="px-5 py-2.5 border-3 border-black bg-green-100 text-black rounded-xl font-bold hover:bg-black hover:text-green-100 transition-colors duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center gap-2"
                         >
-                            Dashboard Keuangan
+                            <span className="text-lg">💰</span>
+                            <span>Keuangan</span>
                         </button>
                     )}
 
                     <button
                         onClick={logout}
-                        className="px-4 py-2 border-3 border-black bg-red-100 text-black rounded-md font-bold hover:bg-black hover:text-white transition shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] rotate-1"
+                        className="px-5 py-2.5 border-3 border-black bg-red-100 text-black rounded-xl font-bold hover:bg-black hover:text-red-100 transition-colors duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center gap-2"
                     >
-                        Logout
+                        <span className="text-lg">👋</span>
+                        <span>Logout</span>
                     </button>
                 </div>
             </div>
+
+            {/* Mobile menu */}
             {isMenuOpen && (
-                <div className="md:hidden mt-4 flex flex-col gap-3 border-t-2 border-black pt-4">
+                <div className="md:hidden mt-5 flex flex-col gap-3 border-t-3 border-black pt-4 animate-fadeIn">
                     {insDashboard && (
                         <button
                             onClick={() => navigate('/wishlist')}
-                            className="px-4 py-2 border-3 border-black bg-orange-100 text-black rounded-md font-bold hover:bg-black hover:text-white transition shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] rotate-1"
+                            className="px-4 py-3 border-3 border-black bg-orange-100 text-black rounded-xl font-bold hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2 justify-center"
                         >
-                            Dashboard Wishlist
+                            <span className="text-lg">✨</span>
+                            <span>Dashboard Wishlist</span>
                         </button>
                     )}
                     {insWishlist && (
                         <button
                             onClick={() => navigate('/')}
-                            className="px-4 py-2 border-3 border-black bg-green-100 text-black rounded-md font-bold hover:bg-black hover:text-white transition shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] -rotate-1"
+                            className="px-4 py-3 border-3 border-black bg-green-100 text-black rounded-xl font-bold hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2 justify-center"
                         >
-                            Dashboard Keuangan
+                            <span className="text-lg">💰</span>
+                            <span>Dashboard Keuangan</span>
                         </button>
                     )}
                     <button
                         onClick={logout}
-                        className="px-4 py-2 border-3 border-black bg-red-100 text-black rounded-md font-bold hover:bg-black hover:text-white transition shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] rotate-1"
+                        className="px-4 py-3 border-3 border-black bg-red-100 text-black rounded-xl font-bold hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2 justify-center"
                     >
-                        Logout
+                        <span className="text-lg">👋</span>
+                        <span>Logout</span>
                     </button>
                 </div>
             )}

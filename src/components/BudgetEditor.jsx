@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
-
 const BudgetEditor = ({
    budgets,
    setBudgets,
@@ -11,6 +10,7 @@ const BudgetEditor = ({
 }) => {
    const [editBudgets, setEditBudgets] = useState([]);
    const [loading, setLoading] = useState(false);
+
    useEffect(() => {
       setEditBudgets(budgets);
    }, [budgets]);
@@ -28,7 +28,14 @@ const BudgetEditor = ({
       "Transportasi": "bg-blue-100",
       "Darurat": "bg-yellow-100",
       "Tabungan": "bg-green-100",
-   }
+   };
+
+   const categoryIcons = {
+      "Makanan": "🍔",
+      "Transportasi": "🚗",
+      "Darurat": "🚨",
+      "Tabungan": "💰",
+   };
 
    // Hitung total budget
    const totalBudget = editBudgets.reduce((sum, item) => sum + item.budget, 0);
@@ -47,63 +54,64 @@ const BudgetEditor = ({
             )
          );
          setBudgets(editBudgets);
+         toast.success("Budget berhasil disimpan", { duration: 3000 });
       } catch (error) {
          console.error("Error updating budget", error);
+         toast.error("Gagal menyimpan budget", { duration: 3000 });
       } finally {
          setLoading(false);
-         toast.success("Budget berhasil disimpan", { duration: 3000 });
       }
    };
 
    return (
-      <div className="border-3 border-black p-4 rounded-md">
-         <h2 className="text-xl font-bold mb-2">Budget Per Kategori</h2>
+      <div className="rounded-xl border-4 border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+         <h2 className="text-2xl font-bold mb-4">Budget Per Kategori</h2>
          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {editBudgets.map((item) => (
                <div
                   key={item._id}
-                  className={`flex flex-col border-3 border-black p-2 rounded-md ${categoryColors[item.category] || "bg-gray-100"
-                     }`}
+                  className={`relative overflow-hidden rounded-lg border-3 border-black ${categoryColors[item.category] || "bg-gray-100"} p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]`}
                >
-                  <span className="font-semibold mb-1">{item.category}</span>
-                  <div className="flex items-center gap-2 mb-2">
-                     <label className="font-medium">Budget:</label>
-                     <input
-                        type="number"
-                        value={item.budget}
-                        onChange={(e) =>
-                           handleChange(
-                              item.category,
-                              parseFloat(e.target.value)
-                           )
-                        }
-                        className="border-3 border-black p-1 rounded w-24 focus:outline-none bg-white"
-                     />
+                  <div className="absolute -top-1 -right-1 rounded-bl-lg bg-white border-b-3 border-l-3 border-black px-2 py-1">
+                     <span className="text-xl">{categoryIcons[item.category] || "📊"}</span>
                   </div>
-                  <div>
-                     <span className="text-sm text-gray-800">
-                        Pengeluaran Aktual: {actualSpending[item.category] || 0}
+                  <span className="font-bold text-lg mb-3 block pt-1">{item.category}</span>
+                  <div className="flex items-center gap-3 mb-3">
+                     <label className="font-medium text-black">Budget:</label>
+                     <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-gray-700">Rp</span>
+                        <input
+                           type="number"
+                           value={item.budget}
+                           onChange={(e) => handleChange(item.category, parseFloat(e.target.value))}
+                           className="border-3 border-black p-2 pl-10 rounded-md w-32 focus:outline-none focus:ring-2 focus:ring-blue-300 bg-blue-50 text-base font-medium shadow-[3px_3px_0px_rgba(0,0,0,0.1)]"
+                        />
+                     </div>
+                  </div>
+                  <div className="bg-white border-2 border-black rounded-md p-2">
+                     <span className="font-medium text-gray-800">
+                        Pengeluaran Aktual:
+                        <span className="font-bold ml-1">Rp {(actualSpending[item.category] || 0).toLocaleString()}</span>
                      </span>
                   </div>
                </div>
             ))}
          </div>
 
-         <div className="mt-2 font-medium">
-            Total Budget: <span className="font-bold">{totalBudget}</span>
+         <div className="mt-4 p-3 border-3 border-black rounded-lg bg-gray-50">
+            <span className="font-medium">Total Budget: </span>
+            <span className="font-bold text-lg">Rp {totalBudget.toLocaleString()}</span>
          </div>
 
          <button
             onClick={handleSave}
             disabled={loading}
-            className="px-4 py-2 border-3 border-black bg-white text-black font-medium rounded-md hover:bg-black hover:text-white transition mt-4"
+            className="mt-4 px-6 py-2 border-3 border-black bg-white text-black font-bold rounded-lg hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)]"
          >
-            {loading ? "menyimpan.." : "simpan"}
+            {loading ? "Menyimpan..." : "Simpan Budget"}
          </button>
       </div>
    );
 };
-
-
 
 export default BudgetEditor;
