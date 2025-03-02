@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const colors = [
     'bg-red-100',
@@ -28,17 +28,8 @@ const generateRandomString = (length) => {
 };
 
 const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const randomColor = getRandomColor();
     const randomString = generateRandomString(10);
-
-    const handleImageClick = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
 
     // Helper function to get badge icon based on price range
     const getBadgeIcon = (price) => {
@@ -54,9 +45,9 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
             <div className="absolute -top-6 -left-6 w-12 h-12 bg-white/30 rounded-full border-2 border-black z-0"></div>
             <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-black/10 rounded-full border-2 border-black z-0"></div>
 
-            {/* ID Badge - dengan ukuran yang lebih besar dan posisi yang lebih baik */}
-            <div className="absolute -top-4 -right-4 w-12 h-12 bg-white border-3 border-black rounded-full flex items-center justify-center font-bold text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                <span className="translate-y-0.5">#{index + 1}</span>
+
+            <div className="absolute -top-2 -right-2 rounded-full bg-white border-4 border-black h-10 w-10 flex items-center justify-center font-bold z-10">
+                #{index + 1}
             </div>
 
             {/* Price Badge */}
@@ -66,21 +57,12 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
             </div>
 
             <div className="relative z-10 flex flex-col md:flex-row gap-5">
-                {/* Image Section */}
-                <div
-                    className="w-full md:w-1/2 h-[200px] md:h-[250px] border-3 border-black rounded-xl overflow-hidden cursor-pointer bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] group"
-                    onClick={handleImageClick}
-                >
+                <div className="w-full md:w-1/2 h-[200px] md:h-[250px] border-3 border-black rounded-xl overflow-hidden bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
                     <div className="relative w-full h-full">
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                            <span className="opacity-0 group-hover:opacity-100 bg-white/90 border-2 border-black px-3 py-1 rounded-lg font-bold transition-all duration-300">
-                                Klik untuk Zoom
-                            </span>
-                        </div>
                         <img
                             src={item.imageUrls || 'https://via.placeholder.com/400?text=No+Image'}
                             alt={item.name}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="w-full h-full object-cover"
                             onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.src = 'https://via.placeholder.com/400?text=Image+Error';
@@ -153,43 +135,6 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
                     </div>
                 </div>
             </div>
-
-            {/* Image Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50" onClick={handleCloseModal}>
-                    <div
-                        className="relative bg-white p-5 rounded-xl border-4 border-black max-w-4xl max-h-[90vh] overflow-auto shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="absolute -top-4 -left-4 w-10 h-10 bg-yellow-200 rounded-full border-3 border-black z-0"></div>
-
-                        <button
-                            className="absolute top-3 right-3 w-10 h-10 bg-black text-white rounded-full flex items-center justify-center font-bold text-xl border-3 border-white hover:bg-white hover:text-black hover:border-black transition-colors z-10"
-                            onClick={handleCloseModal}
-                        >
-                            &times;
-                        </button>
-
-                        <div className="mb-4 relative z-10">
-                            <h3 className="text-xl font-bold border-b-3 border-black pb-2">
-                                {item.name}
-                            </h3>
-                        </div>
-
-                        <div className="relative border-4 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] bg-gray-100">
-                            <img
-                                src={item.imageUrls || 'https://via.placeholder.com/800?text=No+Image'}
-                                alt={item.name}
-                                className="w-full h-auto"
-                                onError={(e) => {
-                                    e.target.onerror = null;
-                                    e.target.src = 'https://via.placeholder.com/800?text=Image+Error';
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

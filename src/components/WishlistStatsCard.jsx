@@ -6,7 +6,7 @@ const WishlistStatsCard = ({ number, title, value, bgColor, isPrice = false }) =
             {/* Decorative elements */}
             <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-black/10 rounded-full border-2 border-black z-0"></div>
 
-            <div className="absolute -top-3 -left-3 w-10 h-10 bg-white border-3 border-black rounded-full flex items-center justify-center font-bold text-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-10">
+            <div className="absolute -top-2 -left-2 rounded-full bg-white border-4 border-black h-10 w-10 flex items-center justify-center font-bold">
                 #{number}
             </div>
 
