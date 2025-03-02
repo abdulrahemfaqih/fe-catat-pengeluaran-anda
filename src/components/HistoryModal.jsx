@@ -76,9 +76,25 @@ const HistoryModal = ({ onClose }) => {
                <div className="border-t-3 border-b-3 border-black my-4"></div>
 
                {isLoading ? (
-                  <div className="text-center py-8">
-                     <div className="animate-spin rounded-full h-12 w-12 border-b-3 border-black mx-auto"></div>
-                     <p className="mt-4 font-bold">Memuat history...</p>
+                  <div className="py-12 flex flex-col items-center justify-center">
+                     {/* Redesigned Loading Animation */}
+                     <div className="relative w-20 h-20">
+
+                        {/* Inner bouncing money emoji */}
+                        <div className="absolute inset-0 flex items-center justify-center animate-bounce">
+                           <div className="bg-yellow-200 w-10 h-10 rounded-full border-3 border-black flex items-center justify-center text-xl">
+                              💰
+                           </div>
+                        </div>
+                     </div>
+
+                     {/* Loading text */}
+                     <div className="mt-6 bg-blue-100 border-3 border-black rounded-xl px-5 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <p className="font-bold text-center flex items-center gap-2">
+                           <span>⏱️</span>
+                           <span>Memuat history pengeluaran...</span>
+                        </p>
+                     </div>
                   </div>
                ) : history.length ? (
                   <div className="grid gap-6">
