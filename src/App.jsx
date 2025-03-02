@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import DashboardWishlist from './pages/DashboardWishlist';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 
 function App() {
    return (
@@ -29,6 +30,7 @@ function App() {
                />
 
                <Route path="/login" element={<Login />} />
+               <Route path="*" element={<NotFound />} />
             </Routes>
          </Router>
       </AuthProvider>
