@@ -43,8 +43,8 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
     // Helper function to get badge icon based on price range
     const getBadgeIcon = (price) => {
         if (price < 100000) return '🟢';
-        if (price < 500000) return '🟠';
-        if (price < 1000000) return '🟡';
+        if (price < 500000) return '🟡';
+        if (price < 1000000) return '🟠';
         return '🔴';
     };
 

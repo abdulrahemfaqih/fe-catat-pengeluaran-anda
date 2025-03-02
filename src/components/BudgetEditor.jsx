@@ -7,6 +7,7 @@ const BudgetEditor = ({
    setBudgets,
    actualSpending,
    monthlyIncome,
+   isLoadingEditor = false
 }) => {
    const [editBudgets, setEditBudgets] = useState([]);
    const [loading, setLoading] = useState(false);
@@ -62,6 +63,40 @@ const BudgetEditor = ({
          setLoading(false);
       }
    };
+
+   if (isLoadingEditor) {
+      return (
+         <div className="rounded-xl border-4 border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+            <div className="animate-pulse">
+               <div className="h-8 bg-gray-200 rounded-lg w-64 mb-6"></div>
+               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[1, 2, 3, 4].map((item) => (
+                     <div
+                        key={item}
+                        className="relative overflow-hidden rounded-lg border-3 border-black bg-gray-100 p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+                     >
+                        <div className="absolute -top-1 -right-1 rounded-bl-lg bg-white border-b-3 border-l-3 border-black px-2 py-1">
+                           <div className="h-7 w-7 rounded-full bg-gray-200"></div>
+                        </div>
+                        <div className="h-6 bg-gray-200 rounded-lg w-24 mb-3"></div>
+                        <div className="flex items-center gap-3 mb-3">
+                           <div className="h-5 bg-gray-200 rounded-lg w-16"></div>
+                           <div className="h-10 bg-gray-200 rounded-md w-32"></div>
+                        </div>
+                        <div className="bg-white border-2 border-black rounded-md p-2">
+                           <div className="h-5 bg-gray-200 rounded-lg w-full"></div>
+                        </div>
+                     </div>
+                  ))}
+               </div>
+               <div className="mt-4 p-3 border-3 border-black rounded-lg bg-gray-50">
+                  <div className="h-6 bg-gray-200 rounded-lg w-44"></div>
+               </div>
+               <div className="mt-4 h-10 bg-gray-200 rounded-lg w-40"></div>
+            </div>
+         </div>
+      );
+   }
 
    return (
       <div className="rounded-xl border-4 border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)]">

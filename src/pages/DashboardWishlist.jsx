@@ -15,11 +15,14 @@ const DashboardWishlist = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalItem, setTotalItem] = useState(0);
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+    const [isLoadingWishlists, setIsLoadingWishlists] = useState(true)
+    
 
 
     useEffect(() => {
         const fetchWishlist = async () => {
             try {
+                setIsLoadingWishlists(true)
                 const response = await api.get('/wishlist');
                 setItems(response.data.items || []);
                 setTotalPrice(response.data.totalPrice || 0);
@@ -27,6 +30,8 @@ const DashboardWishlist = () => {
             } catch (error) {
                 console.error('Error fetching wishlist:', error);
                 toast.error('Error fetching wishlist', { duration: 3000 });
+            } finally {
+                setIsLoadingWishlists(false)
             }
         };
 
@@ -137,7 +142,7 @@ const DashboardWishlist = () => {
                     </div>
                 )}
 
-                <Wishlist items={items} onUpdate={handleUpdate} onDelete={handleDelete} />
+                <Wishlist isLoadingWishlists={isLoadingWishlists} items={items} onUpdate={handleUpdate} onDelete={handleDelete} />
                 <WishlistModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}

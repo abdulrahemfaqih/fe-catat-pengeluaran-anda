@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
+const WishlistModal = ({ isOpen, onClose, onSave, item}) => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
@@ -59,13 +59,13 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-xl shadow-xl w-96 md:w-104 border-3 border-black transform transition-all animate-fadeIn">
-                <div className="flex justify-between items-center mb-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-start z-50  pt-4 pb-10">
+            <div className="bg-white p-6 rounded-xl shadow-xl w-96 md:w-104 border-3 border-black transform transition-all animate-fadeIn my-4 mx-2 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                <div className="flex justify-between items-center mb-4  pt-1 bg-white z-10">
                     <h2 className="text-2xl font-bold">{item ? '✏️ Update Item' : '✨ Tambah Item Wishlist'}</h2>
                     <button
                         onClick={handleClose}
-                        className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors"
+                        className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors shrink-0 ml-2"
                     >
                         ×
                     </button>

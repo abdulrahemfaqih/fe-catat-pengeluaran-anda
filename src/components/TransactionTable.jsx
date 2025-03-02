@@ -3,7 +3,7 @@ import TransactionModal from "./TransactionModal";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
-const TransactionTable = ({ transactions, setTransactions }) => {
+const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions = false }) => {
    const [showModal, setShowModal] = useState(false);
    const [editData, setEditData] = useState(null);
    const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +58,7 @@ const TransactionTable = ({ transactions, setTransactions }) => {
                   setEditData(null);
                   setShowModal(true);
                }}
+               disabled={isLoadingTransactions}
                className="px-5 py-2.5 border-3 border-black bg-yellow-200 text-black font-bold rounded-xl hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center gap-2"
             >
                <span className="text-lg">➕</span>
@@ -88,48 +89,75 @@ const TransactionTable = ({ transactions, setTransactions }) => {
                   </tr>
                </thead>
                <tbody>
-                  {transactions.length > 0 ? (
+                  {isLoadingTransactions ? (
+                     // Loading skeleton rows
+                     Array(5).fill(0).map((_, index) => (
+                        <tr key={`skeleton-${index}`}>
+                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                              <div className="animate-pulse flex flex-col items-center">
+                                 <div className="h-5 bg-gray-200 rounded w-12 mb-1"></div>
+                                 <div className="h-3 bg-gray-200 rounded w-8"></div>
+                              </div>
+                           </td>
+                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded w-32"></div>
+                           </td>
+                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                              <div className="animate-pulse mx-auto h-8 bg-gray-200 rounded-lg w-28"></div>
+                           </td>
+                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                              <div className="animate-pulse h-5 bg-gray-200 rounded w-24"></div>
+                           </td>
+                           <td className="py-3 px-4 border-b-3 border-black">
+                              <div className="flex gap-2 justify-center">
+                                 <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
+                                 <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
+                              </div>
+                           </td>
+                        </tr>
+                     ))
+                  ) : transactions.length > 0 ? (
                      transactions.map((tx) => {
                         const { bg, icon } = getCategoryProps(tx.category);
                         return (
-                        <tr key={tx._id} className="hover:bg-gray-50">
-                           <td className="py-3 px-4 border-b-3 border-r-3 border-black text-center text-sm sm:text-base">
+                           <tr key={tx._id} className="hover:bg-gray-50">
+                              <td className="py-3 px-4 border-b-3 border-r-3 border-black text-center text-sm sm:text-base">
                                  <div className="font-medium">
                                     {new Date(tx.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
                                  </div>
                                  <div className="text-xs text-gray-600">
                                     {new Date(tx.date).getFullYear()}
                                  </div>
-                           </td>
-                           <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base">
-                              {tx.name}
-                           </td>
+                              </td>
+                              <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base">
+                                 {tx.name}
+                              </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base">
                                  <span className={`px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)] ${bg}`}>
                                     <span>{icon}</span>
                                     <span className="font-bold">{tx.category}</span>
                                  </span>
                               </td>
-                           <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base font-bold">
-                              Rp {Number(tx.amount).toLocaleString('id-ID')}
-                           </td>
-                           <td className="py-3 px-4 border-b-3 border-black">
-                              <div className="flex gap-2 justify-center">
-                                 <button
-                                    onClick={() => openModalForEdit(tx)}
-                                    className="px-3 py-1 border-2 border-black bg-blue-200 text-black font-medium rounded-lg hover:bg-black hover:text-blue-200 transition-all duration-300 shadow-sm"
-                                 >
-                                    Edit
-                                 </button>
-                                 <button
-                                    onClick={() => handleDelete(tx._id)}
-                                    disabled={isLoading}
-                                    className="px-3 py-1 border-2 border-black bg-red-200 text-black font-medium rounded-lg hover:bg-black hover:text-red-200 transition-all duration-300 shadow-sm"
-                                 >
-                                    {isLoading ? "..." : "Hapus"}
-                                 </button>
-                              </div>
-                           </td>
+                              <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base font-bold">
+                                 Rp {Number(tx.amount).toLocaleString('id-ID')}
+                              </td>
+                              <td className="py-3 px-4 border-b-3 border-black">
+                                 <div className="flex gap-2 justify-center">
+                                    <button
+                                       onClick={() => openModalForEdit(tx)}
+                                       className="px-3 py-1 border-2 border-black bg-blue-200 text-black font-medium rounded-lg hover:bg-black hover:text-blue-200 transition-all duration-300 shadow-sm"
+                                    >
+                                       Edit
+                                    </button>
+                                    <button
+                                       onClick={() => handleDelete(tx._id)}
+                                       disabled={isLoading}
+                                       className="px-3 py-1 border-2 border-black bg-red-200 text-black font-medium rounded-lg hover:bg-black hover:text-red-200 transition-all duration-300 shadow-sm"
+                                    >
+                                       {isLoading ? "..." : "Hapus"}
+                                    </button>
+                                 </div>
+                              </td>
                            </tr>
                         )
                      })

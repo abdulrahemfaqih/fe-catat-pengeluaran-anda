@@ -16,6 +16,7 @@ const Dashboard = () => {
    const [isSavingIncome, setIsSavingIncome] = useState(false);
    const [isLoadingPengeluaran, setIsLoadingPengeluaran] = useState(false);
    const [showHistoryModal, setShowHistoryModal] = useState(false);
+   const [isLoasding, setIsLoading] = useState(true)
 
    // State untuk menampung total pengeluaran aktual per kategori
    const [actualSpending, setActualSpending] = useState({
@@ -29,6 +30,7 @@ const Dashboard = () => {
    useEffect(() => {
       const fetchData = async () => {
          try {
+            setIsLoading(true)
             const [txRes, budgetRes, incomeRes] = await Promise.all([
                api.get("/transactions"),
                api.get("/budgets"),
@@ -40,6 +42,8 @@ const Dashboard = () => {
          } catch (error) {
             console.error("Error fetching data", error);
             toast.error("Gagal mengambil data", { duration: 3000 });
+         } finally {
+            setIsLoading(false)
          }
       };
       if (user) fetchData();
@@ -252,6 +256,7 @@ const Dashboard = () => {
                   setBudgets={setBudgets}
                   actualSpending={actualSpending}
                   monthlyIncome={monthlyIncome}
+                  isLoadingEditor={isLoasding}
                />
             </div>
 
@@ -289,6 +294,7 @@ const Dashboard = () => {
             {/* Transaction Table Card */}
             <div className="rounded-xl border-4 border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
                <TransactionTable
+                  isLoadingTransactions={isLoasding}
                   transactions={transactions}
                   setTransactions={setTransactions}
                />
