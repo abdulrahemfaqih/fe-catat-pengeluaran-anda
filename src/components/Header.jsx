@@ -14,11 +14,8 @@ export default function Header({ logout }) {
     const insWishlist = location.pathname === '/wishlist';
 
     return (
-        <header className="border-4 border-black rounded-xl p-5 mb-8 bg-white relative shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="absolute -left-8 -bottom-8 w-32 h-32 bg-yellow-200 rounded-full border-3 border-black -z-10"></div>
-            <div className="absolute -right-5 -top-5 w-20 h-20 bg-blue-100 rounded-full border-2 border-black -z-10"></div>
-            <div className="absolute right-32 bottom-0 w-12 h-12 bg-green-100 rounded-full border-2 border-black -z-10"></div>
+        <header className="sticky top-0 z-50 border-4 border-black rounded-xl p-5 mb-8 bg-white  shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+
 
             <div className="container mx-auto flex justify-between items-center relative z-10">
                 <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
