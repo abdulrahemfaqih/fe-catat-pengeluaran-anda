@@ -10,6 +10,10 @@ import UnderMaintenancePage from "./pages/UnderMaintenance";
 
 function App() {
    const isUnderMaintenance = import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE;
+   console.log(
+      "Maintenance mode:",
+      import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE
+   );
 
    return (
       <AuthProvider>
