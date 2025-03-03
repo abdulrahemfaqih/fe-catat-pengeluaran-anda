@@ -1,12 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TransactionModal from "./TransactionModal";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
-const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions = false }) => {
+const TransactionTable = ({
+   transactions,
+   setTransactions,
+   isLoadingTransactions = false,
+}) => {
    const [showModal, setShowModal] = useState(false);
    const [editData, setEditData] = useState(null);
    const [isLoading, setIsLoading] = useState(false);
+   const [categories, setCategories] = useState([]);
+
+   // Fetch categories on component mount
+   useEffect(() => {
+      const fetchCategories = async () => {
+         try {
+            const response = await api.get("/categories");
+            setCategories(response.data);
+         } catch (error) {
+            console.error("Error fetching categories", error);
+            // Silent error - will use fallbacks
+         }
+      };
+
+      fetchCategories();
+   }, []);
+
+   // Default category styles if API fails
+   const defaultCategoryProps = {
+      Makanan: { bg: "bg-yellow-100", icon: "🍔" },
+      Transportasi: { bg: "bg-blue-100", icon: "🚗" },
+      Hiburan: { bg: "bg-pink-100", icon: "🎬" },
+      Kesehatan: { bg: "bg-red-100", icon: "💊" },
+      Pendidikan: { bg: "bg-indigo-100", icon: "📚" },
+      "Kebutuhan Pribadi": { bg: "bg-green-100", icon: "👤" },
+      default: { bg: "bg-gray-100", icon: "📊" },
+   };
 
    const handleDelete = async (id) => {
       setIsLoading(true);
@@ -27,19 +58,18 @@ const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions
       setShowModal(true);
    };
 
-   const getCategoryProps = (category) => {
-      switch (category) {
-         case 'Makanan':
-            return { bg: 'bg-red-200', icon: '🍔' };
-         case 'Transportasi':
-            return { bg: 'bg-blue-200', icon: '🚗' };
-         case 'Darurat':
-            return { bg: 'bg-red-300', icon: '🚨' };
-         case 'Tabungan':
-            return { bg: 'bg-green-200', icon: '💰' };
-         default:
-            return { bg: 'bg-gray-200', icon: '📝' };
+   const getCategoryProps = (categoryName) => {
+      // First check if we can find it in our fetched categories
+      const category = categories.find((cat) => cat.name === categoryName);
+      if (category) {
+         return {
+            bg: category.color || defaultCategoryProps.default.bg,
+            icon: category.icon || defaultCategoryProps.default.icon,
+         };
       }
+
+      // Fallback to default mapping
+      return defaultCategoryProps[categoryName] || defaultCategoryProps.default;
    };
 
    return (
@@ -49,7 +79,9 @@ const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions
             <div className="absolute -top-10 -left-10 w-20 h-20 bg-yellow-100 rounded-full border-3 border-black -z-10"></div>
 
             <h2 className="text-2xl font-bold flex items-center gap-2">
-               <span className="inline-block p-1 bg-purple-100 rounded-md border-2 border-black">📊</span>
+               <span className="inline-block p-1 bg-purple-100 rounded-md border-2 border-black">
+                  📊
+               </span>
                Transaksi Harian
             </h2>
 
@@ -91,31 +123,33 @@ const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions
                <tbody>
                   {isLoadingTransactions ? (
                      // Loading skeleton rows
-                     Array(5).fill(0).map((_, index) => (
-                        <tr key={`skeleton-${index}`}>
-                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
-                              <div className="animate-pulse flex flex-col items-center">
-                                 <div className="h-5 bg-gray-200 rounded w-12 mb-1"></div>
-                                 <div className="h-3 bg-gray-200 rounded w-8"></div>
-                              </div>
-                           </td>
-                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
-                              <div className="animate-pulse h-5 bg-gray-200 rounded w-32"></div>
-                           </td>
-                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
-                              <div className="animate-pulse mx-auto h-8 bg-gray-200 rounded-lg w-28"></div>
-                           </td>
-                           <td className="py-3 px-4 border-b-3 border-r-3 border-black">
-                              <div className="animate-pulse h-5 bg-gray-200 rounded w-24"></div>
-                           </td>
-                           <td className="py-3 px-4 border-b-3 border-black">
-                              <div className="flex gap-2 justify-center">
-                                 <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
-                                 <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
-                              </div>
-                           </td>
-                        </tr>
-                     ))
+                     Array(5)
+                        .fill(0)
+                        .map((_, index) => (
+                           <tr key={`skeleton-${index}`}>
+                              <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                                 <div className="animate-pulse flex flex-col items-center">
+                                    <div className="h-5 bg-gray-200 rounded w-12 mb-1"></div>
+                                    <div className="h-3 bg-gray-200 rounded w-8"></div>
+                                 </div>
+                              </td>
+                              <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                                 <div className="animate-pulse h-5 bg-gray-200 rounded w-32"></div>
+                              </td>
+                              <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                                 <div className="animate-pulse mx-auto h-8 bg-gray-200 rounded-lg w-28"></div>
+                              </td>
+                              <td className="py-3 px-4 border-b-3 border-r-3 border-black">
+                                 <div className="animate-pulse h-5 bg-gray-200 rounded w-24"></div>
+                              </td>
+                              <td className="py-3 px-4 border-b-3 border-black">
+                                 <div className="flex gap-2 justify-center">
+                                    <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
+                                    <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
+                                 </div>
+                              </td>
+                           </tr>
+                        ))
                   ) : transactions.length > 0 ? (
                      transactions.map((tx) => {
                         const { bg, icon } = getCategoryProps(tx.category);
@@ -123,7 +157,10 @@ const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions
                            <tr key={tx._id} className="hover:bg-gray-50">
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black text-center text-sm sm:text-base">
                                  <div className="font-medium">
-                                    {new Date(tx.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                                    {new Date(tx.date).toLocaleDateString(
+                                       "id-ID",
+                                       { day: "numeric", month: "short" }
+                                    )}
                                  </div>
                                  <div className="text-xs text-gray-600">
                                     {new Date(tx.date).getFullYear()}
@@ -133,13 +170,17 @@ const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions
                                  {tx.name}
                               </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base">
-                                 <span className={`px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)] ${bg}`}>
+                                 <span
+                                    className={`px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)] ${bg}`}
+                                 >
                                     <span>{icon}</span>
-                                    <span className="font-bold">{tx.category}</span>
+                                    <span className="font-bold">
+                                       {tx.category}
+                                    </span>
                                  </span>
                               </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base font-bold">
-                                 Rp {Number(tx.amount).toLocaleString('id-ID')}
+                                 Rp {Number(tx.amount).toLocaleString("id-ID")}
                               </td>
                               <td className="py-3 px-4 border-b-3 border-black">
                                  <div className="flex gap-2 justify-center">
@@ -159,12 +200,16 @@ const TransactionTable = ({ transactions, setTransactions, isLoadingTransactions
                                  </div>
                               </td>
                            </tr>
-                        )
+                        );
                      })
                   ) : (
                      <tr>
-                        <td colSpan="5" className="py-6 px-4 border-b-3 border-black text-center text-gray-500">
-                           Belum ada transaksi. Klik "Tambah Transaksi" untuk memulai.
+                        <td
+                           colSpan="5"
+                           className="py-6 px-4 border-b-3 border-black text-center text-gray-500"
+                        >
+                           Belum ada transaksi. Klik "Tambah Transaksi" untuk
+                           memulai.
                         </td>
                      </tr>
                   )}

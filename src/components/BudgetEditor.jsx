@@ -27,15 +27,19 @@ const BudgetEditor = ({
    const categoryColors = {
       "Makanan": "bg-red-100",
       "Transportasi": "bg-blue-100",
-      "Darurat": "bg-yellow-100",
-      "Tabungan": "bg-green-100",
+      "Hiburan": "bg-yellow-100",
+      "Kebutuhan Pribadi": "bg-green-100",
+      "Pendidikan": "bg-purple-100",
+      "Kesehatan": "bg-pink-100",
    };
 
    const categoryIcons = {
       "Makanan": "🍔",
       "Transportasi": "🚗",
-      "Darurat": "🚨",
-      "Tabungan": "💰",
+      "Hiburan": "🎉",
+      "Kebutuhan Pribadi": "🧴",
+      "Pendidikan": "📚",
+      "Kesehatan": "🏥",
    };
 
    // Hitung total budget

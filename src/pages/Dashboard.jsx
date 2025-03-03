@@ -4,7 +4,7 @@ import TransactionTable from "../components/TransactionTable";
 import BudgetEditor from "../components/BudgetEditor";
 import HistoryModal from "../components/HistoryModal";
 import MonthlyIncomeCard from "../components/MonthlyIncomeCard";
-import HistoryButtons from "../components/HistoryButtons"; // Import the new component
+import HistoryButtons from "../components/HistoryButtons";
 import api from "../utils/api";
 import Header from "../components/Header";
 import WelcomeMessage from "../components/WelcomeMessage";
@@ -19,14 +19,17 @@ const Dashboard = () => {
    const [monthlyIncome, setMonthlyIncome] = useState(null);
    const [isLoadingPengeluaran, setIsLoadingPengeluaran] = useState(false);
    const [showHistoryModal, setShowHistoryModal] = useState(false);
-   const [isLoasding, setIsLoading] = useState(true);
+   const [isLoading, setIsLoading] = useState(true);
 
    // State untuk menampung total pengeluaran aktual per kategori
+   // Updated with new categories
    const [actualSpending, setActualSpending] = useState({
       Makanan: 0,
       Transportasi: 0,
-      Darurat: 0,
-      Tabungan: 0,
+      Hiburan: 0,
+      Kesehatan: 0,
+      Pendidikan: 0,
+      "Kebutuhan Pribadi": 0,
    });
 
    // Fetch data saat user login
@@ -58,22 +61,32 @@ const Dashboard = () => {
          const spending = {
             Makanan: 0,
             Transportasi: 0,
-            Darurat: 0,
-            Tabungan: 0,
+            Hiburan: 0,
+            Kesehatan: 0,
+            Pendidikan: 0,
+            "Kebutuhan Pribadi": 0,
          };
+
          transactions.forEach((tx) => {
             if (spending[tx.category] !== undefined) {
                spending[tx.category] += tx.amount;
+            } else {
+               // Handle any categories not in our predefined list
+               spending[tx.category] = spending[tx.category] || 0;
+               spending[tx.category] += tx.amount;
             }
          });
+
          setActualSpending(spending);
       } else {
          // Jika belum ada transaksi, reset ke 0
          setActualSpending({
             Makanan: 0,
             Transportasi: 0,
-            Darurat: 0,
-            Tabungan: 0,
+            Hiburan: 0,
+            Kesehatan: 0,
+            Pendidikan: 0,
+            "Kebutuhan Pribadi": 0,
          });
       }
    }, [transactions]);
@@ -91,14 +104,14 @@ const Dashboard = () => {
                <WelcomeMessage user={user} />
             </div>
 
-            <DataLoadingIndicator isLoading={isLoasding}/>
+            <DataLoadingIndicator isLoading={isLoading} />
 
             {/* Stats Cards Row */}
             <StatsCardKeuangan
                budgets={budgets}
                actualSpending={actualSpending}
                monthlyIncome={monthlyIncome}
-               isLoading={isLoasding}
+               isLoading={isLoading}
             />
 
             {/* Income and Budget Section */}
@@ -115,7 +128,7 @@ const Dashboard = () => {
                   setBudgets={setBudgets}
                   actualSpending={actualSpending}
                   monthlyIncome={monthlyIncome}
-                  isLoadingEditor={isLoasding}
+                  isLoadingEditor={isLoading}
                />
             </div>
 
@@ -129,7 +142,7 @@ const Dashboard = () => {
             {/* Transaction Table Card */}
             <div className="rounded-xl border-4 border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
                <TransactionTable
-                  isLoadingTransactions={isLoasding}
+                  isLoadingTransactions={isLoading}
                   transactions={transactions}
                   setTransactions={setTransactions}
                />

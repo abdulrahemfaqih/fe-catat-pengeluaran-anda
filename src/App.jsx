@@ -9,7 +9,7 @@ import NotFound from "./pages/NotFound";
 import UnderMaintenancePage from "./pages/UnderMaintenance";
 
 function App() {
-   const isUnderMaintenance = import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE;
+   const isUnderMaintenance = import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE === "true";
    console.log(
       "Maintenance mode:",
       import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE
