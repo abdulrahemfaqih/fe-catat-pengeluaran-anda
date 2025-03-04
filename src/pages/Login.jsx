@@ -247,7 +247,7 @@ const Login = () => {
          </div>
 
          {/* Modal Tutorial */}
-         {showTutorial && <TutorialPenggunaanAtLogin />}
+         {showTutorial && <TutorialPenggunaanAtLogin setShowTutorial={setShowTutorial} />}
       </div>
    );
 };

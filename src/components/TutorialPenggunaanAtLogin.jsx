@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function TutorialPenggunaanAtLogin() {
+export default function TutorialPenggunaanAtLogin({setShowTutorial}) {
   return (
       <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
           <div className="relative bg-white border-4 border-black p-6 rounded-xl w-full max-w-md max-h-[80vh] overflow-auto shadow-[12px_12px_0px_rgba(0,0,0,1)]">
