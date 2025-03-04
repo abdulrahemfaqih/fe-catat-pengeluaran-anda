@@ -3,7 +3,7 @@ import React from "react";
 const UnderMaintenancePage = () => {
    return (
       <div className="min-h-screen bg-yellow-50 flex items-center justify-center p-6">
-         <div className="max-w-lg w-full bg-white rounded-xl border-4 border-black p-8 shadow-[8px_8px_0px_rgba(0,0,0,1)]">
+         <div className="max-w-lg w-full bg-white rounded-xl border-4 border-black p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
             <div className="relative">
                <div className="absolute -top-16 -right-12 h-28 w-28 bg-blue-100 rounded-full border-4 border-black flex items-center justify-center transform rotate-12">
                   <span className="text-4xl">🛠️</span>

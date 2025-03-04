@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const NotFound = () => {
     return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-            <div className="relative overflow-hidden rounded-xl border-4 border-black bg-yellow-100 p-6 md:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] w-full max-w-lg mx-auto transform -rotate-1">
+            <div className="relative overflow-hidden rounded-xl border-4 border-black bg-yellow-100 p-6 md:p-10 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] w-full max-w-lg mx-auto transform -rotate-1">
                 {/* Decorative elements */}
                 <div className="absolute -top-8 -left-8 w-24 h-24 bg-purple-100 rounded-full border-3 border-black -z-10"></div>
                 <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-blue-100 rounded-full border-3 border-black -z-10"></div>

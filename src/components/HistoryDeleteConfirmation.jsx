@@ -34,7 +34,7 @@ const HistoryDeleteConfirmation = ({
          onClick={onClose}
       >
          <div
-            className="bg-white p-5 sm:p-6 rounded-xl w-full max-w-md border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform transition-all relative"
+            className="bg-white p-5 sm:p-6 rounded-xl w-full max-w-md border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform transition-all relative"
             onClick={(e) => e.stopPropagation()}
          >
             {/* Decorative elements */}

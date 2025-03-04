@@ -10,7 +10,7 @@ const StatsCard = ({
 }) => {
    return (
       <div
-         className={`relative overflow-hidden rounded-xl border-4 border-black ${bgColor} p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)]`}
+         className={`relative overflow-hidden rounded-xl border-4 border-black ${bgColor} p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)]`}
       >
          <div className="absolute -top-2 -left-2 rounded-full bg-white border-4 border-black h-10 w-10 flex items-center justify-center font-bold">
             #{number}

@@ -23,7 +23,7 @@ const HistoryButtons = ({ onOpenHistoryModal, isLoadingPengeluaran, setIsLoading
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
             <button
                 onClick={onOpenHistoryModal}
-                className="px-6 py-3 border-3 border-black bg-blue-100 text-black rounded-xl font-bold hover:bg-blue-400 hover:text-white transition-all transform hover:-translate-y-1 shadow-[5px_5px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2"
+                className="px-6 py-3 border-3 border-black bg-blue-100 text-black rounded-xl font-bold hover:bg-blue-400 hover:text-white transition-all transform hover:-translate-y-1 shadow-[4px_4px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2"
             >
                 <span className="text-xl">📊</span>
                 <span>History Pengeluaran Bulanan</span>

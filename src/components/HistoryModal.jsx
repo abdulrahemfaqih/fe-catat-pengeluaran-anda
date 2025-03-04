@@ -103,7 +103,7 @@ const HistoryModal = ({ onClose }) => {
    return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
          {/* Modal Box */}
-         <div className="bg-white p-4 sm:p-6 rounded-xl w-full max-w-4xl max-h-[85vh] overflow-auto border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn relative">
+         <div className="bg-white p-4 sm:p-6 rounded-xl w-full max-w-4xl max-h-[85vh] overflow-auto border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn relative">
             {/* Decorative elements */}
             <div className="absolute -top-4 -left-4 w-12 h-12 bg-yellow-200 rounded-full border-4 border-black z-0"></div>
 
@@ -209,11 +209,10 @@ const HistoryModal = ({ onClose }) => {
                               <button
                                  onClick={() => confirmDelete(item)}
                                  disabled={loadingDelete === item._id}
-                                 className={`px-4 py-2 border-3 border-black text-black rounded-xl bg-white font-bold hover:bg-black hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
-                                    loadingDelete === item._id
+                                 className={`px-4 py-2 border-3 border-black text-black rounded-xl bg-white font-bold hover:bg-black hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${loadingDelete === item._id
                                        ? "opacity-50 cursor-not-allowed"
                                        : ""
-                                 }`}
+                                    }`}
                               >
                                  {loadingDelete === item._id ? (
                                     <span className="flex items-center gap-2">

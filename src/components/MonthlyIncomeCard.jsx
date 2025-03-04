@@ -33,7 +33,7 @@ const MonthlyIncomeCard = ({ monthlyIncome, setMonthlyIncome }) => {
     };
 
     return (
-        <section className="rounded-xl border-4 border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+        <section className="rounded-xl border-4 border-black bg-white p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)] relative overflow-hidden">
             {/* Decorative elements */}
             <div className="absolute -top-2 -left-2 w-12 h-12 bg-blue-100 rounded-full border-3 border-black z-0"></div>
             <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-yellow-100 rounded-full border-3 border-black z-0"></div>

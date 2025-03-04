@@ -67,7 +67,7 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
    return (
       <>
          <div
-            className={`relative p-5 rounded-xl h-full border-4 border-black ${randomColor} shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden`}
+            className={`relative p-5 rounded-xl h-full border-4 border-black ${randomColor} shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden`}
          >
             {/* Decorative elements */}
             <div className="absolute -top-6 -left-6 w-12 h-12 bg-white/30 rounded-full border-2 border-black z-0"></div>
