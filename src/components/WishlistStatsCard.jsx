@@ -16,7 +16,7 @@ const WishlistStatsCard = ({ number, title, value, bgColor, isPrice = false }) =
     return (
         <div className={`border-4 border-black rounded-xl p-4 sm:p-5 ${bgColor} flex-1 relative shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden transform transition-all hover:-translate-y-1`}>
             {/* Title section with icon */}
-            <div className="flex items-center gap-2 mb-3 border-b-3 border-black pb-2">
+            <div className="flex items-center gap-2 mb-3  border-black pb-2">
                 <span className="inline-flex items-center justify-center w-8 h-8 bg-white rounded-md border-3 border-black text-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                     {getCardIcon(number)}
                 </span>

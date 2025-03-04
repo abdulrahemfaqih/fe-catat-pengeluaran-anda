@@ -136,7 +136,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // Final validation before submitting, only if there's a URL
+      // Final validation befonpm runre submitting, only if there's a URL
       if (imageUrls && imageUrls.trim() !== "" && !validateImageUrl(imageUrls)) {
          return; // Don't submit if image URL is invalid
       }
