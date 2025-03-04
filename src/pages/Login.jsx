@@ -2,9 +2,10 @@ import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import icon from "../assets/icon_login.svg";
+import LoginGoogleButton from "../components/LoginGoogleButton";
 
 const Login = () => {
-   const { login, register, authError, user, loading, isAuthChecked } = useContext(AuthContext);
+   const { login, register, authError, user, loading, isAuthChecked, loginWithGoogle } = useContext(AuthContext);
    const [isRegister, setIsRegister] = useState(false);
    const [formData, setFormData] = useState({
       name: "",
@@ -48,6 +49,12 @@ const Login = () => {
          login({ email: formData.email, password: formData.password });
       }
    };
+
+   const handleGoogleLogin = () => {
+      loginWithGoogle();
+   };
+
+
 
    return (
       <div className="flex flex-col min-h-screen bg-gray-50 items-center justify-center px-4 py-8">
@@ -115,22 +122,43 @@ const Login = () => {
                   <div className="flex items-center justify-center mb-1">
                      <span className="mr-2 font-medium">Mohon tunggu</span>
                      <span className="flex space-x-1">
-                        <span className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce" style={{ animationDuration: "0.6s" }}></span>
-                        <span className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce" style={{ animationDuration: "0.6s", animationDelay: "0.2s" }}></span>
-                        <span className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce" style={{ animationDuration: "0.6s", animationDelay: "0.4s" }}></span>
+                        <span
+                           className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce"
+                           style={{ animationDuration: "0.6s" }}
+                        ></span>
+                        <span
+                           className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce"
+                           style={{
+                              animationDuration: "0.6s",
+                              animationDelay: "0.2s",
+                           }}
+                        ></span>
+                        <span
+                           className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce"
+                           style={{
+                              animationDuration: "0.6s",
+                              animationDelay: "0.4s",
+                           }}
+                        ></span>
                      </span>
                   </div>
-                  <span className="text-sm block">Proses ini mungkin memakan waktu beberapa saat</span>
+                  <span className="text-sm block">
+                     Proses ini mungkin memakan waktu beberapa saat
+                  </span>
                </div>
             )}
 
             <button
                type="submit"
                disabled={loading}
-               className={`w-full border-3 border-black bg-blue-400 text-black py-3 rounded-lg font-bold hover:bg-black hover:text-white transition shadow-[5px_5px_0px_rgba(0,0,0,1)] ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+               className={`w-full border-3 border-black bg-blue-400 text-black py-3 rounded-lg font-bold hover:bg-black hover:text-white transition shadow-[5px_5px_0px_rgba(0,0,0,1)] ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+               }`}
             >
                {isRegister ? "Daftar Sekarang" : "Masuk"}
             </button>
+
+            <LoginGoogleButton onClick={handleGoogleLogin} />
 
             <p className="mt-6 text-center">
                {isRegister ? "Sudah punya akun?" : "Belum punya akun?"}{" "}
@@ -174,37 +202,63 @@ const Login = () => {
                   <div className="space-y-4 mb-6">
                      <div className="p-3 border-3 border-black rounded-lg bg-blue-50">
                         <h3 className="font-bold mb-1">1. Register</h3>
-                        <p>Jika belum punya akun, masukkan nama, email, dan password di form Register. Setelah berhasil, Anda akan otomatis login.</p>
+                        <p>
+                           Jika belum punya akun, masukkan nama, email, dan
+                           password di form Register. Setelah berhasil, Anda
+                           akan otomatis login.
+                        </p>
                      </div>
 
                      <div className="p-3 border-3 border-black rounded-lg bg-green-50">
                         <h3 className="font-bold mb-1">2. Login</h3>
-                        <p>Jika sudah punya akun, gunakan email dan password untuk masuk ke dashboard.</p>
+                        <p>
+                           Jika sudah punya akun, gunakan email dan password
+                           untuk masuk ke dashboard.
+                        </p>
                      </div>
 
                      <div className="p-3 border-3 border-black rounded-lg bg-yellow-50">
                         <h3 className="font-bold mb-1">3. Dashboard</h3>
-                        <p>Anda bisa menambahkan transaksi harian (tanggal, nama, kategori, dan nominal), mengatur budget per kategori, dan memasukkan pemasukan bulanan.</p>
+                        <p>
+                           Anda bisa menambahkan transaksi harian (tanggal,
+                           nama, kategori, dan nominal), mengatur budget per
+                           kategori, dan memasukkan pemasukan bulanan.
+                        </p>
                      </div>
 
                      <div className="p-3 border-3 border-black rounded-lg bg-red-50">
                         <h3 className="font-bold mb-1">4. History</h3>
-                        <p>Setelah selesai mengisi transaksi dalam satu bulan, klik tombol "Simpan Pengeluaran Bulan Ini" agar pengeluaran bulan tersebut tercatat di riwayat.</p>
+                        <p>
+                           Setelah selesai mengisi transaksi dalam satu bulan,
+                           klik tombol "Simpan Pengeluaran Bulan Ini" agar
+                           pengeluaran bulan tersebut tercatat di riwayat.
+                        </p>
                      </div>
 
                      <div className="p-3 border-3 border-black rounded-lg bg-purple-50">
                         <h3 className="font-bold mb-1">5. Melihat Riwayat</h3>
-                        <p>Anda dapat membuka riwayat pengeluaran bulanan untuk melihat total per kategori pada bulan sebelumnya.</p>
+                        <p>
+                           Anda dapat membuka riwayat pengeluaran bulanan untuk
+                           melihat total per kategori pada bulan sebelumnya.
+                        </p>
                      </div>
                   </div>
 
                   <p className="mb-6 p-3 border-3 border-black rounded-lg bg-gray-50">
-                     Pastikan Anda mengisi data dengan benar. Setelah selesai, jangan lupa untuk logout agar akun Anda aman.
+                     Pastikan Anda mengisi data dengan benar. Setelah selesai,
+                     jangan lupa untuk logout agar akun Anda aman.
                   </p>
 
                   <p className="mb-6 font-medium">
-                     Jika ada pertanyaan lebih lanjut, silakan hubungi admin
-                     di <a target="_blank" href="https://abdulrahemfaqih.works" className="text-blue-500 underline font-bold">link ini</a> pada menu Contact.
+                     Jika ada pertanyaan lebih lanjut, silakan hubungi admin di{" "}
+                     <a
+                        target="_blank"
+                        href="https://abdulrahemfaqih.works"
+                        className="text-blue-500 underline font-bold"
+                     >
+                        link ini
+                     </a>{" "}
+                     pada menu Contact.
                   </p>
 
                   <div className="flex justify-end">

@@ -17,7 +17,6 @@ const HistoryModal = ({ onClose }) => {
    const [history, setHistory] = useState([]);
    const [loadingDelete, setLoadingDelete] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
-   const [categories, setCategories] = useState([]);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -27,11 +26,9 @@ const HistoryModal = ({ onClose }) => {
             // Fetch both history and categories in parallel
             const [historyRes, categoriesRes] = await Promise.all([
                api.get("/history"),
-               api.get("/categories"),
             ]);
 
             setHistory(historyRes.data);
-            setCategories(categoriesRes.data);
          } catch (error) {
             console.error("Error fetching data", error);
             toast.error("Gagal memuat data", { duration: 3000 });
