@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 import HistoryDeleteConfirmation from "./HistoryDeleteConfirmation";
+import ExportHistoryPDF from "./ExportHistoryPDFS";
 
 // Category icons mapping
 const categoryIcons = {
@@ -108,7 +109,8 @@ const HistoryModal = ({ onClose }) => {
             <div className="absolute -top-4 -left-4 w-12 h-12 bg-yellow-200 rounded-full border-4 border-black z-0"></div>
 
             <div className="relative z-10">
-               <div className="flex items-center justify-between mb-6">
+               {/* Header with title, export button, and close button */}
+               <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
                   <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
                      <span className="inline-block p-1 bg-blue-200 rounded-md border-2 border-black">
                         📊
@@ -118,12 +120,22 @@ const HistoryModal = ({ onClose }) => {
                      </span>
                      <span className="inline sm:hidden">History</span>
                   </h2>
-                  <button
-                     onClick={onClose}
-                     className="w-8 h-8 rounded-full border-3 border-black flex items-center justify-center font-bold text-lg hover:bg-black hover:text-white transition-colors"
-                  >
-                     ×
-                  </button>
+
+                  {/* Buttons container */}
+                  <div className="flex items-center gap-2 ml-auto">
+                     {/* PDF export button */}
+                     <div className={`${isLoading ? 'invisible' : 'visible'}`}>
+                        <ExportHistoryPDF history={history} />
+                     </div>
+
+                     {/* Close button */}
+                     <button
+                        onClick={onClose}
+                        className="w-8 h-8 rounded-full border-3 border-black flex items-center justify-center font-bold text-lg hover:bg-black hover:text-white transition-colors"
+                     >
+                        ×
+                     </button>
+                  </div>
                </div>
 
                <div className="border-t-3 border-b-3 border-black my-4"></div>

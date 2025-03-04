@@ -3,6 +3,7 @@ import TransactionModal from "./TransactionModal";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 import TransactionDeleteConfirmation from "./TransactionDeleteConfirmation";
+import ExportTransactionsPDF from "./ExportTransactionsPDF";
 
 const TransactionTable = ({
    transactions,
@@ -250,49 +251,60 @@ const TransactionTable = ({
 
    return (
       <>
-         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 relative">
+         <div className="flex flex-col gap-4 mb-6 relative">
             {/* Decorative elements */}
             <div className="absolute -top-10 -left-10 w-20 h-20 bg-yellow-100 rounded-full border-3 border-black -z-10"></div>
 
-            <h2 className="text-2xl font-bold flex items-center gap-2">
-               <span className="inline-block p-1 bg-purple-100 rounded-md border-2 border-black">
-                  📊
-               </span>
-               Transaksi Harian
-            </h2>
-
-            <div className="flex gap-2">
-               {/* Toggle search button - visible only on mobile */}
-               <button
-                  onClick={() => setShowSearchFilters(!showSearchFilters)}
-                  className="sm:hidden px-3 py-2.5 border-3 border-black bg-blue-200 text-black font-bold rounded-xl hover:bg-black hover:text-blue-200 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center gap-2"
-               >
-                  <span>
-                     {showSearchFilters
-                        ? "🔍 Sembunyikan Filter"
-                        : "🔍 Tampilkan Filter"}
+            {/* Title and buttons section */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+               {/* Title - full width on mobile */}
+               <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <span className="inline-block p-1 bg-purple-100 rounded-md border-2 border-black">
+                     📊
                   </span>
-               </button>
+                  Transaksi Harian
+               </h2>
 
-               <button
-                  onClick={() => {
-                     setEditData(null);
-                     setShowModal(true);
-                  }}
-                  disabled={isLoadingTransactions}
-                  className="px-5 py-2.5 border-3 border-black bg-yellow-200 text-black font-bold rounded-xl hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center gap-2"
-               >
-                  <span className="text-lg">➕</span>
-                  <span>Tambah Transaksi</span>
-               </button>
+               {/* Buttons - vertical on mobile, horizontal on larger screens */}
+               <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                  {/* Toggle search button */}
+                  <button
+                     onClick={() => setShowSearchFilters(!showSearchFilters)}
+                     className="sm:hidden px-3 py-2.5 border-3 border-black bg-blue-200 text-black font-bold rounded-xl hover:bg-black hover:text-blue-200 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2"
+                  >
+                     <span className="text-lg">🔍</span>
+                     <span>{showSearchFilters ? "Sembunyikan Filter" : "Tampilkan Filter"}</span>
+                  </button>
+
+                  {/* Export PDF button */}
+                  <div className="w-full sm:w-auto">
+                     <ExportTransactionsPDF
+                        transactions={transactions}
+                        filteredTransactions={filteredTransactions}
+                     />
+                  </div>
+
+                  {/* Add Transaction button */}
+                  <button
+                     onClick={() => {
+                        setEditData(null);
+                        setShowModal(true);
+                     }}
+                     disabled={isLoadingTransactions}
+                     className="w-full sm:w-auto px-5 py-2.5 border-3 border-black bg-yellow-200 text-black font-bold rounded-xl hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center justify-center gap-2"
+                  >
+                     <span className="text-lg">➕</span>
+                     <span>Tambah Transaksi</span>
+                  </button>
+               </div>
             </div>
          </div>
+
          {/* Search and Filter Controls */}
          {/* Search and Filter Controls - Enhanced Theme */}
          <div
-            className={`mb-6 border-3 border-black rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300 transform ${
-               !showSearchFilters ? "hidden sm:block" : "block"
-            }`}
+            className={`mb-6 border-3 border-black rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300 transform ${!showSearchFilters ? "hidden sm:block" : "block"
+               }`}
          >
             <div className="bg-blue-200 px-4 py-3 border-b-3 border-black flex items-center justify-between">
                <h3 className="font-bold text-lg flex items-center">
