@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
+import HistoryDeleteConfirmation from "./HistoryDeleteConfirmation";
 
 // Category icons mapping
 const categoryIcons = {
@@ -17,17 +18,14 @@ const HistoryModal = ({ onClose }) => {
    const [history, setHistory] = useState([]);
    const [loadingDelete, setLoadingDelete] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
+   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+   const [historyToDelete, setHistoryToDelete] = useState(null);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
             setIsLoading(true);
-
-            // Fetch both history and categories in parallel
-            const [historyRes, categoriesRes] = await Promise.all([
-               api.get("/history"),
-            ]);
-
+            const historyRes = await api.get("/history");
             setHistory(historyRes.data);
          } catch (error) {
             console.error("Error fetching data", error);
@@ -40,17 +38,26 @@ const HistoryModal = ({ onClose }) => {
       fetchData();
    }, []);
 
-   const handleDelete = async (id) => {
+   const confirmDelete = (item) => {
+      setHistoryToDelete(item);
+      setShowDeleteConfirmation(true);
+   };
+
+   const handleDelete = async () => {
+      if (!historyToDelete) return;
+
       try {
-         setLoadingDelete(id);
-         await api.delete(`/history/${id}`);
-         setHistory(history.filter((item) => item._id !== id));
+         setLoadingDelete(historyToDelete._id);
+         await api.delete(`/history/${historyToDelete._id}`);
+         setHistory(history.filter((item) => item._id !== historyToDelete._id));
          toast.success("History berhasil dihapus", { duration: 3000 });
       } catch (error) {
          console.error("Error deleting history", error);
          toast.error("Gagal menghapus history", { duration: 3000 });
       } finally {
          setLoadingDelete(null);
+         setShowDeleteConfirmation(false);
+         setHistoryToDelete(null);
       }
    };
 
@@ -200,7 +207,7 @@ const HistoryModal = ({ onClose }) => {
 
                            <div className="text-right">
                               <button
-                                 onClick={() => handleDelete(item._id)}
+                                 onClick={() => confirmDelete(item)}
                                  disabled={loadingDelete === item._id}
                                  className={`px-4 py-2 border-3 border-black text-black rounded-xl bg-white font-bold hover:bg-black hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
                                     loadingDelete === item._id
@@ -258,6 +265,15 @@ const HistoryModal = ({ onClose }) => {
                )}
             </div>
          </div>
+
+         {/* Delete Confirmation Modal */}
+         <HistoryDeleteConfirmation
+            isOpen={showDeleteConfirmation}
+            onClose={() => setShowDeleteConfirmation(false)}
+            onConfirm={handleDelete}
+            historyData={historyToDelete}
+            isLoading={loadingDelete === historyToDelete?._id}
+         />
       </div>
    );
 };

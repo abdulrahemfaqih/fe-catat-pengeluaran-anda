@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TransactionModal from "./TransactionModal";
 import api from "../utils/api";
 import toast from "react-hot-toast";
+import TransactionDeleteConfirmation from "./TransactionDeleteConfirmation";
 
 const TransactionTable = ({
    transactions,
@@ -11,24 +12,11 @@ const TransactionTable = ({
    const [showModal, setShowModal] = useState(false);
    const [editData, setEditData] = useState(null);
    const [isLoading, setIsLoading] = useState(false);
-   const [categories, setCategories] = useState([]);
+   // Add these new states for the delete confirmation
+   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+   const [transactionToDelete, setTransactionToDelete] = useState(null);
 
-   // Fetch categories on component mount
-   useEffect(() => {
-      const fetchCategories = async () => {
-         try {
-            const response = await api.get("/categories");
-            setCategories(response.data);
-         } catch (error) {
-            console.error("Error fetching categories", error);
-            // Silent error - will use fallbacks
-         }
-      };
-
-      fetchCategories();
-   }, []);
-
-   // Default category styles if API fails
+   // Static category properties
    const defaultCategoryProps = {
       Makanan: { bg: "bg-yellow-100", icon: "🍔" },
       Transportasi: { bg: "bg-blue-100", icon: "🚗" },
@@ -39,17 +27,29 @@ const TransactionTable = ({
       default: { bg: "bg-gray-100", icon: "📊" },
    };
 
-   const handleDelete = async (id) => {
+   // New function to open delete confirmation
+   const confirmDelete = (transaction) => {
+      setTransactionToDelete(transaction);
+      setShowDeleteConfirmation(true);
+   };
+
+   const handleDelete = async () => {
+      if (!transactionToDelete) return;
+
       setIsLoading(true);
       try {
-         await api.delete(`/transactions/${id}`);
-         setTransactions(transactions.filter((tx) => tx._id !== id));
+         await api.delete(`/transactions/${transactionToDelete._id}`);
+         setTransactions(
+            transactions.filter((tx) => tx._id !== transactionToDelete._id)
+         );
          toast.success("Transaksi berhasil dihapus", { duration: 3000 });
       } catch (error) {
          console.error("Delete transaction error", error);
          toast.error("Gagal menghapus transaksi", { duration: 3000 });
       } finally {
          setIsLoading(false);
+         setShowDeleteConfirmation(false);
+         setTransactionToDelete(null);
       }
    };
 
@@ -59,16 +59,7 @@ const TransactionTable = ({
    };
 
    const getCategoryProps = (categoryName) => {
-      // First check if we can find it in our fetched categories
-      const category = categories.find((cat) => cat.name === categoryName);
-      if (category) {
-         return {
-            bg: category.color || defaultCategoryProps.default.bg,
-            icon: category.icon || defaultCategoryProps.default.icon,
-         };
-      }
-
-      // Fallback to default mapping
+      // Simply use the static mapping or default
       return defaultCategoryProps[categoryName] || defaultCategoryProps.default;
    };
 
@@ -191,11 +182,10 @@ const TransactionTable = ({
                                        Edit
                                     </button>
                                     <button
-                                       onClick={() => handleDelete(tx._id)}
-                                       disabled={isLoading}
+                                       onClick={() => confirmDelete(tx)}
                                        className="px-3 py-1 border-2 border-black bg-red-200 text-black font-medium rounded-lg hover:bg-black hover:text-red-200 transition-all duration-300 shadow-sm"
                                     >
-                                       {isLoading ? "..." : "Hapus"}
+                                       Hapus
                                     </button>
                                  </div>
                               </td>
@@ -227,6 +217,16 @@ const TransactionTable = ({
                }}
             />
          )}
+
+         {/* Add the delete confirmation modal */}
+         <TransactionDeleteConfirmation
+            isOpen={showDeleteConfirmation}
+            onClose={() => setShowDeleteConfirmation(false)}
+            onConfirm={handleDelete}
+            transactionName={transactionToDelete?.name}
+            transactionAmount={transactionToDelete?.amount}
+            isLoading={isLoading}
+         />
       </>
    );
 };

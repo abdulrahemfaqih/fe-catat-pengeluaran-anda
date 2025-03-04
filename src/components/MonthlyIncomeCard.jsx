@@ -10,7 +10,7 @@ const MonthlyIncomeCard = ({ monthlyIncome, setMonthlyIncome }) => {
         if (monthlyIncome?.amount) {
             setIncomeValue(monthlyIncome.amount);
         } else {
-            setIncomeValue('80000'); // Default value
+            setIncomeValue('0'); // Default value
         }
     }, [monthlyIncome]);
 

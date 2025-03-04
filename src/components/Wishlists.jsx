@@ -37,7 +37,7 @@ const Wishlists = ({ items, onUpdate, onDelete, isLoadingWishlists = { isLoading
     }
     if (!Array.isArray(items) || items.length === 0) {
         return (
-            <div className="border-4 border-black rounded-xl p-8 bg-yellow-100 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform rotate-1 relative overflow-hidden">
+            <div className="border-4 border-black rounded-xl p-8 bg-yellow-100 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]  relative overflow-hidden">
                 {/* Decorative elements */}
                 <div className="absolute -top-5 -left-5 w-20 h-20 bg-purple-100 rounded-full border-3 border-black -z-10"></div>
                 <div className="absolute -bottom-5 -right-5 w-16 h-16 bg-blue-100 rounded-full border-2 border-black -z-10"></div>
