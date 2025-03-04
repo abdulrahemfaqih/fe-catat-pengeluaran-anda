@@ -15,7 +15,7 @@ const categoryIcons = {
    default: "📊",
 };
 
-const HistoryModal = ({ onClose }) => {
+const HistoryModal = ({ onClose, onDelete }) => {
    const [history, setHistory] = useState([]);
    const [loadingDelete, setLoadingDelete] = useState(null);
    const [isLoading, setIsLoading] = useState(true);
@@ -52,6 +52,9 @@ const HistoryModal = ({ onClose }) => {
          await api.delete(`/history/${historyToDelete._id}`);
          setHistory(history.filter((item) => item._id !== historyToDelete._id));
          toast.success("History berhasil dihapus", { duration: 3000 });
+         if (onDelete) {
+            onDelete();
+         }
       } catch (error) {
          console.error("Error deleting history", error);
          toast.error("Gagal menghapus history", { duration: 3000 });

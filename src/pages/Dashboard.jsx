@@ -18,8 +18,11 @@ const Dashboard = () => {
    const [budgets, setBudgets] = useState([]);
    const [monthlyIncome, setMonthlyIncome] = useState(null);
    const [isLoadingPengeluaran, setIsLoadingPengeluaran] = useState(false);
-   const [showHistoryModal, setShowHistoryModal] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
+
+   // Add history update counter to track changes
+   const [historyUpdateCounter, setHistoryUpdateCounter] = useState(0);
+   const [showHistoryModal, setShowHistoryModal] = useState(false);
 
    // State untuk menampung total pengeluaran aktual per kategori
    // Updated with new categories
@@ -31,6 +34,17 @@ const Dashboard = () => {
       Pendidikan: 0,
       "Kebutuhan Pribadi": 0,
    });
+
+   // Handler for when history is deleted
+   const handleHistoryDeleted = () => {
+      console.log("History deleted, updating counter");
+      // Force immediate update with async function
+      setTimeout(() => {
+         setHistoryUpdateCounter(prev => prev + 1);
+      }, 0);
+   };
+
+
 
    // Fetch data saat user login
    useEffect(() => {
@@ -93,6 +107,8 @@ const Dashboard = () => {
 
    if (!user) return null;
 
+
+
    return (
       <div className="min-h-screen bg-gray-50">
          <Header logout={logout} />
@@ -132,11 +148,12 @@ const Dashboard = () => {
                />
             </div>
 
-            {/* History Buttons - Now a separate component */}
+            {/* History Buttons - Pass historyUpdateCounter */}
             <HistoryButtons
                onOpenHistoryModal={() => setShowHistoryModal(true)}
                isLoadingPengeluaran={isLoadingPengeluaran}
                setIsLoadingPengeluaran={setIsLoadingPengeluaran}
+               historyUpdated={historyUpdateCounter}
             />
 
             {/* Transaction Table Card */}
@@ -149,16 +166,17 @@ const Dashboard = () => {
             </div>
          </main>
 
-         {/* History Modal */}
+         {/* History Modal - Add onDelete callback */}
          {showHistoryModal && (
-            <HistoryModal onClose={() => setShowHistoryModal(false)} />
+            <HistoryModal
+               onClose={() => setShowHistoryModal(false)}
+               onDelete={handleHistoryDeleted}
+            />
          )}
 
          <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white">
             <div className="container mx-auto px-4">
                <div className="flex items-center justify-center gap-2">
-                
-
                   {/* Copyright with highlight */}
                   <p className="text-sm font-bold relative inline-block">
                      <span className="relative z-10">
