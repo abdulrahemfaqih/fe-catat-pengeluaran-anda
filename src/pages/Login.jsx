@@ -3,6 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import icon from "../assets/icon_login.svg";
 import LoginGoogleButton from "../components/LoginGoogleButton";
+import TutorialPenggunaanAtLogin from "../components/TutorialPenggunaanAtLogin";
+import LoadingLogin from "../components/LoadingLogin";
 
 const Login = () => {
    const {
@@ -13,6 +15,7 @@ const Login = () => {
       loading,
       isAuthChecked,
       loginWithGoogle,
+      googleLoginLoading
    } = useContext(AuthContext);
    const [isRegister, setIsRegister] = useState(false);
    const [formData, setFormData] = useState({
@@ -139,11 +142,10 @@ const Login = () => {
                      name="name"
                      value={formData.name}
                      onChange={handleChange}
-                     className={`w-full border-3 ${
-                        validationErrors.name
-                           ? "border-red-500"
-                           : "border-black"
-                     } p-3 rounded-lg focus:outline-none`}
+                     className={`w-full border-3 ${validationErrors.name
+                        ? "border-red-500"
+                        : "border-black"
+                        } p-3 rounded-lg focus:outline-none`}
                   />
                   {validationErrors.name && (
                      <p className="text-red-500 text-sm mt-1">
@@ -160,9 +162,8 @@ const Login = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full border-3 ${
-                     validationErrors.email ? "border-red-500" : "border-black"
-                  } p-3 rounded-lg focus:outline-none`}
+                  className={`w-full border-3 ${validationErrors.email ? "border-red-500" : "border-black"
+                     } p-3 rounded-lg focus:outline-none`}
                />
                {validationErrors.email && (
                   <p className="text-red-500 text-sm mt-1">
@@ -178,11 +179,10 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full border-3 ${
-                     validationErrors.password
-                        ? "border-red-500"
-                        : "border-black"
-                  } p-3 rounded-lg focus:outline-none`}
+                  className={`w-full border-3 ${validationErrors.password
+                     ? "border-red-500"
+                     : "border-black"
+                     } p-3 rounded-lg focus:outline-none`}
                />
                {validationErrors.password && (
                   <p className="text-red-500 text-sm mt-1">
@@ -198,47 +198,19 @@ const Login = () => {
             )}
 
             {loading && (
-               <div className="mb-4 p-3 bg-yellow-100 border-2 border-yellow-400 rounded-lg text-yellow-700 text-center">
-                  <div className="flex items-center justify-center mb-1">
-                     <span className="mr-2 font-medium">Mohon tunggu</span>
-                     <span className="flex space-x-1">
-                        <span
-                           className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce"
-                           style={{ animationDuration: "0.6s" }}
-                        ></span>
-                        <span
-                           className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce"
-                           style={{
-                              animationDuration: "0.6s",
-                              animationDelay: "0.2s",
-                           }}
-                        ></span>
-                        <span
-                           className="inline-block w-2 h-2 bg-yellow-600 rounded-full animate-bounce"
-                           style={{
-                              animationDuration: "0.6s",
-                              animationDelay: "0.4s",
-                           }}
-                        ></span>
-                     </span>
-                  </div>
-                  <span className="text-sm block">
-                     Proses ini mungkin memakan waktu beberapa saat
-                  </span>
-               </div>
+               <LoadingLogin />
             )}
 
             <button
                type="submit"
                disabled={loading}
-               className={`w-full border-3 border-black bg-blue-400 text-black py-3 rounded-lg font-bold hover:bg-black hover:text-white transition shadow-[5px_5px_0px_rgba(0,0,0,1)] ${
-                  loading ? "opacity-50 cursor-not-allowed" : ""
-               }`}
+               className={`w-full border-3 border-black bg-blue-400 text-black py-3 rounded-lg font-bold hover:bg-black hover:text-white transition shadow-[5px_5px_0px_rgba(0,0,0,1)] ${loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
             >
                {isRegister ? "Daftar Sekarang" : "Masuk"}
             </button>
 
-            <LoginGoogleButton onClick={handleGoogleLogin} />
+            <LoginGoogleButton onClick={handleGoogleLogin} isLoading={googleLoginLoading} />
 
             <p className="mt-6 text-center">
                {isRegister ? "Sudah punya akun?" : "Belum punya akun?"}{" "}
@@ -264,93 +236,7 @@ const Login = () => {
 
          {/* Modal Tutorial */}
          {showTutorial && (
-            <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-               <div className="relative bg-white border-4 border-black p-6 rounded-xl w-full max-w-md max-h-[80vh] overflow-auto shadow-[12px_12px_0px_rgba(0,0,0,1)]">
-                  <div className="absolute -top-2 -left-2 rounded-full bg-blue-400 border-4 border-black h-12 w-12 flex items-center justify-center font-bold text-2xl">
-                     ?
-                  </div>
-                  <h2 className="text-2xl font-bold mb-6 mt-4 text-center">
-                     Cara Menggunakan Aplikasi
-                  </h2>
-
-                  <p className="mb-4">
-                     Aplikasi ini membantu Anda mencatat pemasukan dan
-                     pengeluaran harian, mengatur budget, serta menyimpan
-                     riwayat pengeluaran bulanan.
-                  </p>
-
-                  <div className="space-y-4 mb-6">
-                     <div className="p-3 border-3 border-black rounded-lg bg-blue-50">
-                        <h3 className="font-bold mb-1">1. Register</h3>
-                        <p>
-                           Jika belum punya akun, masukkan nama, email, dan
-                           password di form Register. Setelah berhasil, Anda
-                           akan otomatis login.
-                        </p>
-                     </div>
-
-                     <div className="p-3 border-3 border-black rounded-lg bg-green-50">
-                        <h3 className="font-bold mb-1">2. Login</h3>
-                        <p>
-                           Jika sudah punya akun, gunakan email dan password
-                           untuk masuk ke dashboard.
-                        </p>
-                     </div>
-
-                     <div className="p-3 border-3 border-black rounded-lg bg-yellow-50">
-                        <h3 className="font-bold mb-1">3. Dashboard</h3>
-                        <p>
-                           Anda bisa menambahkan transaksi harian (tanggal,
-                           nama, kategori, dan nominal), mengatur budget per
-                           kategori, dan memasukkan pemasukan bulanan.
-                        </p>
-                     </div>
-
-                     <div className="p-3 border-3 border-black rounded-lg bg-red-50">
-                        <h3 className="font-bold mb-1">4. History</h3>
-                        <p>
-                           Setelah selesai mengisi transaksi dalam satu bulan,
-                           klik tombol "Simpan Pengeluaran Bulan Ini" agar
-                           pengeluaran bulan tersebut tercatat di riwayat.
-                        </p>
-                     </div>
-
-                     <div className="p-3 border-3 border-black rounded-lg bg-purple-50">
-                        <h3 className="font-bold mb-1">5. Melihat Riwayat</h3>
-                        <p>
-                           Anda dapat membuka riwayat pengeluaran bulanan untuk
-                           melihat total per kategori pada bulan sebelumnya.
-                        </p>
-                     </div>
-                  </div>
-
-                  <p className="mb-6 p-3 border-3 border-black rounded-lg bg-gray-50">
-                     Pastikan Anda mengisi data dengan benar. Setelah selesai,
-                     jangan lupa untuk logout agar akun Anda aman.
-                  </p>
-
-                  <p className="mb-6 font-medium">
-                     Jika ada pertanyaan lebih lanjut, silakan hubungi admin di{" "}
-                     <a
-                        target="_blank"
-                        href="https://abdulrahemfaqih.works"
-                        className="text-blue-500 underline font-bold"
-                     >
-                        link ini
-                     </a>{" "}
-                     pada menu Contact.
-                  </p>
-
-                  <div className="flex justify-end">
-                     <button
-                        onClick={() => setShowTutorial(false)}
-                        className="px-6 py-3 border-3 border-black bg-white text-black font-bold rounded-lg hover:bg-black hover:text-white transition shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-                     >
-                        Tutup
-                     </button>
-                  </div>
-               </div>
-            </div>
+            <TutorialPenggunaanAtLogin />
          )}
       </div>
    );

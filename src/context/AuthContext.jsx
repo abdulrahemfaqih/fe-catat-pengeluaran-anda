@@ -100,17 +100,40 @@ export const AuthProvider = ({ children }) => {
          setLoading(false);
       }
    };
+   const [googleLoginLoading, setGoogleLoginLoading] = useState(false);
 
-   const loginWithGoogle = () => {
-      // Clear any existing auth data before redirecting
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      delete api.defaults.headers.common["Authorization"];
-      setUser(null);
+   const loginWithGoogle = async () => {
+      try {
+         // Set loading state to true
+         setGoogleLoginLoading(true);
 
-      const apiUrl =
-         import.meta.env.VITE_PUBLIC_API_URL || "http://localhost:5000/api";
-      window.location.href = `${apiUrl}/auth/google`;
+         // Clear any existing auth data before redirecting
+         localStorage.removeItem("token");
+         localStorage.removeItem("user");
+         delete api.defaults.headers.common["Authorization"];
+         setUser(null);
+
+         const apiUrl = import.meta.env.VITE_PUBLIC_API_URL || "http://localhost:5000/api";
+
+         // Make a preflight request to wake up the server
+         try {
+            // Attempt a lightweight request to wake the server
+            await api.get(`${apiUrl}/health-check`);
+         } catch (error) {
+            // Ignore errors - just trying to wake up the server
+            console.log("Server wake-up request sent");
+         }
+
+         // Redirect to Google login
+         window.location.href = `${apiUrl}/auth/google`;
+
+         // The loading state will remain true until the page navigates away
+         // which is appropriate because we're waiting for the redirect
+      } catch (error) {
+         console.error("Google login error:", error);
+         setAuthError("Failed to initiate Google login");
+         setGoogleLoginLoading(false); // Reset loading state if there's an error
+      }
    };
 
    const logout = () => {
@@ -145,6 +168,7 @@ export const AuthProvider = ({ children }) => {
             authError,
             isAuthChecked,
             loginWithGoogle,
+            googleLoginLoading,
             processGoogleAuthSuccess,
          }}
       >
