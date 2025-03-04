@@ -45,28 +45,35 @@ const BudgetEditor = ({
    // Hitung total budget
    const totalBudget = editBudgets.reduce((sum, item) => sum + item.budget, 0);
 
-   const handleSave = async () => {
-      // Opsional: validasi totalBudget == monthlyIncome?.amount
-      if (monthlyIncome?.amount && totalBudget !== monthlyIncome.amount) {
-         toast.error("Total budget harus sama dengan pemasukan bulanan", { duration: 4000 });
-         return;
-      }
-      setLoading(true);
-      try {
-         await Promise.all(
-            editBudgets.map((budget) =>
-               api.put(`/budgets/${budget._id}`, { budget: budget.budget })
-            )
-         );
-         setBudgets(editBudgets);
-         toast.success("Budget berhasil disimpan", { duration: 3000 });
-      } catch (error) {
-         console.error("Error updating budget", error);
-         toast.error("Gagal menyimpan budget", { duration: 3000 });
-      } finally {
-         setLoading(false);
-      }
-   };
+  const handleSave = async () => {
+     // Check if monthlyIncome exists and is not undefined
+     if (monthlyIncome !== undefined) {
+        const incomeAmount = monthlyIncome?.amount || 0;
+
+        if (totalBudget !== incomeAmount) {
+           toast.error("Total budget harus sama dengan pemasukan bulanan", {
+              duration: 4000,
+           });
+           return;
+        }
+     }
+
+     setLoading(true);
+     try {
+        await Promise.all(
+           editBudgets.map((budget) =>
+              api.put(`/budgets/${budget._id}`, { budget: budget.budget })
+           )
+        );
+        setBudgets(editBudgets);
+        toast.success("Budget berhasil disimpan", { duration: 3000 });
+     } catch (error) {
+        console.error("Error updating budget", error);
+        toast.error("Gagal menyimpan budget", { duration: 3000 });
+     } finally {
+        setLoading(false);
+     }
+  };
 
    if (isLoadingEditor) {
       return (

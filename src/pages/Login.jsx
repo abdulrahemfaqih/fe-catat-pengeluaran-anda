@@ -5,7 +5,15 @@ import icon from "../assets/icon_login.svg";
 import LoginGoogleButton from "../components/LoginGoogleButton";
 
 const Login = () => {
-   const { login, register, authError, user, loading, isAuthChecked, loginWithGoogle } = useContext(AuthContext);
+   const {
+      login,
+      register,
+      authError,
+      user,
+      loading,
+      isAuthChecked,
+      loginWithGoogle,
+   } = useContext(AuthContext);
    const [isRegister, setIsRegister] = useState(false);
    const [formData, setFormData] = useState({
       name: "",
@@ -13,7 +21,8 @@ const Login = () => {
       password: "",
    });
    const [showTutorial, setShowTutorial] = useState(false);
-   const [localAuthError, setLocalAuthError] = useState(null)
+   const [localAuthError, setLocalAuthError] = useState(null);
+   const [validationErrors, setValidationErrors] = useState({});
    const navigate = useNavigate();
 
    useEffect(() => {
@@ -28,6 +37,12 @@ const Login = () => {
       }
    }, [authError, loading]);
 
+   useEffect(() => {
+      // Clear validation errors when switching between login and register
+      setValidationErrors({});
+      setLocalAuthError(null);
+   }, [isRegister]);
+
    if (!isAuthChecked) {
       return (
          <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -37,12 +52,54 @@ const Login = () => {
    }
 
    const handleChange = (e) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      const { name, value } = e.target;
+      setFormData({ ...formData, [name]: value });
+
+      // Clear validation error for this field when user types
+      if (validationErrors[name]) {
+         setValidationErrors({
+            ...validationErrors,
+            [name]: "",
+         });
+      }
+   };
+
+   const validateForm = () => {
+      const errors = {};
+
+      // Name validation (only for register)
+      if (isRegister && !formData.name.trim()) {
+         errors.name = "Nama tidak boleh kosong";
+      }
+
+      // Email validation
+      if (!formData.email) {
+         errors.email = "Email tidak boleh kosong";
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+         errors.email = "Format email tidak valid";
+      }
+
+      // Password validation
+      if (!formData.password) {
+         errors.password = "Password tidak boleh kosong";
+      } else if (isRegister && formData.password.length < 6) {
+         errors.password = "Password minimal 6 karakter";
+      }
+
+      setValidationErrors(errors);
+      return Object.keys(errors).length === 0;
    };
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      setLocalAuthError
+
+      // Validate form first
+      const isValid = validateForm();
+      if (!isValid) return;
+
+      // Clear previous auth errors
+      setLocalAuthError(null);
+
       if (isRegister) {
          register(formData);
       } else {
@@ -53,8 +110,6 @@ const Login = () => {
    const handleGoogleLogin = () => {
       loginWithGoogle();
    };
-
-
 
    return (
       <div className="flex flex-col min-h-screen bg-gray-50 items-center justify-center px-4 py-8">
@@ -82,10 +137,19 @@ const Login = () => {
                   <input
                      type="text"
                      name="name"
+                     value={formData.name}
                      onChange={handleChange}
-                     className="w-full border-3 border-black p-3 rounded-lg focus:outline-none"
-                     required
+                     className={`w-full border-3 ${
+                        validationErrors.name
+                           ? "border-red-500"
+                           : "border-black"
+                     } p-3 rounded-lg focus:outline-none`}
                   />
+                  {validationErrors.name && (
+                     <p className="text-red-500 text-sm mt-1">
+                        {validationErrors.name}
+                     </p>
+                  )}
                </div>
             )}
 
@@ -94,10 +158,17 @@ const Login = () => {
                <input
                   type="email"
                   name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  className="w-full border-3 border-black p-3 rounded-lg focus:outline-none"
-                  required
+                  className={`w-full border-3 ${
+                     validationErrors.email ? "border-red-500" : "border-black"
+                  } p-3 rounded-lg focus:outline-none`}
                />
+               {validationErrors.email && (
+                  <p className="text-red-500 text-sm mt-1">
+                     {validationErrors.email}
+                  </p>
+               )}
             </div>
 
             <div className="mb-6">
@@ -105,10 +176,19 @@ const Login = () => {
                <input
                   type="password"
                   name="password"
+                  value={formData.password}
                   onChange={handleChange}
-                  className="w-full border-3 border-black p-3 rounded-lg focus:outline-none"
-                  required
+                  className={`w-full border-3 ${
+                     validationErrors.password
+                        ? "border-red-500"
+                        : "border-black"
+                  } p-3 rounded-lg focus:outline-none`}
                />
+               {validationErrors.password && (
+                  <p className="text-red-500 text-sm mt-1">
+                     {validationErrors.password}
+                  </p>
+               )}
             </div>
 
             {!loading && localAuthError && (
