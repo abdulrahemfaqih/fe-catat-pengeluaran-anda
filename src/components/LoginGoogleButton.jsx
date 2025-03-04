@@ -13,8 +13,9 @@ const GoogleLoginButton = ({ onClick, isLoading }) => {
     >
       {isLoading ? (
         <>
-          <div className="w-5 h-5 border-t-3 border-r-3 border-blue-500 rounded-full animate-spin"></div>
-          <span>Menyambungkan ke Google...</span>
+          {/* Improved spinner with full circle design */}
+          <div className="w-6 h-6 rounded-full border-3 border-blue-300 border-t-blue-600 animate-spin"></div>
+          <span className="ml-2 truncate">Menyambungkan...</span>
         </>
       ) : (
         <>

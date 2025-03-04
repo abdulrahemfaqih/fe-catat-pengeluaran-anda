@@ -7,4 +7,43 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+@keyframes float1 {
+  0%, 100% {
+    transform: translateY(0) rotate(12deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(12deg);
+  }
+}
+
+@keyframes float2 {
+  0%, 100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+@keyframes float3 {
+  0%, 100% {
+    transform: translateY(0) rotate(-12deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-12deg);
+  }
+}
+
+.floating-shape-1 {
+  animation: float1 8s ease-in-out infinite;
+}
+
+.floating-shape-2 {
+  animation: float2 9s ease-in-out infinite 1s;
+}
+
+.floating-shape-3 {
+  animation: float3 10s ease-in-out infinite 2s;
+}
+
 

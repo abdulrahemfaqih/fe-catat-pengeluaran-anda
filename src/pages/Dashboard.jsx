@@ -154,10 +154,20 @@ const Dashboard = () => {
             <HistoryModal onClose={() => setShowHistoryModal(false)} />
          )}
 
-         <footer className="border-t-4 border-black py-6 mt-8 text-center">
-            <p className="text-sm font-bold">
-               © {new Date().getFullYear()} Abdul Rahem Faqih
-            </p>
+         <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white">
+            <div className="container mx-auto px-4">
+               <div className="flex items-center justify-center gap-2">
+                
+
+                  {/* Copyright with highlight */}
+                  <p className="text-sm font-bold relative inline-block">
+                     <span className="relative z-10">
+                        © {new Date().getFullYear()} Abdul Rahem Faqih
+                     </span>
+                     <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-200 -z-0"></span>
+                  </p>
+               </div>
+            </div>
          </footer>
       </div>
    );

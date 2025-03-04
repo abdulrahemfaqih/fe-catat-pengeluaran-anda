@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
+import TipsPenggunaanAtDashboard from "./TipsPenggunaanAtDashboard";
 
 const MonthlyIncomeCard = ({ monthlyIncome, setMonthlyIncome }) => {
     const [incomeValue, setIncomeValue] = useState('0');
@@ -77,48 +78,7 @@ const MonthlyIncomeCard = ({ monthlyIncome, setMonthlyIncome }) => {
                     </button>
                 </div>
 
-                <div className="mt-6 bg-yellow-50 p-4 rounded-lg border-3 border-black relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-200 rounded-bl-full -mr-6 -mt-6 border-b-3 border-l-3 border-black"></div>
-
-                    <h3 className="font-bold text-black mb-3 flex items-center gap-2 relative z-10">
-                        <span className="text-xl">💡</span> Tips Penggunaan
-                    </h3>
-
-                    <ul className="text-sm text-gray-800 pl-2 flex flex-col gap-3 relative z-10">
-                        <li className="flex items-start gap-2">
-                            <div className="inline-block w-5 h-5 min-w-5 bg-green-200 rounded-full border-2 border-black">
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <span className="text-xs font-bold leading-none">1</span>
-                                </div>
-                            </div>
-                            <p>Set up pemasukan dan budget anda, pastikan budget harus sama dengan pemasukan, bisa di edit kapan saja</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                            <div className="inline-block w-5 h-5 min-w-5 bg-blue-200 rounded-full border-2 border-black">
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <span className="text-xs font-bold leading-none">2</span>
-                                </div>
-                            </div>
-                            <p>Simpan pengeluaran anda pada sehari hari</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                            <div className="inline-block w-5 h-5 min-w-5 bg-purple-200 rounded-full border-2 border-black">
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <span className="text-xs font-bold leading-none">3</span>
-                                </div>
-                            </div>
-                            <p>Gunakan fitur simpan history pengeluaran, gunakan fitur ini perbulan agar dapat melihat pengeluaran anda pada setiap bulannya</p>
-                        </li>
-                        <li className="flex items-start gap-2">
-                            <div className="inline-block w-5 h-5 min-w-5 bg-cyan-100 rounded-full border-2 border-black">
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <span className="text-xs font-bold leading-none">✨</span>
-                                </div>
-                            </div>
-                            <p><span className="font-bold">Fitur baru:</span> Managemen Wishlist, untuk menyimpan wishlist barang yang ingin di beli, buka menu diatas dan akses 🚀</p>
-                        </li>
-                    </ul>
-                </div>
+              <TipsPenggunaanAtDashboard/>
             </div>
         </section>
     );
