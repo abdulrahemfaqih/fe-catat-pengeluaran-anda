@@ -131,7 +131,7 @@ const Dashboard = () => {
             />
 
             {/* Income and Budget Section */}
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div className="grid lg:grid-cols-2 gap-8 mb-8">
                {/* Monthly Income Card */}
                <MonthlyIncomeCard
                   monthlyIncome={monthlyIncome}
