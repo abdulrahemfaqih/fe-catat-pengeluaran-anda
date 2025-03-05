@@ -116,37 +116,116 @@ const BudgetEditor = ({
             {editBudgets.map((item) => (
                <div
                   key={item._id}
-                  className={`relative overflow-hidden rounded-lg border-3 border-black ${categoryColors[item.category] || "bg-gray-100"} p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]`}
+                  className={`relative overflow-hidden rounded-lg border-3 border-black ${
+                     categoryColors[item.category] || "bg-gray-100"
+                  } p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]`}
                >
                   <div className="absolute -top-1 -right-1 rounded-bl-lg bg-white border-b-3 border-l-3 border-black px-2 py-1">
-                     <span className="text-xl">{categoryIcons[item.category] || "📊"}</span>
+                     <span className="text-xl">
+                        {categoryIcons[item.category] || "📊"}
+                     </span>
                   </div>
-                  <span className="font-bold text-lg mb-3 block pt-1">{item.category}</span>
+                  <span className="font-bold text-lg mb-3 block pt-1">
+                     {item.category}
+                  </span>
                   <div className="flex items-center gap-3 mb-3">
                      <label className="font-medium text-black">Budget:</label>
                      <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-gray-700">Rp</span>
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-gray-700">
+                           Rp
+                        </span>
                         <input
                            type="number"
                            value={item.budget}
-                           onChange={(e) => handleChange(item.category, parseFloat(e.target.value))}
+                           onChange={(e) =>
+                              handleChange(
+                                 item.category,
+                                 parseFloat(e.target.value)
+                              )
+                           }
                            className="border-3 border-black p-2 pl-10 rounded-md w-32 focus:outline-none focus:ring-2 focus:ring-blue-300 bg-blue-50 text-base font-medium shadow-[3px_3px_0px_rgba(0,0,0,0.1)]"
                         />
                      </div>
                   </div>
-                  <div className="bg-white border-2 border-black rounded-md p-2">
-                     <span className="font-medium text-gray-800">
-                        Pengeluaran Aktual:
-                        <span className="font-bold ml-1">Rp {(actualSpending[item.category] || 0).toLocaleString()}</span>
-                     </span>
+
+                  {/* Budget vs Actual Comparison */}
+                  <div className="bg-white border-2 border-black rounded-md p-2 mb-2">
+                     <div className="flex justify-between items-center mb-1">
+                        <span className="font-medium text-gray-800">
+                           Pengeluaran Aktual:
+                           <span className="font-bold ml-1">
+                              Rp{" "}
+                              {(
+                                 actualSpending[item.category] || 0
+                              ).toLocaleString()}
+                           </span>
+                        </span>
+                     </div>
+
+                     {/* Budget Usage Progress Bar */}
+                     {item.budget > 0 && (
+                        <div className="w-full bg-gray-200 rounded-full h-3 border border-gray-300 mt-1 overflow-hidden">
+                           <div
+                              className={`h-full rounded-full ${
+                                 actualSpending[item.category] >= item.budget
+                                    ? "bg-red-500" // Over budget
+                                    : actualSpending[item.category] >=
+                                      item.budget * 0.8
+                                    ? "bg-yellow-500" // Approaching limit (80%+)
+                                    : "bg-green-500" // Safe
+                              }`}
+                              style={{
+                                 width: `${Math.min(
+                                    100,
+                                    ((actualSpending[item.category] || 0) /
+                                       item.budget) *
+                                       100
+                                 )}%`,
+                              }}
+                           />
+                        </div>
+                     )}
                   </div>
+
+                  {/* Budget Status Badge */}
+                  {item.budget > 0 && (
+                     <div
+                        className={`text-sm font-medium rounded-full px-3 py-1 inline-flex items-center gap-1 border-2 border-black ${
+                           actualSpending[item.category] >= item.budget
+                              ? "bg-red-200" // Over budget
+                              : actualSpending[item.category] >=
+                                item.budget * 0.8
+                              ? "bg-yellow-200" // Approaching limit
+                              : "bg-green-200" // Safe
+                        }`}
+                     >
+                        <span>
+                           {actualSpending[item.category] >= item.budget
+                              ? "⚠️ Melebihi Budget"
+                              : actualSpending[item.category] >=
+                                item.budget * 0.8
+                              ? "⚠️ Hampir Melebihi"
+                              : "✅ Dalam Batas"}
+                        </span>
+                        <span className="font-bold">
+                           {Math.round(
+                              ((actualSpending[item.category] || 0) /
+                                 (item.budget || 1)) *
+                                 100
+                           )}
+                           %
+                        </span>
+                     </div>
+                  )}
                </div>
             ))}
          </div>
 
          <div className="mt-4 p-3 border-3 border-black rounded-lg bg-gray-50">
             <span className="font-medium">Total Budget: </span>
-            <span className="font-bold text-lg">Rp {totalBudget.toLocaleString()}</span>
+            <span className="font-bold text-lg">
+               Rp {totalBudget.toLocaleString()}
+            </span>
          </div>
 
          <button
