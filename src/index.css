@@ -34,6 +34,8 @@ body {
   }
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 .floating-shape-1 {
   animation: float1 8s ease-in-out infinite;
 }

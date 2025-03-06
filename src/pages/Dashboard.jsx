@@ -40,11 +40,9 @@ const Dashboard = () => {
       console.log("History deleted, updating counter");
       // Force immediate update with async function
       setTimeout(() => {
-         setHistoryUpdateCounter(prev => prev + 1);
+         setHistoryUpdateCounter((prev) => prev + 1);
       }, 0);
    };
-
-
 
    // Fetch data saat user login
    useEffect(() => {
@@ -107,10 +105,8 @@ const Dashboard = () => {
 
    if (!user) return null;
 
-
-
    return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
          <Header logout={logout} />
          <Toaster />
 
@@ -119,8 +115,6 @@ const Dashboard = () => {
             <div className="mb-8">
                <WelcomeMessage user={user} />
             </div>
-
-
 
             {/* Stats Cards Row */}
             <StatsCardKeuangan
@@ -157,7 +151,7 @@ const Dashboard = () => {
             />
 
             {/* Transaction Table Card */}
-            <div className="rounded-xl border-4 border-black bg-white p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+            <div className="rounded-xl border-4 border-black bg-white dark:bg-gray-800 p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
                <TransactionTable
                   isLoadingTransactions={isLoading}
                   transactions={transactions}
@@ -174,7 +168,7 @@ const Dashboard = () => {
             />
          )}
 
-         <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white">
+         <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white dark:bg-gray-800 dark:text-white transition-colors duration-300">
             <div className="container mx-auto px-4">
                <div className="flex items-center justify-center gap-2">
                   {/* Copyright with highlight */}
@@ -182,7 +176,7 @@ const Dashboard = () => {
                      <span className="relative z-10">
                         © {new Date().getFullYear()} Abdul Rahem Faqih
                      </span>
-                     <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-200 -z-0"></span>
+                     <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-200 dark:bg-yellow-600 -z-0"></span>
                   </p>
                </div>
             </div>

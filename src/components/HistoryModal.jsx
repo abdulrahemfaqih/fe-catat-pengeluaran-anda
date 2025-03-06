@@ -89,12 +89,12 @@ const HistoryModal = ({ onClose, onDelete }) => {
 
    const getBgColor = (index) => {
       const colors = [
-         "bg-yellow-100",
-         "bg-blue-100",
-         "bg-green-100",
-         "bg-red-100",
-         "bg-purple-100",
-         "bg-pink-100",
+         "bg-yellow-100 dark:bg-yellow-900",
+         "bg-blue-100 dark:bg-blue-900",
+         "bg-green-100 dark:bg-green-900",
+         "bg-red-100 dark:bg-red-900",
+         "bg-purple-100 dark:bg-purple-900",
+         "bg-pink-100 dark:bg-pink-900",
       ];
       return colors[index % colors.length];
    };
@@ -107,15 +107,15 @@ const HistoryModal = ({ onClose, onDelete }) => {
    return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
          {/* Modal Box */}
-         <div className="bg-white p-4 sm:p-6 rounded-xl w-full max-w-4xl max-h-[85vh] overflow-auto border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn relative">
+         <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl w-full max-w-4xl max-h-[85vh] overflow-auto border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn relative">
             {/* Decorative elements */}
-            <div className="absolute -top-4 -left-4 w-12 h-12 bg-yellow-200 rounded-full border-4 border-black z-0"></div>
+            <div className="absolute -top-4 -left-4 w-12 h-12 bg-yellow-200 dark:bg-yellow-700 rounded-full border-4 border-black z-0"></div>
 
             <div className="relative z-10">
                {/* Header with title, export button, and close button */}
                <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
-                  <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
-                     <span className="inline-block p-1 bg-blue-200 rounded-md border-2 border-black">
+                  <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2 dark:text-white">
+                     <span className="inline-block p-1 bg-blue-200 dark:bg-blue-700 rounded-md border-2 border-black">
                         📊
                      </span>
                      <span className="hidden sm:inline">
@@ -127,14 +127,14 @@ const HistoryModal = ({ onClose, onDelete }) => {
                   {/* Buttons container */}
                   <div className="flex items-center gap-2 ml-auto">
                      {/* PDF export button */}
-                     <div className={`${isLoading ? 'invisible' : 'visible'}`}>
+                     <div className={`${isLoading ? "invisible" : "visible"}`}>
                         <ExportHistoryPDF history={history} />
                      </div>
 
                      {/* Close button */}
                      <button
                         onClick={onClose}
-                        className="w-8 h-8 rounded-full border-3 border-black flex items-center justify-center font-bold text-lg hover:bg-black hover:text-white transition-colors"
+                        className="w-8 h-8 rounded-full border-3 border-black flex items-center justify-center font-bold text-lg hover:bg-black hover:text-white dark:bg-gray-700 dark:text-white dark:hover:bg-black transition-colors"
                      >
                         ×
                      </button>
@@ -149,15 +149,15 @@ const HistoryModal = ({ onClose, onDelete }) => {
                      <div className="relative w-20 h-20">
                         {/* Inner bouncing money emoji */}
                         <div className="absolute inset-0 flex items-center justify-center animate-bounce">
-                           <div className="bg-yellow-200 w-10 h-10 rounded-full border-3 border-black flex items-center justify-center text-xl">
+                           <div className="bg-yellow-200 dark:bg-yellow-700 w-10 h-10 rounded-full border-3 border-black flex items-center justify-center text-xl">
                               💰
                            </div>
                         </div>
                      </div>
 
                      {/* Loading text */}
-                     <div className="mt-6 bg-blue-100 border-3 border-black rounded-xl px-5 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                        <p className="font-bold text-center flex items-center gap-2">
+                     <div className="mt-6 bg-blue-100 dark:bg-blue-900 border-3 border-black rounded-xl px-5 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <p className="font-bold text-center flex items-center gap-2 dark:text-white">
                            <span>⏱️</span>
                            <span>Memuat history pengeluaran...</span>
                         </p>
@@ -173,9 +173,9 @@ const HistoryModal = ({ onClose, onDelete }) => {
                            )} shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform hover:-translate-y-1`}
                         >
                            <div className="flex justify-between items-center mb-3 pb-2 border-b-2 border-black">
-                              <span className="font-bold text-base sm:text-xl flex items-center gap-2">
+                              <span className="font-bold text-base sm:text-xl flex items-center gap-2 dark:text-white">
                                  {/* Fixed number alignment with flex and text centering */}
-                                 <span className="inline-flex items-center justify-center w-6 h-6 bg-white rounded-full border-2 border-black text-xs leading-none">
+                                 <span className="inline-flex items-center justify-center w-6 h-6 bg-white dark:bg-gray-700 rounded-full border-2 border-black text-xs leading-none dark:text-white">
                                     {index + 1}
                                  </span>
                                  {getMonthName(item.month)} {item.year}
@@ -188,16 +188,16 @@ const HistoryModal = ({ onClose, onDelete }) => {
                                  ([category, amount]) => (
                                     <div
                                        key={category}
-                                       className="bg-white px-3 py-2 rounded-lg border-2 border-black"
+                                       className="bg-white dark:bg-gray-700 px-3 py-2 rounded-lg border-2 border-black"
                                     >
                                        <div className="flex justify-between items-center">
-                                          <span className="font-semibold flex items-center gap-1">
+                                          <span className="font-semibold flex items-center gap-1 dark:text-white">
                                              <span className="text-lg">
                                                 {getCategoryIcon(category)}
                                              </span>
                                              {category}:
                                           </span>
-                                          <span>
+                                          <span className="dark:text-white">
                                              Rp {amount.toLocaleString("id-ID")}
                                           </span>
                                        </div>
@@ -206,12 +206,12 @@ const HistoryModal = ({ onClose, onDelete }) => {
                               )}
                            </div>
 
-                           <div className="bg-white px-4 py-3 rounded-lg border-2 border-black mb-4">
+                           <div className="bg-white dark:bg-gray-700 px-4 py-3 rounded-lg border-2 border-black mb-4">
                               <div className="flex justify-between items-center flex-wrap">
-                                 <span className="font-bold text-base sm:text-lg">
+                                 <span className="font-bold text-base sm:text-lg dark:text-white">
                                     Total Pengeluaran:
                                  </span>
-                                 <span className="font-bold text-base sm:text-lg">
+                                 <span className="font-bold text-base sm:text-lg dark:text-white">
                                     Rp{" "}
                                     {calculateTotal(item.totals).toLocaleString(
                                        "id-ID"
@@ -224,10 +224,11 @@ const HistoryModal = ({ onClose, onDelete }) => {
                               <button
                                  onClick={() => confirmDelete(item)}
                                  disabled={loadingDelete === item._id}
-                                 className={`px-4 py-2 border-3 border-black text-black rounded-xl bg-white font-bold hover:bg-black hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${loadingDelete === item._id
+                                 className={`px-4 py-2 border-3 border-black text-black dark:text-white rounded-xl bg-white dark:bg-gray-700 font-bold hover:bg-black hover:text-white dark:hover:bg-black dark:hover:text-white transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                                    loadingDelete === item._id
                                        ? "opacity-50 cursor-not-allowed"
                                        : ""
-                                    }`}
+                                 }`}
                               >
                                  {loadingDelete === item._id ? (
                                     <span className="flex items-center gap-2">
@@ -267,11 +268,11 @@ const HistoryModal = ({ onClose, onDelete }) => {
                      ))}
                   </div>
                ) : (
-                  <div className="text-center py-8 border-3 border-black rounded-lg bg-yellow-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                     <p className="text-xl font-bold mb-2">
+                  <div className="text-center py-8 border-3 border-black rounded-lg bg-yellow-100 dark:bg-yellow-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                     <p className="text-xl font-bold mb-2 dark:text-white">
                         Tidak ada history pengeluaran
                      </p>
-                     <p className="text-gray-700 px-2">
+                     <p className="text-gray-700 dark:text-gray-300 px-2">
                         Mulai simpan history pengeluaran bulanan Anda dengan
                         tombol "Simpan Pengeluaran Bulan Ini"
                      </p>
