@@ -220,7 +220,6 @@ const BudgetEditor = ({
                </div>
             ))}
          </div>
-
          <div className="mt-4 p-3 border-3 border-black rounded-lg bg-gray-50">
             <span className="font-medium">Total Budget: </span>
             <span className="font-bold text-lg">
@@ -231,9 +230,19 @@ const BudgetEditor = ({
          <button
             onClick={handleSave}
             disabled={loading}
-            className="mt-4 px-6 py-2 border-3 border-black bg-white text-black font-bold rounded-lg hover:bg-black hover:text-white transition-all shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+            className="mt-4 px-6 py-2 border-3 border-black bg-yellow-200 text-black font-bold rounded-xl hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[4px_4px_0px_rgba(0,0,0,1)] disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
          >
-            {loading ? "Menyimpan..." : "Simpan Budget"}
+            {loading ? (
+               <>
+                  <span className="inline-block w-4 h-4 border-3 border-t-transparent border-black rounded-full animate-spin"></span>
+                  <span>Menyimpan...</span>
+               </>
+            ) : (
+               <>
+                  <span className="text-lg">💾</span>
+                  <span>Simpan Budget</span>
+               </>
+            )}
          </button>
       </div>
    );
