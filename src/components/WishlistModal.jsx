@@ -125,7 +125,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                   <span className="inline-flex items-center justify-center w-8 h-8 rounded-full mr-2 bg-yellow-200 border-2 border-black">
                      {item ? "✏️" : "✨"}
                   </span>
-                  {item ? "Update Item" : "Tambah Item Wishlist"}
+                  {item ? "Update Wishlist" : "Tambah Wishlist"}
                </h2>
                <button
                   onClick={handleClose}
