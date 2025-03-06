@@ -120,7 +120,7 @@ const Dashboard = () => {
                <WelcomeMessage user={user} />
             </div>
 
-            <DataLoadingIndicator isLoading={isLoading} />
+
 
             {/* Stats Cards Row */}
             <StatsCardKeuangan
