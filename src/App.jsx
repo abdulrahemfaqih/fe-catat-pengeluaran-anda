@@ -11,14 +11,14 @@ import GoogleAuthSuccess from "./components/GoogleAuthSuccess";
 
 
 function App() {
-   const isUnderMaintenance = import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE === "true";
+   const isUnderMaintenance = import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE === 'true';
    console.log(
       "Maintenance mode:",
       import.meta.env.VITE_PUBLIC_MAINTENANCE_MODE
    );
 
    return (
-      
+
       <AuthProvider>
          <Router>
             {isUnderMaintenance ? (
