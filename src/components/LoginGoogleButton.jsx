@@ -6,20 +6,20 @@ const GoogleLoginButton = ({ onClick, isLoading }) => {
       type="button"
       onClick={onClick}
       disabled={isLoading}
-      className={`w-full mt-3 flex items-center justify-center gap-3 border-3 border-black bg-white py-3 rounded-lg font-bold transition ${isLoading
-          ? 'opacity-80 cursor-wait shadow-[2px_2px_0px_rgba(0,0,0,1)]'
-          : 'hover:bg-gray-50 shadow-[5px_5px_0px_rgba(0,0,0,1)] hover:shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:-translate-y-1'
+      className={`w-full mt-3 flex items-center justify-center gap-3 border-3 border-black bg-white dark:bg-gray-700 py-3 rounded-lg font-bold text-black dark:text-white transition-colors duration-300 ${isLoading
+        ? 'opacity-80 cursor-wait shadow-[2px_2px_0px_rgba(0,0,0,1)]'
+        : 'hover:bg-gray-50 dark:hover:bg-gray-600 shadow-[5px_5px_0px_rgba(0,0,0,1)] hover:shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:-translate-y-1'
         }`}
     >
       {isLoading ? (
         <>
           {/* Improved spinner with full circle design */}
-          <div className="w-6 h-6 rounded-full border-3 border-blue-300 border-t-blue-600 animate-spin"></div>
+          <div className="w-6 h-6 rounded-full border-3 border-blue-300 dark:border-blue-400 border-t-blue-600 dark:border-t-blue-300 animate-spin transition-colors duration-300"></div>
           <span className="ml-2 truncate">Menyambungkan...</span>
         </>
       ) : (
         <>
-          <svg width="24" height="24" viewBox="0 0 24 24">
+          <svg width="24" height="24" viewBox="0 0 24 24" className="dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]">
             <path
               fill="#4285F4"
               d="M21.8,12.1c0-0.7-0.1-1.4-0.2-2.1H12v3.9h5.5c-0.2,1.2-0.9,2.3-2,3v2.5h3.2C20.2,17.5,21.8,15,21.8,12.1z"

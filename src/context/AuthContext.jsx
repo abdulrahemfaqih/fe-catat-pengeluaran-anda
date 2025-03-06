@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }) => {
          delete api.defaults.headers.common["Authorization"];
          setUser(null);
 
-         const apiUrl = import.meta.env.VITE_PUBLIC_API_URL || "http://localhost:5000/api";
+         const apiUrl = import.meta.env.VITE_PUBLIC_API_URL || "http://localhost:3000/api";
 
          // Make a preflight request to wake up the server
          try {

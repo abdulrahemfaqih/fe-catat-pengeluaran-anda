@@ -31,16 +31,38 @@ const TransactionTable = ({
    const [filteredTransactions, setFilteredTransactions] = useState([]);
 
    // Static category properties
-   const defaultCategoryProps = {
-      Makanan: { bg: "bg-yellow-100", icon: "🍔" },
-      Transportasi: { bg: "bg-blue-100", icon: "🚗" },
-      Hiburan: { bg: "bg-pink-100", icon: "🎬" },
-      Kesehatan: { bg: "bg-red-100", icon: "💊" },
-      Pendidikan: { bg: "bg-indigo-100", icon: "📚" },
-      "Kebutuhan Pribadi": { bg: "bg-green-100", icon: "👤" },
-      default: { bg: "bg-gray-100", icon: "📊" },
-   };
 
+   // Update the category properties with dark mode support
+   const defaultCategoryProps = {
+      Makanan: {
+         bg: "bg-yellow-100 dark:bg-yellow-800 dark:text-white",
+         icon: "🍔"
+      },
+      Transportasi: {
+         bg: "bg-blue-100 dark:bg-blue-800 dark:text-white",
+         icon: "🚗"
+      },
+      Hiburan: {
+         bg: "bg-pink-100 dark:bg-pink-800 dark:text-white",
+         icon: "🎬"
+      },
+      Kesehatan: {
+         bg: "bg-red-100 dark:bg-red-800 dark:text-white",
+         icon: "💊"
+      },
+      Pendidikan: {
+         bg: "bg-indigo-100 dark:bg-indigo-800 dark:text-white",
+         icon: "📚"
+      },
+      "Kebutuhan Pribadi": {
+         bg: "bg-green-100 dark:bg-green-800 dark:text-white",
+         icon: "👤"
+      },
+      default: {
+         bg: "bg-gray-100 dark:bg-gray-700 dark:text-white",
+         icon: "📊"
+      },
+   };
    // Filter transactions based on search criteria
    useEffect(() => {
       if (!transactions || isLoadingTransactions) return;
@@ -291,7 +313,7 @@ const TransactionTable = ({
                         setShowModal(true);
                      }}
                      disabled={isLoadingTransactions}
-                     className="w-full sm:w-auto px-5 py-2.5 border-3 border-black bg-yellow-200 text-black font-bold rounded-xl hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center justify-center gap-2"
+                     className="w-full sm:w-auto px-5 py-2.5 border-3 border-black bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-400 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 transform flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                      <span className="text-lg">➕</span>
                      <span>Tambah Transaksi</span>
@@ -300,22 +322,22 @@ const TransactionTable = ({
             </div>
          </div>
 
-         {/* Search and Filter Controls */}
+
          {/* Search and Filter Controls - Enhanced Theme */}
          <div
-            className={`mb-6 border-3 border-black rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300 transform ${!showSearchFilters ? "hidden sm:block" : "block"
+            className={`mb-6 border-3 border-black rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 dark:text-white shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300 transform ${!showSearchFilters ? "hidden sm:block" : "block"
                }`}
          >
-            <div className="bg-blue-200 px-4 py-3 border-b-3 border-black flex items-center justify-between">
+            <div className="bg-blue-200 dark:bg-blue-800 px-4 py-3 border-b-3 border-black flex items-center justify-between transition-colors duration-300">
                <h3 className="font-bold text-lg flex items-center">
-                  <span className="bg-white p-1 rounded-lg border-2 border-black mr-2 shadow-[2px_2px_0px_rgba(0,0,0,0.3)]">
+                  <span className="bg-white dark:bg-gray-700 p-1 rounded-lg border-2 border-black mr-2 shadow-[2px_2px_0px_rgba(0,0,0,0.3)] transition-colors duration-300">
                      🔍
                   </span>
                   Filter Transaksi
                </h3>
                <button
                   onClick={() => setShowSearchFilters(!showSearchFilters)}
-                  className="sm:hidden px-2 py-1 border-2 border-black bg-white rounded-lg hover:bg-black hover:text-white transition-colors"
+                  className="sm:hidden px-2 py-1 border-2 border-black bg-white dark:bg-gray-700 dark:text-white rounded-lg hover:bg-black hover:text-white dark:hover:bg-gray-900 transition-colors duration-300"
                >
                   {showSearchFilters ? "❌ Tutup" : "🔍 Buka"}
                </button>
@@ -325,9 +347,9 @@ const TransactionTable = ({
                <form onSubmit={handleSearchSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                      {/* Text Search - Enhanced */}
-                     <div className="bg-white border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_rgba(0,0,0,0.2)]">
+                     <div className="bg-white dark:bg-gray-800 border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] transition-colors duration-300">
                         <h4 className="font-bold text-sm uppercase mb-3 flex items-center">
-                           <span className="bg-yellow-100 p-1 rounded-lg border-2 border-black mr-2">
+                           <span className="bg-yellow-100 dark:bg-yellow-800 p-1 rounded-lg border-2 border-black mr-2 transition-colors duration-300">
                               📝
                            </span>
                            Cari Transaksi
@@ -336,7 +358,7 @@ const TransactionTable = ({
                            <div className="flex-1">
                               <label
                                  htmlFor="searchTerm"
-                                 className="block mb-1 font-medium text-sm"
+                                 className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
                               >
                                  Kata Kunci
                               </label>
@@ -348,7 +370,7 @@ const TransactionTable = ({
                                     onChange={(e) =>
                                        setSearchTerm(e.target.value)
                                     }
-                                    className="w-full border-2 border-black rounded-lg p-2 pl-9 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] h-10"
+                                    className="w-full border-2 border-black rounded-lg p-2 pl-9 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] h-10 bg-white dark:bg-gray-700 text-black dark:text-white transition-colors duration-300"
                                     placeholder="Cari transaksi..."
                                  />
                                  <span className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -359,7 +381,7 @@ const TransactionTable = ({
                            <div className="md:w-1/3">
                               <label
                                  htmlFor="searchColumn"
-                                 className="block mb-1 font-medium text-sm"
+                                 className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
                               >
                                  Cari Di
                               </label>
@@ -370,7 +392,7 @@ const TransactionTable = ({
                                     onChange={(e) =>
                                        setSearchColumn(e.target.value)
                                     }
-                                    className="w-full border-2 appearance-none border-black rounded-lg p-2 pl-8 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white h-10"
+                                    className="w-full border-2 appearance-none border-black rounded-lg p-2 pl-8 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white h-10 transition-colors duration-300"
                                  >
                                     <option value="all">Semua Kolom</option>
                                     <option value="date">Tanggal</option>
@@ -380,7 +402,7 @@ const TransactionTable = ({
                                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
                                     📋
                                  </span>
-                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none dark:text-white transition-colors duration-300">
                                     ▼
                                  </span>
                               </div>
@@ -388,9 +410,9 @@ const TransactionTable = ({
                         </div>
                      </div>
                      {/* Amount Filter - Enhanced */}
-                     <div className="bg-white border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_rgba(0,0,0,0.2)]">
+                     <div className="bg-white dark:bg-gray-800 border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] transition-colors duration-300">
                         <h4 className="font-bold text-sm uppercase mb-3 flex items-center">
-                           <span className="bg-green-100 p-1 rounded-lg border-2 border-black mr-2">
+                           <span className="bg-green-100 dark:bg-green-800 p-1 rounded-lg border-2 border-black mr-2 transition-colors duration-300">
                               💰
                            </span>
                            Filter Nominal
@@ -399,7 +421,7 @@ const TransactionTable = ({
                            <div className="md:w-1/3">
                               <label
                                  htmlFor="amountOperator"
-                                 className="block mb-1 font-medium text-sm"
+                                 className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
                               >
                                  Operator
                               </label>
@@ -410,7 +432,7 @@ const TransactionTable = ({
                                     onChange={(e) =>
                                        setSearchAmountOperator(e.target.value)
                                     }
-                                    className="w-full border-2 appearance-none border-black rounded-lg p-2 pl-8 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white h-10"
+                                    className="w-full border-2 appearance-none border-black rounded-lg p-2 pl-8 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white h-10 transition-colors duration-300"
                                  >
                                     <option value="equals">
                                        Sama dengan (=)
@@ -431,7 +453,7 @@ const TransactionTable = ({
                                  <span className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
                                     ⚙️
                                  </span>
-                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                 <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none dark:text-white transition-colors duration-300">
                                     ▼
                                  </span>
                               </div>
@@ -439,12 +461,12 @@ const TransactionTable = ({
                            <div className="flex-1">
                               <label
                                  htmlFor="amountValue"
-                                 className="block mb-1 font-medium text-sm"
+                                 className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
                               >
                                  Nilai Nominal
                               </label>
                               <div className="relative">
-                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 font-medium">
+                                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-300 font-medium transition-colors duration-300">
                                     Rp
                                  </span>
                                  <input
@@ -454,7 +476,7 @@ const TransactionTable = ({
                                     onChange={(e) =>
                                        setSearchAmountValue(e.target.value)
                                     }
-                                    className="w-full border-2 border-black rounded-lg p-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] h-10"
+                                    className="w-full border-2 border-black rounded-lg p-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] h-10 bg-white dark:bg-gray-700 text-black dark:text-white transition-colors duration-300"
                                     placeholder="Contoh: 50000"
                                  />
                               </div>
@@ -468,7 +490,7 @@ const TransactionTable = ({
                      <button
                         type="button"
                         onClick={resetFilters}
-                        className="px-5 py-2 border-3 border-black bg-white text-black font-bold rounded-xl hover:bg-gray-100 transition-colors shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2"
+                        className="px-5 py-2 border-3 border-black bg-white dark:bg-gray-700 text-black dark:text-white font-bold rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2"
                      >
                         <span>🔄</span>
                         Reset Filter
@@ -476,7 +498,7 @@ const TransactionTable = ({
 
                      <button
                         type="submit"
-                        className="px-5 py-2 border-3 border-black bg-blue-200 text-black font-bold rounded-xl hover:bg-blue-300 transition-colors shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2"
+                        className="px-5 py-2 border-3 border-black bg-blue-200 dark:bg-blue-700 text-black dark:text-white font-bold rounded-xl hover:bg-blue-300 dark:hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2"
                      >
                         <span>🔎</span>
                         Terapkan Filter
@@ -485,8 +507,8 @@ const TransactionTable = ({
                </form>
 
                {filteredTransactions.length !== transactions.length && (
-                  <div className="mt-4 px-4 py-3 bg-gradient-to-r from-yellow-100 to-yellow-50 border-2 border-yellow-500 rounded-lg text-sm flex items-center">
-                     <span className="font-bold mr-2 bg-white p-1 border-2 border-yellow-500 rounded-md">
+                  <div className="mt-4 px-4 py-3 bg-gradient-to-r from-yellow-100 to-yellow-50 dark:from-yellow-800 dark:to-yellow-900 dark:text-white border-2 border-yellow-500 dark:border-yellow-600 rounded-lg text-sm flex items-center transition-colors duration-300">
+                     <span className="font-bold mr-2 bg-white dark:bg-gray-700 p-1 border-2 border-yellow-500 dark:border-yellow-600 rounded-md transition-colors duration-300">
                         📋
                      </span>
                      <span>
@@ -505,7 +527,7 @@ const TransactionTable = ({
          {/* Row controls with page size */}
          <div className="mb-4 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
             <div className="flex items-center space-x-2">
-               <span className="text-sm font-medium">Tampilkan:</span>
+               <span className="text-sm font-medium dark:text-gray-200 transition-colors duration-300">Tampilkan:</span>
                <select
                   value={itemsPerPage}
                   onChange={(e) => {
@@ -516,7 +538,7 @@ const TransactionTable = ({
                      );
                      setCurrentPage(1);
                   }}
-                  className="border-2 border-black rounded-lg px-2 py-1 focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white text-sm"
+                  className="border-2 border-black rounded-lg px-2 py-1 focus:outline-none shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white text-sm transition-colors duration-300"
                >
                   <option value={5}>5</option>
                   <option value={10}>10</option>
@@ -529,16 +551,16 @@ const TransactionTable = ({
 
             {/* Showing info */}
             {filteredTransactions.length > 0 && (
-               <div className="text-sm text-gray-600">
+               <div className="text-sm text-gray-600 dark:text-gray-300 transition-colors duration-300">
                   {itemsPerPage === "all"
                      ? `Menampilkan semua ${filteredTransactions.length} transaksi`
                      : `Menampilkan ${Math.min(
-                          (currentPage - 1) * itemsPerPage + 1,
-                          filteredTransactions.length
-                       )} - ${Math.min(
-                          currentPage * itemsPerPage,
-                          filteredTransactions.length
-                       )} dari ${filteredTransactions.length} transaksi`}
+                        (currentPage - 1) * itemsPerPage + 1,
+                        filteredTransactions.length
+                     )} - ${Math.min(
+                        currentPage * itemsPerPage,
+                        filteredTransactions.length
+                     )} dari ${filteredTransactions.length} transaksi`}
                </div>
             )}
          </div>
@@ -546,7 +568,7 @@ const TransactionTable = ({
          <div className="overflow-x-auto rounded-xl border-3 border-black">
             <table className="min-w-full">
                <thead>
-                  <tr className="bg-blue-100">
+                  <tr className="bg-blue-100 dark:bg-blue-800 dark:text-white transition-colors duration-300">
                      <th className="py-3 px-2 border-b-3 border-r-3 border-black text-sm sm:text-base font-bold w-12">
                         No
                      </th>
@@ -573,29 +595,29 @@ const TransactionTable = ({
                      Array(5)
                         .fill(0)
                         .map((_, index) => (
-                           <tr key={`skeleton-${index}`}>
+                           <tr key={`skeleton-${index}`} className="dark:bg-gray-800 transition-colors duration-300">
                               <td className="py-3 px-2 border-b-3 border-r-3 border-black text-center">
-                                 <div className="animate-pulse h-5 bg-gray-200 rounded w-6 mx-auto"></div>
+                                 <div className="animate-pulse h-5 bg-gray-200 dark:bg-gray-600 rounded w-6 mx-auto"></div>
                               </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black">
                                  <div className="animate-pulse flex flex-col items-center">
-                                    <div className="h-5 bg-gray-200 rounded w-12 mb-1"></div>
-                                    <div className="h-3 bg-gray-200 rounded w-8"></div>
+                                    <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded w-12 mb-1"></div>
+                                    <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-8"></div>
                                  </div>
                               </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black">
-                                 <div className="animate-pulse h-5 bg-gray-200 rounded w-32"></div>
+                                 <div className="animate-pulse h-5 bg-gray-200 dark:bg-gray-600 rounded w-32"></div>
                               </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black">
-                                 <div className="animate-pulse mx-auto h-8 bg-gray-200 rounded-lg w-28"></div>
+                                 <div className="animate-pulse mx-auto h-8 bg-gray-200 dark:bg-gray-600 rounded-lg w-28"></div>
                               </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black">
-                                 <div className="animate-pulse h-5 bg-gray-200 rounded w-24"></div>
+                                 <div className="animate-pulse h-5 bg-gray-200 dark:bg-gray-600 rounded w-24"></div>
                               </td>
                               <td className="py-3 px-4 border-b-3 border-black">
                                  <div className="flex gap-2 justify-center">
-                                    <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
-                                    <div className="animate-pulse h-8 bg-gray-200 rounded-lg w-14"></div>
+                                    <div className="animate-pulse h-8 bg-gray-200 dark:bg-gray-600 rounded-lg w-14"></div>
+                                    <div className="animate-pulse h-8 bg-gray-200 dark:bg-gray-600 rounded-lg w-14"></div>
                                  </div>
                               </td>
                            </tr>
@@ -610,7 +632,7 @@ const TransactionTable = ({
                               : (currentPage - 1) * itemsPerPage + index + 1;
 
                         return (
-                           <tr key={tx._id} className="hover:bg-gray-50">
+                           <tr key={tx._id} className="hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-white dark:bg-gray-800 transition-colors duration-300">
                               <td className="py-3 px-2 border-b-3 border-r-3 border-black text-center font-medium">
                                  {realIndex}
                               </td>
@@ -621,7 +643,7 @@ const TransactionTable = ({
                                        { day: "numeric", month: "short" }
                                     )}
                                  </div>
-                                 <div className="text-xs text-gray-600">
+                                 <div className="text-xs text-gray-600 dark:text-gray-300 transition-colors duration-300">
                                     {new Date(tx.date).getFullYear()}
                                  </div>
                               </td>
@@ -630,7 +652,7 @@ const TransactionTable = ({
                               </td>
                               <td className="py-3 px-4 border-b-3 border-r-3 border-black text-sm sm:text-base">
                                  <span
-                                    className={`px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)] ${bg}`}
+                                    className={`px-3 py-1.5 rounded-lg inline-flex items-center gap-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,0.3)] ${bg} transition-colors duration-300`}
                                  >
                                     <span>{icon}</span>
                                     <span className="font-bold">
@@ -645,13 +667,13 @@ const TransactionTable = ({
                                  <div className="flex gap-2 justify-center">
                                     <button
                                        onClick={() => openModalForEdit(tx)}
-                                       className="px-3 py-1 border-2 border-black bg-blue-200 text-black font-medium rounded-lg hover:bg-black hover:text-blue-200 transition-all duration-300 shadow-sm"
+                                       className="px-3 py-1 border-2 border-black bg-blue-200 dark:bg-blue-700 text-black dark:text-white font-medium rounded-lg hover:bg-black hover:text-blue-200 dark:hover:bg-black dark:hover:text-blue-400 transition-all duration-300 shadow-sm"
                                     >
                                        Edit
                                     </button>
                                     <button
                                        onClick={() => confirmDelete(tx)}
-                                       className="px-3 py-1 border-2 border-black bg-red-200 text-black font-medium rounded-lg hover:bg-black hover:text-red-200 transition-all duration-300 shadow-sm"
+                                       className="px-3 py-1 border-2 border-black bg-red-200 dark:bg-red-700 text-black dark:text-white font-medium rounded-lg hover:bg-black hover:text-red-200 dark:hover:bg-black dark:hover:text-red-400 transition-all duration-300 shadow-sm"
                                     >
                                        Hapus
                                     </button>
@@ -661,10 +683,10 @@ const TransactionTable = ({
                         );
                      })
                   ) : (
-                     <tr>
+                     <tr className="dark:bg-gray-800 dark:text-white transition-colors duration-300">
                         <td
                            colSpan="6"
-                           className="py-6 px-4 border-b-3 border-black text-center text-gray-500"
+                           className="py-6 px-4 border-b-3 border-black text-center text-gray-500 dark:text-gray-300 transition-colors duration-300"
                         >
                            {transactions.length === 0
                               ? 'Belum ada transaksi. Klik "Tambah Transaksi" untuk memulai.'

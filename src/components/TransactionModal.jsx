@@ -12,7 +12,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
    const [displayAmount, setDisplayAmount] = useState(""); // For formatted display
    const [loading, setLoading] = useState(false);
 
-   // Define the updated category icons and colors
+   // Define the updated category icons and colors with dark mode support
    const categoryIcons = {
       Makanan: "🍔",
       Transportasi: "🚗",
@@ -24,13 +24,13 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
    };
 
    const categoryColors = {
-      Makanan: "bg-yellow-100",
-      Transportasi: "bg-blue-100",
-      Hiburan: "bg-pink-100",
-      Kesehatan: "bg-red-100",
-      Pendidikan: "bg-indigo-100",
-      "Kebutuhan Pribadi": "bg-green-100",
-      default: "bg-gray-100",
+      Makanan: "bg-yellow-100 dark:bg-yellow-800",
+      Transportasi: "bg-blue-100 dark:bg-blue-800",
+      Hiburan: "bg-pink-100 dark:bg-pink-800",
+      Kesehatan: "bg-red-100 dark:bg-red-800",
+      Pendidikan: "bg-indigo-100 dark:bg-indigo-800",
+      "Kebutuhan Pribadi": "bg-green-100 dark:bg-green-800",
+      default: "bg-gray-100 dark:bg-gray-700",
    };
 
    const categoryOptions = [
@@ -105,7 +105,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
    return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
          {/* Modal Box */}
-         <div className="bg-white p-6 rounded-xl w-96 border-3 border-black shadow-xl transform transition-all animate-fadeIn">
+         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl w-96 border-3 border-black shadow-xl transform transition-all animate-fadeIn dark:text-white">
             <h2 className="text-2xl font-bold mb-4 flex items-center">
                <span
                   className={`inline-flex items-center justify-center w-8 h-8 rounded-full mr-2 ${getCategoryColor(
@@ -125,7 +125,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                      onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                      }
-                     className="w-full border-3 border-black p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                     className="w-full border-3 border-black p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white transition-colors duration-300"
                      placeholder="Contoh: Makan Siang"
                      required
                   />
@@ -141,7 +141,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                               category: e.target.value,
                            })
                         }
-                        className="w-full border-3 border-black p-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 appearance-none bg-white shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                        className="w-full border-3 border-black p-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 appearance-none bg-white dark:bg-gray-700 text-black dark:text-white shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-colors duration-300"
                         required
                      >
                         {categoryOptions.map((option) => (
@@ -151,7 +151,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                         ))}
                      </select>
                      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <div className="border-2 border-black rounded-md p-1 bg-yellow-100">
+                        <div className="border-2 border-black rounded-md p-1 bg-yellow-100 dark:bg-yellow-700 transition-colors duration-300">
                            <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-4 w-4"
@@ -174,13 +174,13 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                   <label className="block mb-1 font-medium">Nominal</label>
                   <div className="relative">
                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-700 font-medium">Rp</span>
+                        <span className="text-gray-700 dark:text-gray-200 font-medium">Rp</span>
                      </div>
                      <input
                         type="text"
                         value={displayAmount}
                         onChange={handleAmountChange}
-                        className="w-full border-3 border-black p-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                        className="w-full border-3 border-black p-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white transition-colors duration-300"
                         placeholder="0"
                         required
                      />
@@ -194,7 +194,7 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                      onChange={(e) =>
                         setFormData({ ...formData, date: e.target.value })
                      }
-                     className="w-full border-3 border-black p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                     className="w-full border-3 border-black p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white transition-colors duration-300"
                      required
                   />
                </div>
@@ -202,13 +202,13 @@ const TransactionModal = ({ onClose, editData, refreshTransactions }) => {
                   <button
                      type="button"
                      onClick={onClose}
-                     className="px-4 py-2 border-3 border-black bg-gray-100 text-black font-bold rounded-xl hover:bg-black hover:text-white transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
+                     className="px-4 py-2 border-3 border-black bg-gray-100 dark:bg-gray-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-white dark:hover:bg-gray-900 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
                   >
                      Batal
                   </button>
                   <button
                      type="submit"
-                     className="px-4 py-2 border-3 border-black bg-yellow-200 text-black font-bold rounded-xl hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
+                     className="px-4 py-2 border-3 border-black bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-400 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
                      disabled={loading}
                   >
                      {loading ? (

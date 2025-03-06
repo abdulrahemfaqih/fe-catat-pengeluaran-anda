@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import WishlistDeleteConfirmation from "./WishlistDeleteConfirmation";
 
+// Light mode colors
 const colors = [
    "bg-red-100",
    "bg-yellow-100",
@@ -15,8 +16,23 @@ const colors = [
    "bg-cyan-100",
 ];
 
-const getRandomColor = () => {
-   return colors[Math.floor(Math.random() * colors.length)];
+// Dark mode equivalent colors
+const darkColors = [
+   "dark:bg-red-900/50",
+   "dark:bg-yellow-900/50",
+   "dark:bg-green-900/50",
+   "dark:bg-blue-900/50",
+   "dark:bg-indigo-900/50",
+   "dark:bg-purple-900/50",
+   "dark:bg-pink-900/50",
+   "dark:bg-orange-900/50",
+   "dark:bg-amber-900/50",
+   "dark:bg-lime-900/50",
+   "dark:bg-cyan-900/50",
+];
+
+const getRandomColor = (index) => {
+   return index % colors.length;
 };
 
 const generateRandomString = (length) => {
@@ -32,7 +48,10 @@ const generateRandomString = (length) => {
 };
 
 const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
-   const randomColor = getRandomColor();
+   const colorIndex = getRandomColor(index);
+   const lightColor = colors[colorIndex];
+   const darkColor = darkColors[colorIndex];
+
    const randomString = generateRandomString(10);
    // Add state for delete confirmation
    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -67,24 +86,24 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
    return (
       <>
          <div
-            className={`relative p-5 rounded-xl h-full border-4 border-black ${randomColor} shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden`}
+            className={`relative p-5 rounded-xl h-full border-4 border-black ${lightColor} ${darkColor} shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden`}
          >
             {/* Decorative elements */}
-            <div className="absolute -top-6 -left-6 w-12 h-12 bg-white/30 rounded-full border-2 border-black z-0"></div>
-            <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-black/10 rounded-full border-2 border-black z-0"></div>
+            <div className="absolute -top-6 -left-6 w-12 h-12 bg-white/30 dark:bg-white/10 rounded-full border-2 border-black z-0 transition-colors duration-300"></div>
+            <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-black/10 dark:bg-black/20 rounded-full border-2 border-black z-0 transition-colors duration-300"></div>
 
-            <div className="absolute -top-2 -right-2 rounded-full bg-white border-4 border-black h-10 w-10 flex items-center justify-center font-bold z-10">
+            <div className="absolute -top-2 -right-2 rounded-full bg-white dark:bg-gray-800 border-4 border-black h-10 w-10 flex items-center justify-center font-bold z-10 dark:text-white transition-colors duration-300">
                #{index + 1}
             </div>
 
             {/* Price Badge */}
-            <div className="absolute top-3 left-3 px-3 py-1 bg-white border-3 border-black rounded-full flex items-center gap-1 font-bold text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-20">
+            <div className="absolute top-3 left-3 px-3 py-1 bg-white dark:bg-gray-800 border-3 border-black rounded-full flex items-center gap-1 font-bold text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] z-20 dark:text-white transition-colors duration-300">
                <span>{getBadgeIcon(item.price)}</span>
                <span>Rp {item.price.toLocaleString("id-ID")}</span>
             </div>
 
             <div className="relative z-10 flex flex-col md:flex-row gap-5">
-               <div className="w-full md:w-1/2 h-[200px] md:h-[250px] border-3 border-black rounded-xl overflow-hidden bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+               <div className="w-full md:w-1/2 h-[200px] md:h-[250px] border-3 border-black rounded-xl overflow-hidden bg-white dark:bg-gray-700 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] transition-colors duration-300">
                   <div className="relative w-full h-full">
                      <img
                         src={
@@ -104,44 +123,44 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
 
                {/* Content Section */}
                <div className="flex flex-col w-full md:w-1/2">
-                  <div className="bg-white border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] h-full">
-                     <h2 className="text-xl font-bold text-black mb-3 border-b-3 border-black pb-2 flex items-center gap-2">
+                  <div className="bg-white dark:bg-gray-800 border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] h-full transition-colors duration-300">
+                     <h2 className="text-xl font-bold text-black dark:text-white mb-3 border-b-3 border-black pb-2 flex items-center gap-2 transition-colors duration-300">
                         <span className="text-2xl">✨</span>
                         {item.name}
                      </h2>
 
                      <div className="space-y-4 flex-grow">
                         <div className="flex flex-col">
-                           <span className="text-black font-bold flex items-center gap-1 mb-1">
-                              <span className="inline-flex items-center justify-center w-5 h-5 min-w-5 bg-yellow-200 rounded-full border-2 border-black text-xs font-bold">
+                           <span className="text-black dark:text-white font-bold flex items-center gap-1 mb-1 transition-colors duration-300">
+                              <span className="inline-flex items-center justify-center w-5 h-5 min-w-5 bg-yellow-200 dark:bg-yellow-700 rounded-full border-2 border-black text-xs font-bold transition-colors duration-300">
                                  $
                               </span>
                               Harga:
                            </span>
-                           <div className="bg-yellow-50 px-3 py-2 rounded-lg border-2 border-black">
-                              <span className="text-gray-900 font-semibold">
+                           <div className="bg-yellow-50 dark:bg-yellow-900/50 px-3 py-2 rounded-lg border-2 border-black transition-colors duration-300">
+                              <span className="text-gray-900 dark:text-gray-100 font-semibold transition-colors duration-300">
                                  Rp {item.price.toLocaleString("id-ID")}
                               </span>
                            </div>
                         </div>
 
                         <div className="flex flex-col">
-                           <span className="text-black font-bold flex items-center gap-1 mb-1">
-                              <span className="inline-flex items-center justify-center w-5 h-5 min-w-5 bg-blue-200 rounded-full border-2 border-black text-xs font-bold">
+                           <span className="text-black dark:text-white font-bold flex items-center gap-1 mb-1 transition-colors duration-300">
+                              <span className="inline-flex items-center justify-center w-5 h-5 min-w-5 bg-blue-200 dark:bg-blue-700 rounded-full border-2 border-black text-xs font-bold transition-colors duration-300">
                                  📝
                               </span>
                               Deskripsi:
                            </span>
-                           <div className="bg-blue-50 px-3 py-2 rounded-lg border-2 border-black max-h-[80px] overflow-y-auto">
-                              <span className="text-gray-900">
+                           <div className="bg-blue-50 dark:bg-blue-900/50 px-3 py-2 rounded-lg border-2 border-black max-h-[80px] overflow-y-auto transition-colors duration-300">
+                              <span className="text-gray-900 dark:text-gray-100 transition-colors duration-300">
                                  {item.description}
                               </span>
                            </div>
                         </div>
 
                         <div className="flex flex-col">
-                           <span className="text-black font-bold flex items-center gap-1 mb-1">
-                              <span className="inline-flex items-center justify-center w-5 h-5 min-w-5 bg-green-200 rounded-full border-2 border-black text-xs font-bold">
+                           <span className="text-black dark:text-white font-bold flex items-center gap-1 mb-1 transition-colors duration-300">
+                              <span className="inline-flex items-center justify-center w-5 h-5 min-w-5 bg-green-200 dark:bg-green-700 rounded-full border-2 border-black text-xs font-bold transition-colors duration-300">
                                  🔗
                               </span>
                               Link:
@@ -150,7 +169,7 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
                               href={item.purchaseLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="bg-green-50 px-3 py-2 rounded-lg border-2 border-black inline-block hover:bg-green-100 transition-colors break-all text-blue-600 hover:text-blue-800"
+                              className="bg-green-50 dark:bg-green-900/50 px-3 py-2 rounded-lg border-2 border-black inline-block hover:bg-green-100 dark:hover:bg-green-800/60 transition-colors break-all text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200"
                            >
                               {randomString}
                            </a>
@@ -159,14 +178,14 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
 
                      <div className="flex gap-3 mt-4 pt-3 border-t-3 border-black">
                         <button
-                           className="px-4 py-2 border-3 border-black text-black rounded-xl bg-yellow-200 font-bold flex-1 hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] flex items-center justify-center gap-2"
+                           className="px-4 py-2 border-3 border-black text-black dark:text-white rounded-xl bg-yellow-200 dark:bg-yellow-700 font-bold flex-1 hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-400 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] flex items-center justify-center gap-2"
                            onClick={() => onUpdate(item)}
                         >
                            <span className="text-sm">✏️</span>
                            Edit
                         </button>
                         <button
-                           className="px-4 py-2 border-3 border-black text-black rounded-xl bg-red-100 font-bold flex-1 hover:bg-black hover:text-red-100 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] flex items-center justify-center gap-2"
+                           className="px-4 py-2 border-3 border-black text-black dark:text-white rounded-xl bg-red-100 dark:bg-red-700 font-bold flex-1 hover:bg-black hover:text-red-100 dark:hover:bg-black dark:hover:text-red-400 transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] flex items-center justify-center gap-2"
                            onClick={confirmDelete}
                         >
                            <span className="text-sm">🗑️</span>

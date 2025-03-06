@@ -8,12 +8,10 @@ const HistoryButtons = ({ onOpenHistoryModal, isLoadingPengeluaran, setIsLoading
     const [checking, setChecking] = useState(true);
 
     // Check if current month's history already saved and if it's end of month
-    // Now has historyUpdated as a dependency to re-run after history changes
-    // Inside useEffect, add console.log to debug
     useEffect(() => {
         const checkExistingHistory = async () => {
             try {
-                console.log("Checking history status, counter:", historyUpdated); // Add logging
+                console.log("Checking history status, counter:", historyUpdated);
                 setChecking(true);
                 const month = new Date().getMonth() + 1;
                 const year = new Date().getFullYear();
@@ -26,13 +24,16 @@ const HistoryButtons = ({ onOpenHistoryModal, isLoadingPengeluaran, setIsLoading
                     item => item.month === month && item.year === year
                 );
 
-                console.log("Current month history exists:", historyExists); // Add logging
+                console.log("Current month history exists:", historyExists);
                 setAlreadySaved(historyExists);
 
                 // Check if it's end of month (last 3 days of the month)
                 const today = new Date();
                 const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
                 const currentDay = today.getDate();
+
+                // For testing, you can use this instead:
+                // const currentDay = lastDay - 2; // Simulates 2 days before end of month
 
                 setIsEndOfMonth(lastDay - currentDay <= 3);
             } catch (error) {
@@ -43,7 +44,8 @@ const HistoryButtons = ({ onOpenHistoryModal, isLoadingPengeluaran, setIsLoading
         };
 
         checkExistingHistory();
-    }, [historyUpdated]); // Make sure historyUpdated is in dependency array
+    }, [historyUpdated]);
+
     const handleSaveHistory = async () => {
         // First check if already saved
         if (alreadySaved) {
@@ -84,12 +86,12 @@ const HistoryButtons = ({ onOpenHistoryModal, isLoadingPengeluaran, setIsLoading
         <div className="flex flex-col gap-4">
             {/* End of Month Alert */}
             {isEndOfMonth && !alreadySaved && (
-                <div className="mb-2 p-4 border-3 border-black bg-yellow-100 rounded-xl shadow-[4px_4px_0px_rgba(0,0,0,1)] animate-pulse">
+                <div className="mb-2 p-4 border-3 border-black bg-yellow-100 dark:bg-yellow-900 dark:text-white rounded-xl shadow-[4px_4px_0px_rgba(0,0,0,1)] animate-pulse transition-colors duration-300">
                     <div className="flex items-center gap-3">
                         <span className="text-2xl">⏰</span>
                         <div>
                             <h3 className="font-bold text-base">Sudah Akhir Bulan!</h3>
-                            <p className="text-sm">Jangan lupa untuk menyimpan laporan pengeluaran bulan ini sebelum bulan berakhir.</p>
+                            <p className="text-sm dark:text-gray-200">Jangan lupa untuk menyimpan laporan pengeluaran bulan ini sebelum bulan berakhir.</p>
                         </div>
                     </div>
                 </div>
@@ -99,7 +101,7 @@ const HistoryButtons = ({ onOpenHistoryModal, isLoadingPengeluaran, setIsLoading
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
                 <button
                     onClick={onOpenHistoryModal}
-                    className="px-6 py-3 border-3 border-black bg-blue-100 text-black rounded-xl font-bold hover:bg-blue-400 hover:text-white transition-all transform hover:-translate-y-1 shadow-[4px_4px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2"
+                    className="px-6 py-3 border-3 border-black bg-blue-100 dark:bg-blue-800 text-black dark:text-white rounded-xl font-bold hover:bg-blue-400 dark:hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1 shadow-[4px_4px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2"
                 >
                     <span className="text-xl">📊</span>
                     <span>History Pengeluaran Bulanan</span>
@@ -109,8 +111,8 @@ const HistoryButtons = ({ onOpenHistoryModal, isLoadingPengeluaran, setIsLoading
                     onClick={handleSaveHistory}
                     disabled={isLoadingPengeluaran || alreadySaved || checking}
                     className={`px-6 py-3 border-3 border-black ${alreadySaved
-                        ? "bg-gray-200 text-gray-600"
-                        : "bg-green-100 text-black hover:bg-green-400 hover:text-white hover:-translate-y-1"
+                            ? "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
+                            : "bg-green-100 dark:bg-green-800 text-black dark:text-white hover:bg-green-400 dark:hover:bg-green-600 hover:text-white hover:-translate-y-1"
                         } rounded-xl font-bold transition-all transform shadow-[4px_4px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2 ${(isLoadingPengeluaran || alreadySaved || checking) ? "cursor-not-allowed opacity-75" : ""
                         }`}
                 >

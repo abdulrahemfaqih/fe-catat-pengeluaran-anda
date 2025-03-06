@@ -18,11 +18,11 @@ const GoogleAuthSuccess = () => {
    }, [processGoogleAuthSuccess, navigate]);
 
    return (
-      <div className="flex items-center justify-center min-h-screen">
-         <div className="text-center">
-            <div className="inline-block animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full mb-4"></div>
-            <h2 className="text-xl font-bold">Mengautentikasi...</h2>
-            <p className="text-gray-600">Mohon tunggu sebentar</p>
+      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+         <div className="text-center p-8 rounded-xl border-4 border-black bg-blue-50 dark:bg-blue-900/30 shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-colors duration-300">
+            <div className="inline-block animate-spin h-12 w-12 border-4 border-blue-500 dark:border-blue-400 border-t-transparent rounded-full mb-4 transition-colors duration-300"></div>
+            <h2 className="text-xl font-bold dark:text-white transition-colors duration-300">Mengautentikasi...</h2>
+            <p className="text-gray-600 dark:text-gray-300 mt-2 transition-colors duration-300">Mohon tunggu sebentar</p>
          </div>
       </div>
    );

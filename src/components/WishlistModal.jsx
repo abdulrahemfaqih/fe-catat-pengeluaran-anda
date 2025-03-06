@@ -119,17 +119,17 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
 
    return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-         <div className="bg-white p-6 rounded-xl w-96 md:w-104 border-3 border-black shadow-xl transform transition-all animate-fadeIn my-4 mx-2 max-h-[calc(100vh-2rem)] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4 pt-1 bg-white z-10">
-               <h2 className="text-2xl font-bold flex items-center">
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full mr-2 bg-yellow-200 border-2 border-black">
+         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl w-96 md:w-104 border-3 border-black shadow-xl transform transition-all animate-fadeIn my-4 mx-2 max-h-[calc(100vh-2rem)] overflow-y-auto transition-colors duration-300">
+            <div className="flex justify-between items-center mb-4 pt-1 bg-white dark:bg-gray-800 z-10 transition-colors duration-300">
+               <h2 className="text-2xl font-bold flex items-center dark:text-white transition-colors duration-300">
+                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full mr-2 bg-yellow-200 dark:bg-yellow-600 border-2 border-black transition-colors duration-300">
                      {item ? "✏️" : "✨"}
                   </span>
                   {item ? "Update Wishlist" : "Tambah Wishlist"}
                </h2>
                <button
                   onClick={handleClose}
-                  className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors shrink-0 ml-2"
+                  className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white dark:text-white dark:hover:bg-black dark:hover:text-yellow-400 transition-colors shrink-0 ml-2"
                >
                   ×
                </button>
@@ -137,10 +137,10 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                <div>
-                  <label className="block mb-1 font-medium">Nama</label>
+                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">Nama</label>
                   <input
                      type="text"
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
                      value={name}
                      onChange={(e) => setName(e.target.value)}
                      placeholder="Nintendo Switch"
@@ -148,14 +148,14 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                   />
                </div>
                <div>
-                  <label className="block mb-1 font-medium">Harga</label>
+                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">Harga</label>
                   <div className="relative">
                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-700 font-medium">Rp</span>
+                        <span className="text-gray-700 dark:text-gray-300 font-medium transition-colors duration-300">Rp</span>
                      </div>
                      <input
                         type="text"
-                        className="w-full px-3 py-2 pl-10 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                        className="w-full px-3 py-2 pl-10 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
                         value={displayPrice}
                         onChange={handlePriceChange}
                         placeholder="3.000.000"
@@ -164,9 +164,9 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                   </div>
                </div>
                <div>
-                  <label className="block mb-1 font-medium">Deskripsi</label>
+                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">Deskripsi</label>
                   <textarea
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] min-h-24"
+                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] min-h-24 dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
                      value={description}
                      onChange={(e) => setDescription(e.target.value)}
                      placeholder="Alasan mengapa saya ingin membelinya..."
@@ -174,12 +174,12 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                   ></textarea>
                </div>
                <div>
-                  <label className="block mb-1 font-medium">
+                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">
                      Link Pembelian
                   </label>
                   <input
                      type="url"
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
                      value={purchaseLink}
                      onChange={(e) => setPurchaseLink(e.target.value)}
                      placeholder="https://tokopedia.com/..."
@@ -187,12 +187,12 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                   />
                </div>
                <div>
-                  <label className="block mb-1 font-medium">
+                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">
                      URL Gambar (Opsional)
                   </label>
                   <input
                      type="url"
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
                      value={imageUrls}
                      onChange={(e) => setImageUrls(e.target.value)}
                      placeholder="https://example.com/image.jpg"
@@ -203,7 +203,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                {hasImageUrl && (
                   <div className="relative mt-2 rounded-lg overflow-hidden border-3 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                      <div className="absolute top-0 right-0 m-2">
-                        <span className="px-2 py-1 bg-yellow-200 rounded-lg text-xs border-2 border-black shadow-[1px_1px_0px_rgba(0,0,0,1)]">
+                        <span className="px-2 py-1 bg-yellow-200 dark:bg-yellow-600 rounded-lg text-xs border-2 border-black shadow-[1px_1px_0px_rgba(0,0,0,1)] transition-colors duration-300">
                            Preview
                         </span>
                      </div>
@@ -216,7 +216,7 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                            e.target.src =
                               "https://via.placeholder.com/400x300?text=Gambar+Tidak+Tersedia";
                            e.target.className =
-                              "w-full h-48 object-contain bg-gray-100";
+                              "w-full h-48 object-contain bg-gray-100 dark:bg-gray-700 transition-colors duration-300";
                         }}
                      />
                   </div>
@@ -225,14 +225,14 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
                <div className="flex justify-end gap-3 pt-4">
                   <button
                      type="button"
-                     className="px-4 py-2 border-3 border-black bg-gray-100 text-black font-bold rounded-xl hover:bg-black hover:text-white transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
+                     className="px-4 py-2 border-3 border-black bg-gray-100 dark:bg-gray-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-white dark:hover:bg-black dark:hover:text-gray-300 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
                      onClick={handleClose}
                   >
                      Batal
                   </button>
                   <button
                      type="submit"
-                     className="px-4 py-2 border-3 border-black bg-yellow-200 text-black font-bold rounded-xl hover:bg-black hover:text-yellow-200 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
+                     className="px-4 py-2 border-3 border-black bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-400 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
                      disabled={isLoading}
                   >
                      {isLoading ? "Menyimpan..." : "Simpan Item"}

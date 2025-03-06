@@ -84,7 +84,7 @@ const DashboardWishlist = () => {
     };
 
     return (
-        <div className="DashboardWishlist">
+        <div className="DashboardWishlist dark:bg-gray-900 transition-colors duration-300">
             <Header logout={logout} />
             <Toaster />
 
@@ -94,14 +94,14 @@ const DashboardWishlist = () => {
                         number="1"
                         title="Total Wishlist"
                         value={totalItem}
-                        bgColor="bg-orange-100"
+                        bgColor="bg-orange-100 dark:bg-orange-900"
                     />
 
                     <WishlistStatsCard
                         number="2"
                         title="Total Harga"
                         value={totalPrice}
-                        bgColor="bg-purple-100"
+                        bgColor="bg-purple-100 dark:bg-purple-900"
                         isPrice={true}
                     />
                 </div>

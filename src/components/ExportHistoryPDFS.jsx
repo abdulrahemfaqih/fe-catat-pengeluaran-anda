@@ -166,10 +166,10 @@ const ExportHistoryPDFS = ({ history = [] }) => {
         <button
             onClick={exportHistoryPDF}
             disabled={exportingPdf || history.length === 0}
-            className={`px-4 py-2.5 border-3 border-black bg-green-200 text-black font-bold rounded-xl transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2
+            className={`px-4 py-2.5 border-3 border-black bg-green-200 dark:bg-green-700 text-black dark:text-white font-bold rounded-xl transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center gap-2
       ${(exportingPdf || history.length === 0)
                     ? "opacity-60 cursor-not-allowed"
-                    : "hover:bg-black hover:text-green-200 hover:-translate-y-1"}`}
+                    : "hover:bg-black hover:text-green-200 dark:hover:bg-black dark:hover:text-green-400 hover:-translate-y-1"}`}
         >
             <span className="text-lg">{exportingPdf ? "⏳" : "📄"}</span>
             <span className="hidden sm:inline">{exportingPdf ? "Membuat PDF..." : "Export PDF"}</span>
