@@ -19,8 +19,8 @@ export default defineConfig({
             name: "Catat Pengeluaran Anda",
             short_name: "Catat Pengeluaran",
             description: "Catat pengeluaran Anda dengan mudah dan menyenangkan",
-            theme_color: "#FFD700", // Warna tema kuning emas untuk nuansa playful
-            background_color: "#FFF8DC", // Warna background cornsilk yang cerah
+            theme_color: "#FFD700",
+            background_color: "#FFF8DC",
             display: "standalone",
             orientation: "portrait",
             icons: [
@@ -30,7 +30,7 @@ export default defineConfig({
                   type: "image/svg+xml",
                },
                {
-                  src: "icon-192.png", // Tambahkan PNG sebagai fallback
+                  src: "icon-192.png",
                   sizes: "192x192",
                   type: "image/png",
                },
@@ -40,10 +40,10 @@ export default defineConfig({
                   type: "image/svg+xml",
                },
                {
-                  src: "icon-512.png", // Tambahkan PNG sebagai fallback
+                  src: "icon-512.png",
                   sizes: "512x512",
                   type: "image/png",
-                  purpose: "any maskable", // Penting untuk tampilan ikon di Android
+                  purpose: "any maskable", 
                },
             ],
          },
