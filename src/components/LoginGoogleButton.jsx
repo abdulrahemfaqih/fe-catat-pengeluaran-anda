@@ -1,10 +1,15 @@
 import React from "react";
 
 const LoginGoogleButton = ({ onClick, isLoading, isRegister = false }) => {
+   // Pass the authentication mode when clicked
+   const handleClick = () => {
+      onClick(isRegister ? "register" : "login");
+   };
+
    return (
       <button
          type="button"
-         onClick={onClick}
+         onClick={handleClick}
          disabled={isLoading}
          className={`w-full mt-3 flex items-center justify-center gap-3 border-3 border-black bg-white dark:bg-gray-700 py-3 rounded-lg font-bold text-black dark:text-white transition-colors duration-300 ${
             isLoading
