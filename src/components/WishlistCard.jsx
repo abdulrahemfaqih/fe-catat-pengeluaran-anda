@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import WishlistDeleteConfirmation from "./WishlistDeleteConfirmation";
 
 // Light mode colors
@@ -52,7 +52,17 @@ const WishlistCard = ({ item, onUpdate, onDelete, index }) => {
    const lightColor = colors[colorIndex];
    const darkColor = darkColors[colorIndex];
 
-   const randomString = generateRandomString(10);
+   // Use useMemo to create a stable random string that doesn't change on re-renders
+   const randomString = useMemo(() => {
+      // If we have an item ID, use it to create a stable display for the link
+      if (item?._id) {
+         // Create a consistent derived string from the item ID
+         return item._id.substring(0, 8);
+      }
+      // Fallback to a random string if no ID exists
+      return generateRandomString(8);
+   }, [item?._id]);
+
    // Add state for delete confirmation
    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
    const [isDeleting, setIsDeleting] = useState(false);

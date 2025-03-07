@@ -37,9 +37,7 @@ const HistoryDeleteConfirmation = ({
             className="bg-white dark:bg-gray-800 p-5 sm:p-6 rounded-xl w-full max-w-md border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform transition-all relative transition-colors duration-300"
             onClick={(e) => e.stopPropagation()}
          >
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-12 h-12 bg-red-200 dark:bg-red-700 rounded-full border-4 border-black -z-10 transition-colors duration-300"></div>
-            <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-yellow-200 dark:bg-yellow-700 rounded-full border-3 border-black -z-10 transition-colors duration-300"></div>
+   
 
             <div className="flex items-center gap-3 mb-4">
                <div className="flex-shrink-0 bg-red-100 dark:bg-red-800 w-10 h-10 rounded-full border-3 border-black flex items-center justify-center transition-colors duration-300">
