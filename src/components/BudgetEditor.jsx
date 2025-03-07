@@ -29,7 +29,7 @@ const BudgetEditor = ({
       Makanan: "bg-red-100 dark:bg-red-900",
       Transportasi: "bg-blue-100 dark:bg-blue-900",
       Hiburan: "bg-yellow-100 dark:bg-yellow-900",
-      "Kebutuhan Pribadi": "bg-green-100 dark:bg-green-900",
+      "Kebutuhan Pribadi": "bg-teal-100 dark:bg-teal-900",
       Pendidikan: "bg-purple-100 dark:bg-purple-900",
       Kesehatan: "bg-pink-100 dark:bg-pink-900",
    };

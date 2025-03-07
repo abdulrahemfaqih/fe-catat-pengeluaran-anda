@@ -280,7 +280,7 @@ const TransactionTable = ({
             {/* Title and buttons section */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                {/* Title - full width on mobile */}
-               <h2 className="text-2xl font-bold flex items-center gap-2">
+               <h2 className="text-2xl font-bold flex items-center gap-2 dark:text-white transition-colors duration-300">
                   <span className="inline-block p-1 bg-purple-100 rounded-md border-2 border-black">
                      📊
                   </span>
