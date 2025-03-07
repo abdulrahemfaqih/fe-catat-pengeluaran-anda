@@ -218,6 +218,7 @@ const Login = () => {
                   </button>
 
                   <LoginGoogleButton
+                     isRegister={isRegister}
                      onClick={handleGoogleLogin}
                      isLoading={googleLoginLoading}
                   />
