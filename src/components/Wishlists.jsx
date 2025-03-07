@@ -182,7 +182,7 @@ const Wishlists = ({
          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
             <h2 className="text-2xl font-bold mb-4 md:mb-0 inline-block bg-purple-100 dark:bg-purple-800 dark:text-white px-4 py-2 border-3 border-black rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-colors duration-300">
                My Wishlist Items
-               <div className="ml-2 px-2 py-1 bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white rounded-md text-sm border-2 border-black">
+               <div className="px-2 py-2 my-1 bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white rounded-md text-sm border-2 border-black">
                   {paginatedItems.length} dari {filteredItems.length}{" "}
                   ditampilkan
                </div>
