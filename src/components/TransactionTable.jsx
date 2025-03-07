@@ -496,13 +496,7 @@ const TransactionTable = ({
                         Reset Filter
                      </button>
 
-                     <button
-                        type="submit"
-                        className="px-5 py-2 border-3 border-black bg-blue-200 dark:bg-blue-700 text-black dark:text-white font-bold rounded-xl hover:bg-blue-300 dark:hover:bg-blue-600 transition-colors shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2"
-                     >
-                        <span>🔎</span>
-                        Terapkan Filter
-                     </button>
+                     
                   </div>
                </form>
 
