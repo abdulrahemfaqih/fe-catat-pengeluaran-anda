@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import TransactionTable from "../components/TransactionTable";
 import BudgetEditor from "../components/BudgetEditor";
@@ -11,6 +11,8 @@ import WelcomeMessage from "../components/WelcomeMessage";
 import toast, { Toaster } from "react-hot-toast";
 import StatsCardKeuangan from "../components/StatsCardKeuangan";
 import DataLoadingIndicator from "../components/DataLoadingIndicator";
+import TransactionModal from "../components/TransactionModal";
+import QuickAddTransactionButton from "../components/QuickAddTransactionButton";
 
 const Dashboard = () => {
    const { user, logout } = useContext(AuthContext);
@@ -19,6 +21,8 @@ const Dashboard = () => {
    const [monthlyIncome, setMonthlyIncome] = useState(null);
    const [isLoadingPengeluaran, setIsLoadingPengeluaran] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
+   const [isScrolled, setIsScrolled] = useState(false);
+   const [showAddTransactionModal, setShowAddTransactionModal] = useState(false);
 
    // Add history update counter to track changes
    const [historyUpdateCounter, setHistoryUpdateCounter] = useState(0);
@@ -35,6 +39,17 @@ const Dashboard = () => {
       "Kebutuhan Pribadi": 0,
    });
 
+   // Handle scroll events to make FAB transparent when scrolling
+   useEffect(() => {
+      const handleScroll = () => {
+         const scrolled = window.scrollY > 100;
+         setIsScrolled(scrolled);
+      };
+
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+   }, []);
+
    // Handler for when history is deleted
    const handleHistoryDeleted = () => {
       console.log("History deleted, updating counter");
@@ -42,6 +57,10 @@ const Dashboard = () => {
       setTimeout(() => {
          setHistoryUpdateCounter((prev) => prev + 1);
       }, 0);
+   };
+
+   const handleQuickAddTransaction = () => {
+      setShowAddTransactionModal(true);
    };
 
    // Fetch data saat user login
@@ -167,6 +186,27 @@ const Dashboard = () => {
                onDelete={handleHistoryDeleted}
             />
          )}
+
+      
+
+         {/* Add the Quick Add Transaction Button Component */}
+         <QuickAddTransactionButton
+            onClick={handleQuickAddTransaction}
+            isScrolled={isScrolled}
+         />
+
+         {/* Use your existing TransactionModal component */}
+         {showAddTransactionModal && (
+            <TransactionModal
+               onClose={() => setShowAddTransactionModal(false)}
+               onSave={(transaction) => {
+                  // Your saving logic here
+                  console.log("Transaction to save:", transaction);
+                  setShowAddTransactionModal(false);
+               }}
+            />
+         )}
+
 
          <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white dark:bg-gray-800 dark:text-white transition-colors duration-300">
             <div className="container mx-auto px-4">
