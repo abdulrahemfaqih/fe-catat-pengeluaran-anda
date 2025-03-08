@@ -8,7 +8,6 @@ const Wishlists = ({
     onDelete,
     isLoadingWishlists,
 }) => {
-    const [showFilters, setShowFilters] = useState(false);
     const [filteredItems, setFilteredItems] = useState([]);
     const [activeFilters, setActiveFilters] = useState({
         searchTerm: "",
@@ -17,6 +16,8 @@ const Wishlists = ({
         minPrice: "",
         maxPrice: "",
     });
+    // State to track filter visibility on mobile
+    const [showFilters, setShowFilters] = useState(false);
 
     // Initialize filtered items
     useEffect(() => {
@@ -24,21 +25,6 @@ const Wishlists = ({
             setFilteredItems(items);
         }
     }, [items]);
-
-    // Handle responsive behavior for filters
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth >= 768) {
-                setShowFilters(true);
-            } else {
-                setShowFilters(false);
-            }
-        };
-
-        handleResize(); // Set initial state
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     // Apply filters when they change
     useEffect(() => {
@@ -142,6 +128,10 @@ const Wishlists = ({
         }
     };
 
+    // Toggle filter visibility
+    const handleToggleFilters = () => {
+        setShowFilters(!showFilters);
+    };
 
     // Loading State
     if (isLoadingWishlists) {
@@ -191,24 +181,17 @@ const Wishlists = ({
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <h2 className="text-2xl font-bold mb-4 md:mb-0 inline-flex flex-col md:flex-row md:items-center bg-purple-100 dark:bg-purple-800 dark:text-white px-4 py-2 border-3 border-black rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-colors duration-300">
                     <span>My Wishlist Items</span>
-                    <span className="md:ml-2 px-2 py-1 mt-2 md:mt-0 bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white rounded-md text-sm border-2 border-black">
-                        {filteredItems.length} items
-                    </span>
                 </h2>
 
-                {/* Mobile Filter Toggle Button */}
-                <button
-                    className="md:hidden flex items-center gap-2 px-4 py-2 bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-700 dark:hover:bg-yellow-600 rounded-lg border-3 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] font-bold transition-all duration-300 dark:text-white mb-4"
-                    onClick={() => setShowFilters(!showFilters)}
-                >
-                    {showFilters ? "Sembunyikan Filter" : "Tampilkan Filter"}
-                    {showFilters ? "🔼" : "🔽"}
-                    {hasActiveFilters() && (
-                        <span className="inline-flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full border-2 border-black">
-                            !
-                        </span>
-                    )}
-                </button>
+                {/* Show filter toggle button only on mobile */}
+                {items.length > 0 && (
+                    <button
+                        onClick={handleToggleFilters}
+                        className="md:hidden px-4 py-2 bg-purple-100 dark:bg-purple-800 dark:text-white border-3 border-black rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] font-bold flex items-center gap-2 hover:bg-purple-200 dark:hover:bg-purple-700 transition-colors"
+                    >
+                        <span>{showFilters ? "🔽 Tutup Filter" : "🔼 Tampilkan Filter"}</span>
+                    </button>
+                )}
             </div>
 
             {/* Filter Component - Only show if there are items */}
@@ -216,8 +199,8 @@ const Wishlists = ({
                 <WishlistFilter
                     onApplyFilters={handleApplyFilters}
                     initialFilters={activeFilters}
+                    onToggleVisibility={handleToggleFilters}
                     isVisible={showFilters}
-                    onToggleVisibility={() => setShowFilters(!showFilters)}
                 />
             )}
 
