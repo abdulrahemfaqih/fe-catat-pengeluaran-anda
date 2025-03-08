@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import WishlistCard from "./WishlistCard";
 import WishlistFilter from "./WishlistFilter";
-import WishlistPagination from "./WishlistPagination";
-import ShowResultWishlist from "./ShowResultWishlist";
-import ItemsPerPageWishlist from "./ItemsPerPageWishlist";
 
 const Wishlists = ({
     items,
@@ -13,9 +10,6 @@ const Wishlists = ({
 }) => {
     const [showFilters, setShowFilters] = useState(false);
     const [filteredItems, setFilteredItems] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
-    const [paginatedItems, setPaginatedItems] = useState([]);
     const [activeFilters, setActiveFilters] = useState({
         searchTerm: "",
         priceOperator: "lessEqual",
@@ -109,46 +103,11 @@ const Wishlists = ({
         }
 
         setFilteredItems(filtered);
-        // We'll reset the page in a separate useEffect to avoid race conditions
     }, [items, activeFilters]);
 
-    // Reset page when filters change
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [activeFilters]);
-
-    // Handle pagination - using useCallback to prevent unnecessary recalculations
-    const updatePaginatedItems = useCallback(() => {
-        if (!Array.isArray(filteredItems)) return;
-
-        const indexOfLastItem = currentPage * itemsPerPage;
-        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        const currentItems = filteredItems.slice(
-            indexOfFirstItem,
-            indexOfLastItem
-        );
-
-        setPaginatedItems(currentItems);
-    }, [filteredItems, currentPage, itemsPerPage]);
-
-    // Update paginated items when dependencies change
-    useEffect(() => {
-        updatePaginatedItems();
-    }, [updatePaginatedItems]);
-
-    // Clear fix for page change - this ensures the page change is processed correctly
-    const handlePageChange = (pageNumber) => {
-        console.log("Changing to page:", pageNumber); // Debug logging
-        setTimeout(() => {
-            setCurrentPage(pageNumber);
-        }, 0);
-    };
-
-    // Items per page change handler
-    const handleItemsPerPageChange = (e) => {
-        const newItemsPerPage = parseInt(e.target.value);
-        setItemsPerPage(newItemsPerPage);
-        setCurrentPage(1); // Reset to first page when changing items per page
+    // Handle filter changes
+    const handleApplyFilters = (filters) => {
+        setActiveFilters(filters);
     };
 
     // Check if any filters are active
@@ -183,14 +142,57 @@ const Wishlists = ({
         }
     };
 
+
+    // Loading State
+    if (isLoadingWishlists) {
+        return (
+            <div className="flex flex-col items-center justify-center py-12">
+                <div className="relative w-16 h-16 mb-4">
+                    {/* Outer circle - visible in both light/dark modes */}
+                    <div className="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
+
+                    {/* Spinning inner circle with color that works in both modes */}
+                    <div className="absolute inset-0 border-4 border-yellow-400 dark:border-purple-500 rounded-full border-t-transparent animate-spin"></div>
+
+                    {/* Decoration dot */}
+                    <div className="absolute top-1 right-1 w-3 h-3 bg-purple-500 dark:bg-yellow-400 rounded-full"></div>
+                </div>
+                <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    Loading wishlist...
+                </p>
+            </div>
+        );
+    }
+
+    // Empty State
+    if (!items || items.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                <div className="bg-yellow-100 dark:bg-yellow-800 w-20 h-20 rounded-full flex items-center justify-center mb-6 border-4 border-black">
+                    <span className="text-4xl">✨</span>
+                </div>
+                <h3 className="text-2xl font-bold mb-3 dark:text-white">
+                    Wishlist Anda Kosong
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 max-w-md mb-6">
+                    Belum ada item yang ditambahkan ke wishlist. Silahkan tambahkan barang yang Anda inginkan untuk melacak keinginan belanja Anda.
+                </p>
+                <div className="bg-gradient-to-r from-purple-100 to-yellow-100 dark:from-purple-900 dark:to-yellow-800 p-4 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+                    <p className="text-sm font-medium dark:text-white">
+                        💡 <span className="font-bold">Tip:</span> Gunakan wishlist untuk merencanakan pembelian Anda di masa depan dan membantu mengatur prioritas keuangan Anda.
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <h2 className="text-2xl font-bold mb-4 md:mb-0 inline-flex flex-col md:flex-row md:items-center bg-purple-100 dark:bg-purple-800 dark:text-white px-4 py-2 border-3 border-black rounded-lg shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-colors duration-300">
                     <span>My Wishlist Items</span>
                     <span className="md:ml-2 px-2 py-1 mt-2 md:mt-0 bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white rounded-md text-sm border-2 border-black">
-                        {paginatedItems.length} dari {filteredItems.length}{" "}
-                        ditampilkan
+                        {filteredItems.length} items
                     </span>
                 </h2>
 
@@ -209,13 +211,15 @@ const Wishlists = ({
                 </button>
             </div>
 
-            {/* Filter Component */}
-            <WishlistFilter
-                onApplyFilters={handleApplyFilters}
-                initialFilters={activeFilters}
-                isVisible={showFilters}
-                onToggleVisibility={() => setShowFilters(!showFilters)}
-            />
+            {/* Filter Component - Only show if there are items */}
+            {items.length > 0 && (
+                <WishlistFilter
+                    onApplyFilters={handleApplyFilters}
+                    initialFilters={activeFilters}
+                    isVisible={showFilters}
+                    onToggleVisibility={() => setShowFilters(!showFilters)}
+                />
+            )}
 
             {/* Filter Status Indicator */}
             {hasActiveFilters() && (
@@ -264,18 +268,11 @@ const Wishlists = ({
                 </div>
             )}
 
-            {/* Items per page selector */}
-            <ItemsPerPageWishlist
-                itemsPerPage={itemsPerPage}
-                handleItemsPerPageChange={handleItemsPerPageChange}
-                filteredItems={filteredItems}
-            />
-
-            {/* Wishlist Cards Grid */}
+            {/* Wishlist Cards Grid - Now showing all items */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {paginatedItems.map((item, index) => (
+                {filteredItems.map((item, index) => (
                     <WishlistCard
-                        key={item._id || index} // Ensure unique keys
+                        key={item._id || index}
                         item={item}
                         onUpdate={onUpdate}
                         onDelete={onDelete}
@@ -284,35 +281,14 @@ const Wishlists = ({
                 ))}
             </div>
 
-            {/* Debug info - can be removed after fixing */}
-            <div className="text-xs text-gray-500 mt-4 mb-2">
-                Halaman: {currentPage} dari {Math.ceil(filteredItems.length / itemsPerPage)}
-            </div>
-
-            {/* Pagination Component - Now using the improved component */}
-            <WishlistPagination
-                currentPage={currentPage}
-                totalItems={filteredItems.length}
-                itemsPerPage={itemsPerPage}
-                onPageChange={handlePageChange}
-            />
-
-            {/* Showing results info */}
-            <ShowResultWishlist
-                paginatedItems={paginatedItems}
-                itemsPerPage={itemsPerPage}
-                currentPage={currentPage}
-                filteredItems={filteredItems}
-                items={items}
-                hasActiveFilters={hasActiveFilters()}
-            />
+            {/* Simple result info */}
+            {filteredItems.length > 0 && (
+                <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">
+                    Menampilkan {filteredItems.length} item dari total {items.length} item
+                </div>
+            )}
         </div>
     );
-
-    // Handle filter changes
-    function handleApplyFilters(filters) {
-        setActiveFilters(filters);
-    }
 };
 
 export default Wishlists;

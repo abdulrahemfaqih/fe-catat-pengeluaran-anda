@@ -14,13 +14,14 @@ const WishlistPagination = ({
       return null;
    }
 
-   // Function to handle page navigation - FIXED
-   const paginate = (pageNumber) => {
-      // Make sure the page number is valid
-      if (pageNumber >= 1 && pageNumber <= totalPages) {
-         // Call the parent component's page change handler
-         onPageChange(pageNumber);
+   // Very simple page click handler
+   const handleClick = (pageNumber) => {
+      // Prevent clicks on current page or invalid pages
+      if (pageNumber === currentPage || pageNumber < 1 || pageNumber > totalPages) {
+         return;
       }
+      // Direct call with no setTimeout or other delays
+      onPageChange(pageNumber);
    };
 
    // Generate page numbers with ellipsis
@@ -66,7 +67,7 @@ const WishlistPagination = ({
          <div className="flex flex-wrap gap-2 items-center">
             {/* First page button */}
             <button
-               onClick={() => paginate(1)}
+               onClick={() => handleClick(1)}
                disabled={currentPage === 1}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
                   ${currentPage === 1
@@ -81,7 +82,7 @@ const WishlistPagination = ({
 
             {/* Previous page button */}
             <button
-               onClick={() => paginate(currentPage - 1)}
+               onClick={() => handleClick(currentPage - 1)}
                disabled={currentPage === 1}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
                   ${currentPage === 1
@@ -107,7 +108,7 @@ const WishlistPagination = ({
                ) : (
                   <button
                      key={`page-${item.number}`}
-                     onClick={() => paginate(item.number)}
+                     onClick={() => handleClick(item.number)}
                      className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
                         ${currentPage === item.number
                            ? "bg-yellow-300 dark:bg-yellow-600 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transform -rotate-2"
@@ -124,7 +125,7 @@ const WishlistPagination = ({
 
             {/* Next page button */}
             <button
-               onClick={() => paginate(currentPage + 1)}
+               onClick={() => handleClick(currentPage + 1)}
                disabled={currentPage === totalPages}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
                   ${currentPage === totalPages
@@ -139,7 +140,7 @@ const WishlistPagination = ({
 
             {/* Last page button */}
             <button
-               onClick={() => paginate(totalPages)}
+               onClick={() => handleClick(totalPages)}
                disabled={currentPage === totalPages}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
                   ${currentPage === totalPages

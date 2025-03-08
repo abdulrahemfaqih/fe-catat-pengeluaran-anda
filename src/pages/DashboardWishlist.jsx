@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import api from "../utils/api";
 import Header from '../components/Header';
 import Wishlist from '../components/Wishlists';
@@ -19,24 +19,24 @@ const DashboardWishlist = () => {
     const [isLoadingDelete, setIsLoadingDelete] = useState(false);
     const [isLoadingWishlists, setIsLoadingWishlists] = useState(true);
 
-    useEffect(() => {
-        const fetchWishlist = async () => {
-            try {
-                setIsLoadingWishlists(true);
-                const response = await api.get('/wishlist');
-                setItems(response.data.items || []);
-                setTotalPrice(response.data.totalPrice || 0);
-                setTotalItem(response.data.totalItem || 0);
-            } catch (error) {
-                console.error('Error fetching wishlist:', error);
-                toast.error('Error fetching wishlist', { duration: 3000 });
-            } finally {
-                setIsLoadingWishlists(false);
-            }
-        };
-
-        fetchWishlist();
+    const fetchWishlist = useCallback(async () => {
+        try {
+            setIsLoadingWishlists(true);
+            const response = await api.get('/wishlist');
+            setItems(response.data.items || []);
+            setTotalPrice(response.data.totalPrice || 0);
+            setTotalItem(response.data.totalItem || 0);
+        } catch (error) {
+            console.error('Error fetching wishlist:', error);
+            toast.error('Error fetching wishlist', { duration: 3000 });
+        } finally {
+            setIsLoadingWishlists(false);
+        }
     }, []);
+
+    useEffect(() => {
+        fetchWishlist();
+    }, [fetchWishlist]);
 
     const handleUpdate = (item) => {
         setCurrentItem(item);
@@ -51,6 +51,7 @@ const DashboardWishlist = () => {
             setItems(items.filter(item => item._id !== itemId));
             setTotalPrice(totalPrice - (itemToDelete?.price || 0));
             setTotalItem(totalItem - 1);
+
         } catch (error) {
             console.error('Error deleting wishlist item:', error);
         } finally {
@@ -71,6 +72,7 @@ const DashboardWishlist = () => {
                 setTotalPrice(totalPrice + item.price);
                 setTotalItem(totalItem + 1);
             }
+            setIsModalOpen(false);
         } catch (error) {
             console.error('Error saving wishlist item:', error);
         } finally {
@@ -82,6 +84,8 @@ const DashboardWishlist = () => {
         setCurrentItem(null);
         setIsModalOpen(true);
     };
+
+
 
     return (
         <div className="DashboardWishlist dark:bg-gray-900 transition-colors duration-300">

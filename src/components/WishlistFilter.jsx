@@ -119,7 +119,7 @@ const WishlistFilter = ({
                <span className="bg-white dark:bg-gray-700 p-1 rounded-lg border-2 border-black mr-2 shadow-[2px_2px_0px_rgba(0,0,0,0.3)] transition-colors duration-300">
                   🔍
                </span>
-               Filter Wishlist (Live)
+               Filter Wishlist 
             </h3>
             <button
                type="button"
@@ -291,7 +291,7 @@ const WishlistFilter = ({
                      Reset Filter
                   </button>
 
-              
+
                </div>
             </div>
          </div>
