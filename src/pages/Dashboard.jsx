@@ -22,7 +22,7 @@ const Dashboard = () => {
    const [isLoadingPengeluaran, setIsLoadingPengeluaran] = useState(false);
    const [isLoading, setIsLoading] = useState(true);
    const [isScrolled, setIsScrolled] = useState(false);
-   const [showAddTransactionModal, setShowAddTransactionModal] = useState(false);
+
 
    // Add history update counter to track changes
    const [historyUpdateCounter, setHistoryUpdateCounter] = useState(0);
@@ -187,25 +187,16 @@ const Dashboard = () => {
             />
          )}
 
-      
+
 
          {/* Add the Quick Add Transaction Button Component */}
          <QuickAddTransactionButton
-            onClick={handleQuickAddTransaction}
+            refreshTransactions={setTransactions}
             isScrolled={isScrolled}
          />
 
-         {/* Use your existing TransactionModal component */}
-         {showAddTransactionModal && (
-            <TransactionModal
-               onClose={() => setShowAddTransactionModal(false)}
-               onSave={(transaction) => {
-                  // Your saving logic here
-                  console.log("Transaction to save:", transaction);
-                  setShowAddTransactionModal(false);
-               }}
-            />
-         )}
+
+
 
 
          <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white dark:bg-gray-800 dark:text-white transition-colors duration-300">
