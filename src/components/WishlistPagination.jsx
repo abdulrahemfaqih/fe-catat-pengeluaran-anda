@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 
 const WishlistPagination = ({
    currentPage,
@@ -6,9 +6,6 @@ const WishlistPagination = ({
    itemsPerPage,
    onPageChange,
 }) => {
-   // Create a ref for the pagination container
-   const paginationRef = useRef(null);
-
    // Calculate total pages
    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -17,26 +14,12 @@ const WishlistPagination = ({
       return null;
    }
 
-   // Function to handle page navigation
+   // Function to handle page navigation - FIXED
    const paginate = (pageNumber) => {
       // Make sure the page number is valid
-      if (pageNumber >= 1 && pageNumber <= totalPages && pageNumber !== currentPage) {
-         // Store the current scroll position before changing the page
-         const scrollPosition = window.scrollY;
-
-         // Change the page
+      if (pageNumber >= 1 && pageNumber <= totalPages) {
+         // Call the parent component's page change handler
          onPageChange(pageNumber);
-
-         // Use setTimeout to handle the scroll position after the component re-renders
-         setTimeout(() => {
-            // Restore the scroll position
-            window.scrollTo(0, scrollPosition);
-
-            // Focus the pagination container to maintain keyboard accessibility
-            if (paginationRef.current) {
-               paginationRef.current.focus();
-            }
-         }, 0);
       }
    };
 
@@ -79,23 +62,19 @@ const WishlistPagination = ({
    const pageNumbers = getPageNumbers();
 
    return (
-      <div
-         className="mt-8 flex justify-center"
-         ref={paginationRef}
-         tabIndex="-1" // Makes element focusable but not in tab order
-      >
+      <div className="mt-8 flex justify-center">
          <div className="flex flex-wrap gap-2 items-center">
             {/* First page button */}
             <button
                onClick={() => paginate(1)}
                disabled={currentPage === 1}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${
-                     currentPage === 1
-                        ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                        : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  ${currentPage === 1
+                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
+                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   }`}
                aria-label="First page"
+               type="button"
             >
                «
             </button>
@@ -105,12 +84,12 @@ const WishlistPagination = ({
                onClick={() => paginate(currentPage - 1)}
                disabled={currentPage === 1}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${
-                     currentPage === 1
-                        ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                        : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  ${currentPage === 1
+                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
+                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   }`}
                aria-label="Previous page"
+               type="button"
             >
                ‹
             </button>
@@ -130,13 +109,13 @@ const WishlistPagination = ({
                      key={`page-${item.number}`}
                      onClick={() => paginate(item.number)}
                      className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                        ${
-                           currentPage === item.number
-                              ? "bg-yellow-300 dark:bg-yellow-600 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transform -rotate-2"
-                              : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        ${currentPage === item.number
+                           ? "bg-yellow-300 dark:bg-yellow-600 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transform -rotate-2"
+                           : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         }`}
                      aria-label={`Page ${item.number}`}
                      aria-current={currentPage === item.number ? "page" : undefined}
+                     type="button"
                   >
                      {item.number}
                   </button>
@@ -148,12 +127,12 @@ const WishlistPagination = ({
                onClick={() => paginate(currentPage + 1)}
                disabled={currentPage === totalPages}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${
-                     currentPage === totalPages
-                        ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                        : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  ${currentPage === totalPages
+                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
+                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   }`}
                aria-label="Next page"
+               type="button"
             >
                ›
             </button>
@@ -163,12 +142,12 @@ const WishlistPagination = ({
                onClick={() => paginate(totalPages)}
                disabled={currentPage === totalPages}
                className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${
-                     currentPage === totalPages
-                        ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                        : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  ${currentPage === totalPages
+                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
+                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                   }`}
                aria-label="Last page"
+               type="button"
             >
                »
             </button>
