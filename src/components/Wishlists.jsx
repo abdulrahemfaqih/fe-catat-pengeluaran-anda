@@ -136,41 +136,64 @@ const Wishlists = ({
     // Loading State
     if (isLoadingWishlists) {
         return (
-            <div className="flex flex-col items-center justify-center py-12">
-                <div className="relative w-16 h-16 mb-4">
-                    {/* Outer circle - visible in both light/dark modes */}
-                    <div className="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
+            <div className="flex flex-col items-center justify-center py-16 md:min-h-[450px]">
+                <div className="relative w-20 h-20 mb-6">
+                    {/* Playful border card style */}
+                    <div className="absolute inset-0 border-4 border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-yellow-100 dark:bg-yellow-700 transition-colors duration-300"></div>
 
-                    {/* Spinning inner circle with color that works in both modes */}
-                    <div className="absolute inset-0 border-4 border-yellow-400 dark:border-purple-500 rounded-full border-t-transparent animate-spin"></div>
+                    {/* Spinning inner circle */}
+                    <div className="absolute inset-1 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
 
-                    {/* Decoration dot */}
-                    <div className="absolute top-1 right-1 w-3 h-3 bg-purple-500 dark:bg-yellow-400 rounded-full"></div>
+                    {/* Decoration elements */}
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-300 dark:bg-purple-600 rounded-full border-2 border-black transition-colors duration-300"></div>
+                    <div className="absolute -bottom-1 -left-1 w-4 h-4 bg-blue-300 dark:bg-blue-600 rounded-full border-2 border-black transition-colors duration-300"></div>
                 </div>
-                <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                    Loading wishlist...
-                </p>
+
+                {/* Text in card style */}
+                <div className="bg-white dark:bg-gray-800 border-3 border-black rounded-xl px-6 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] inline-block transition-colors duration-300">
+                    <p className="text-lg font-bold dark:text-white flex items-center gap-2">
+                        <span className="text-xl">✨</span>
+                        <span>Loading wishlist...</span>
+                    </p>
+                </div>
             </div>
         );
     }
 
-    // Empty State
+    // Empty State with full height coverage and better dark mode support
     if (!items || items.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-                <div className="bg-yellow-100 dark:bg-yellow-800 w-20 h-20 rounded-full flex items-center justify-center mb-6 border-4 border-black">
-                    <span className="text-4xl">✨</span>
-                </div>
-                <h3 className="text-2xl font-bold mb-3 dark:text-white">
-                    Wishlist Anda Kosong
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 max-w-md mb-6">
-                    Belum ada item yang ditambahkan ke wishlist. Silahkan tambahkan barang yang Anda inginkan untuk melacak keinginan belanja Anda.
-                </p>
-                <div className="bg-gradient-to-r from-purple-100 to-yellow-100 dark:from-purple-900 dark:to-yellow-800 p-4 rounded-lg border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                    <p className="text-sm font-medium dark:text-white">
-                        💡 <span className="font-bold">Tip:</span> Gunakan wishlist untuk merencanakan pembelian Anda di masa depan dan membantu mengatur prioritas keuangan Anda.
-                    </p>
+            <div className="flex flex-col items-center justify-center py-16 px-4 text-center min-h-[500px] bg-transparent">
+                <div className="border-4 border-black rounded-xl p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] bg-yellow-100 dark:bg-gray-800 w-full max-w-md mx-auto transform  relative overflow-hidden">
+                    {/* Decorative elements */}
+                    <div className="absolute -top-8 -left-8 w-24 h-24 bg-purple-100 dark:bg-purple-800/50 rounded-full border-3 border-black -z-10"></div>
+                    <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-blue-100 dark:bg-blue-800/50 rounded-full border-2 border-black -z-10"></div>
+
+                    <div className="flex flex-col items-center">
+                        <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6 border-4 border-black bg-white dark:bg-gray-700 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                            <span className="text-5xl">✨</span>
+                        </div>
+
+                        <h3 className="text-2xl font-bold mb-4 relative inline-block dark:text-white">
+                            Wishlist Kosong!
+                            <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-200 dark:bg-yellow-700 -z-10"></span>
+                        </h3>
+
+                        <div className="bg-white dark:bg-gray-700 border-3 border-black rounded-lg p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)] mb-6">
+                            <p className="text-gray-700 dark:text-gray-200">
+                                Belum ada item yang ditambahkan ke wishlist. Silahkan tambahkan barang yang Anda inginkan untuk melacak keinginan belanja Anda.
+                            </p>
+                        </div>
+
+                        <div className="bg-gradient-to-r from-purple-100 to-yellow-100 dark:from-purple-900/70 dark:to-yellow-800/70 p-4 rounded-lg border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] w-full">
+                            <p className="flex items-center gap-3 text-sm font-medium dark:text-white">
+                                <span className="inline-flex items-center justify-center w-8 h-8 bg-white dark:bg-gray-700 rounded-full border-2 border-black text-base">
+                                    💡
+                                </span>
+                                <span><span className="font-bold">Tip:</span> Gunakan wishlist untuk merencanakan pembelian Anda di masa depan dan membantu mengatur prioritas keuangan Anda.</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
