@@ -220,7 +220,7 @@ const Login = () => {
                            {isRegister ? "Mendaftar..." : "Masuk..."}
                         </span>
                      ) : (
-                        isRegister ? "Daftar" : "Masuk"
+                        isRegister ? "Daftar" : "Masuk "
                      )}
                   </button>
 
