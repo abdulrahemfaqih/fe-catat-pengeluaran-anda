@@ -3,8 +3,8 @@ import React, { useState, useEffect, useCallback } from "react";
 const WishlistFilter = ({
    onApplyFilters,
    initialFilters = {},
-   isVisible,
    onToggleVisibility,
+   isVisible,
 }) => {
    const [searchTerm, setSearchTerm] = useState(
       initialFilters.searchTerm || ""
@@ -110,27 +110,26 @@ const WishlistFilter = ({
 
    return (
       <div
-         className={`mb-6 border-3 border-black rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 dark:text-white shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300 transform ${
-            !isVisible ? "hidden sm:block" : "block"
-         }`}
+         className={`mb-6 border-3 border-black rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 dark:text-white shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300 transform ${!isVisible ? 'hidden md:block' : ''
+            }`}
       >
          <div className="bg-purple-200 dark:bg-purple-800 px-4 py-3 border-b-3 border-black flex items-center justify-between transition-colors duration-300">
             <h3 className="font-bold text-lg flex items-center">
                <span className="bg-white dark:bg-gray-700 p-1 rounded-lg border-2 border-black mr-2 shadow-[2px_2px_0px_rgba(0,0,0,0.3)] transition-colors duration-300">
                   🔍
                </span>
-               Filter Wishlist (Live)
+               Filter Wishlist
             </h3>
             <button
-               type="button"
                onClick={onToggleVisibility}
-               className="sm:hidden px-2 py-1 border-2 border-black bg-white dark:bg-gray-700 dark:text-white rounded-lg hover:bg-black hover:text-white dark:hover:bg-gray-900 transition-colors duration-300"
+               className="md:hidden bg-white dark:bg-gray-700 p-1 rounded-lg border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,0.3)] text-sm"
             >
-               {isVisible ? "❌ Tutup" : "🔍 Buka"}
+               ✕
             </button>
          </div>
 
          <div className="p-5">
+            {/* Rest of your component remains the same */}
             <div className="space-y-5">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Text Search */}
@@ -268,9 +267,9 @@ const WishlistFilter = ({
                                        priceOperator === "equals"
                                           ? "Harga tepat sama dengan..."
                                           : priceOperator === "lessEqual" ||
-                                            priceOperator === "less"
-                                          ? "Maksimal harga..."
-                                          : "Minimal harga..."
+                                             priceOperator === "less"
+                                             ? "Maksimal harga..."
+                                             : "Minimal harga..."
                                     }
                                  />
                               </div>
@@ -290,8 +289,6 @@ const WishlistFilter = ({
                      <span>🔄</span>
                      Reset Filter
                   </button>
-
-              
                </div>
             </div>
          </div>
