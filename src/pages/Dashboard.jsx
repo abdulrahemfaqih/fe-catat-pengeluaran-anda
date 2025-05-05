@@ -23,7 +23,6 @@ const Dashboard = () => {
    const [isLoading, setIsLoading] = useState(true);
    const [isScrolled, setIsScrolled] = useState(false);
 
-
    // Add history update counter to track changes
    const [historyUpdateCounter, setHistoryUpdateCounter] = useState(0);
    const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -46,8 +45,8 @@ const Dashboard = () => {
          setIsScrolled(scrolled);
       };
 
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
    }, []);
 
    // Handler for when history is deleted
@@ -87,8 +86,10 @@ const Dashboard = () => {
    }, [user]);
 
    // Hitung total pengeluaran aktual per kategori
+   // Hitung total pengeluaran aktual per kategori
    useEffect(() => {
       if (transactions.length) {
+         // Inisialisasi spending categories
          const spending = {
             Makanan: 0,
             Transportasi: 0,
@@ -98,7 +99,22 @@ const Dashboard = () => {
             "Kebutuhan Pribadi": 0,
          };
 
-         transactions.forEach((tx) => {
+         // Get current month and year
+         const now = new Date();
+         const currentMonth = now.getMonth(); // 0-11 (Jan-Dec)
+         const currentYear = now.getFullYear();
+
+         // Filter transactions for current month only
+         const currentMonthTransactions = transactions.filter((tx) => {
+            const txDate = new Date(tx.date);
+            return (
+               txDate.getMonth() === currentMonth &&
+               txDate.getFullYear() === currentYear
+            );
+         });
+
+         // Sum up amounts by category for current month only
+         currentMonthTransactions.forEach((tx) => {
             if (spending[tx.category] !== undefined) {
                spending[tx.category] += tx.amount;
             } else {
@@ -187,17 +203,11 @@ const Dashboard = () => {
             />
          )}
 
-
-
          {/* Add the Quick Add Transaction Button Component */}
          <QuickAddTransactionButton
             refreshTransactions={setTransactions}
             isScrolled={isScrolled}
          />
-
-
-
-
 
          <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white dark:bg-gray-800 dark:text-white transition-colors duration-300">
             <div className="container mx-auto px-4">
