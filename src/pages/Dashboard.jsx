@@ -73,8 +73,10 @@ const Dashboard = () => {
    }, [user]);
 
    // Hitung total pengeluaran aktual per kategori
+   // Hitung total pengeluaran aktual per kategori
    useEffect(() => {
       if (transactions.length) {
+         // Inisialisasi spending categories
          const spending = {
             Makanan: 0,
             Transportasi: 0,
@@ -84,7 +86,22 @@ const Dashboard = () => {
             "Kebutuhan Pribadi": 0,
          };
 
-         transactions.forEach((tx) => {
+         // Get current month and year
+         const now = new Date();
+         const currentMonth = now.getMonth(); // 0-11 (Jan-Dec)
+         const currentYear = now.getFullYear();
+
+         // Filter transactions for current month only
+         const currentMonthTransactions = transactions.filter((tx) => {
+            const txDate = new Date(tx.date);
+            return (
+               txDate.getMonth() === currentMonth &&
+               txDate.getFullYear() === currentYear
+            );
+         });
+
+         // Sum up amounts by category for current month only
+         currentMonthTransactions.forEach((tx) => {
             if (spending[tx.category] !== undefined) {
                spending[tx.category] += tx.amount || 0;
             } else {
@@ -171,7 +188,7 @@ const Dashboard = () => {
             isScrolled={isScrolled}
          />
 
-         {/* Industrial Print Footer */}
+         {/* Footer */}
          <footer className="border-t-[3px] border-[var(--color-ink)] bg-[var(--color-surface)] py-4 mt-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-xs text-[var(--color-ink-muted)]">
                <div>

@@ -112,7 +112,7 @@ const Wishlists = ({
                <h2 className="font-macro uppercase text-xl sm:text-2xl text-[var(--color-ink)] tracking-tight">
                   DAFTAR WISHLIST BARANG
                </h2>
-               <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--color-ink-muted)]">
+               <span className="font-mono text-xs text-[var(--color-ink-muted)]">
                   TOTAL: {items.length} ITEM TERCATAT
                </span>
             </div>
