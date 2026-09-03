@@ -1,18 +1,16 @@
-import React from 'react';
+import React from "react";
+import { Plus } from "lucide-react";
 
 const AddWishlistButton = ({ onClick }) => {
-    return (
-        <button
-            className="px-6 py-3 border-4 border-black text-black dark:text-white rounded-xl font-bold bg-yellow-200 dark:bg-yellow-600
-                 hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-400 transition-all duration-300
-                 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
-                 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 flex items-center gap-2"
-            onClick={onClick}
-        >
-            <span className="text-xl">✨</span>
-            <span>Tambah Item Wishlist</span>
-        </button>
-    );
+   return (
+      <button
+         onClick={onClick}
+         className="font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-accent)] text-[var(--color-accent-ink)] border-2 border-[var(--color-ink)] px-5 py-2.5 shadow-[4px_4px_0_var(--color-ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--color-ink)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all duration-100 flex items-center gap-2"
+      >
+         <Plus size={16} className="stroke-[3]" />
+         <span>TAMBAH ITEM WISHLIST</span>
+      </button>
+   );
 };
 
 export default AddWishlistButton;

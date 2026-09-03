@@ -1,164 +1,67 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp, BookOpen, X } from "lucide-react";
 
 export default function TipsPenggunaanAtDashboard() {
-   const [showModal, setShowModal] = useState(false);
-   const [isMobile, setIsMobile] = useState(false);
+   const [isOpen, setIsOpen] = useState(false);
 
-   // Check if device is mobile based on screen width
-   useEffect(() => {
-      const checkIfMobile = () => {
-         setIsMobile(window.innerWidth < 768); // 768px is typical md breakpoint
-      };
-
-      // Check initially
-      checkIfMobile();
-
-      // Add event listener for window resize
-      window.addEventListener("resize", checkIfMobile);
-
-      // Cleanup
-      return () => window.removeEventListener("resize", checkIfMobile);
-   }, []);
-
-   // Open the modal (only for mobile)
-   const openModal = () => {
-      setShowModal(true);
-   };
-
-   // Close the modal
-   const closeModal = () => {
-      setShowModal(false);
-   };
-
-   // Tips content component to avoid duplication
-   const TipsContent = () => (
-      <ul className="text-sm text-gray-800 dark:text-gray-200 pl-2 flex flex-col gap-3 relative z-10">
-         <li className="flex items-start gap-2">
-            <div className="inline-block w-5 h-5 min-w-5 bg-green-200 dark:bg-green-700 rounded-full border-2 border-black">
-               <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-xs font-bold leading-none dark:text-white">
-                     1
-                  </span>
-               </div>
-            </div>
-            <p>
-               Set up pemasukan dan budget anda, pastikan budget harus sama
-               dengan pemasukan, bisa di edit kapan saja
-            </p>
-         </li>
-         <li className="flex items-start gap-2">
-            <div className="inline-block w-5 h-5 min-w-5 bg-blue-200 dark:bg-blue-700 rounded-full border-2 border-black">
-               <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-xs font-bold leading-none dark:text-white">
-                     2
-                  </span>
-               </div>
-            </div>
-            <p>Simpan pengeluaran anda pada sehari hari</p>
-         </li>
-         <li className="flex items-start gap-2">
-            <div className="inline-block w-5 h-5 min-w-5 bg-purple-200 dark:bg-purple-700 rounded-full border-2 border-black">
-               <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-xs font-bold leading-none dark:text-white">
-                     3
-                  </span>
-               </div>
-            </div>
-            <p>
-               Gunakan fitur simpan history pengeluaran, gunakan fitur ini
-               perbulan agar dapat melihat pengeluaran anda pada setiap bulannya
-            </p>
-         </li>
-         <li className="flex items-start gap-2">
-            <div className="inline-block w-5 h-5 min-w-5 bg-cyan-100 dark:bg-cyan-700 rounded-full border-2 border-black">
-               <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-xs font-bold leading-none">✨</span>
-               </div>
-            </div>
-            <p>
-               <span className="font-bold">Fitur baru:</span> Managemen
-               Wishlist, untuk menyimpan wishlist barang yang ingin di beli,
-               buka menu diatas dan akses 🚀
-            </p>
-         </li>
-      </ul>
-   );
+   const tips = [
+      {
+         step: "01",
+         title: "SETUP BUDGET & PEMASUKAN",
+         desc: "Tentukan nominal pemasukan bulanan dan alokasikan budget per kategori sesuai target.",
+      },
+      {
+         step: "02",
+         title: "CATAT TRANSAKSI HARIAN",
+         desc: "Setiap pengeluaran langsung dicatat agar grafik meter kategori akurat secara real-time.",
+      },
+      {
+         step: "03",
+         title: "ARSIP AKHIR BULAN",
+         desc: "Simpan riwayat pengeluaran setiap akhir bulan agar histori tersimpan rapi dalam arsip tahunan.",
+      },
+      {
+         step: "04",
+         title: "MANAJEMEN WISHLIST",
+         desc: "Gunakan menu Wishlist untuk merencanakan belanja barang impian dengan disiplin finansial.",
+      },
+   ];
 
    return (
-      <>
-         {/* Mobile: Show button */}
-         {isMobile && (
-            <div className="flex justify-center mt-6 mb-2">
-               <button
-                  onClick={openModal}
-                  className="flex items-center gap-2 bg-yellow-100 hover:bg-yellow-200 dark:bg-yellow-800 dark:hover:bg-yellow-700 text-black dark:text-white px-4 py-2 rounded-lg border-3 border-black font-bold shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-1"
-               >
-                  <span className="text-xl">💡</span>
-                  <span>Lihat Tips Penggunaan</span>
-               </button>
-            </div>
-         )}
+      <div className="w-full">
+         <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="w-full font-mono uppercase text-xs font-bold tracking-wider py-2 px-3 border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] flex items-center justify-between shadow-[2px_2px_0_var(--color-ink)] hover:bg-[var(--color-bg)] transition-all"
+         >
+            <span className="flex items-center gap-2">
+               <BookOpen size={14} className="stroke-[2]" />
+               <span>PANDUAN PENGGUNAAN</span>
+            </span>
+            {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+         </button>
 
-         {/* Desktop: Always show tips */}
-         {!isMobile && (
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all animate-fadeIn my-4 relative">
-               {/* Decorative elements */}
-
-               <div className="relative z-10">
-                  <div className="flex justify-between items-center mb-4">
-                     <h2 className="font-bold text-xl flex items-center gap-2 dark:text-white">
-                        <span className="inline-block p-1 bg-yellow-200 dark:bg-yellow-600 rounded-md border-2 border-black">
-                           💡
-                        </span>
-                        <span>Tips Penggunaan</span>
-                     </h2>
-                  </div>
-
-                  <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg border-3 border-black relative overflow-hidden">
-                     <TipsContent />
-                  </div>
-               </div>
-            </div>
-         )}
-
-         {/* Mobile: Modal */}
-         {isMobile && showModal && (
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-               <div className="bg-white dark:bg-gray-800 p-5 rounded-xl w-full max-w-2xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform transition-all animate-fadeIn relative">
-                  {/* Decorative elements */}
-
-                  <div className="relative z-10">
-                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="font-bold text-xl flex items-center gap-2 dark:text-white">
-                           <span className="inline-block p-1 bg-yellow-200 dark:bg-yellow-600 rounded-md border-2 border-black">
-                              💡
-                           </span>
-                           <span>Tips Penggunaan</span>
-                        </h2>
-                        <button
-                           onClick={closeModal}
-                           className="w-8 h-8 rounded-full border-3 border-black flex items-center justify-center font-bold hover:bg-black hover:text-white dark:bg-gray-700 dark:text-white dark:hover:bg-black transition-colors"
-                        >
-                           ×
-                        </button>
-                     </div>
-
-                     <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-lg border-3 border-black relative overflow-hidden">
-                        <TipsContent />
-                     </div>
-
-                     <div className="flex justify-end mt-4">
-                        <button
-                           onClick={closeModal}
-                           className="px-4 py-2 border-3 border-black bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-300 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
-                        >
-                           Tutup Tips
-                        </button>
+         {isOpen && (
+            <div className="mt-2 border-2 border-[var(--color-ink)] bg-[var(--color-surface)] p-4 space-y-3 animate-fadeIn">
+               {tips.map((item) => (
+                  <div
+                     key={item.step}
+                     className="flex items-start gap-3 pb-2 border-b border-[var(--color-ink)]/10 last:border-b-0 last:pb-0"
+                  >
+                     <span className="font-mono text-xs font-bold bg-[var(--color-accent)] text-[var(--color-accent-ink)] border border-[var(--color-ink)] px-1.5 py-0.5 shrink-0">
+                        {item.step}
+                     </span>
+                     <div>
+                        <h4 className="font-mono uppercase text-xs font-bold text-[var(--color-ink)] tracking-wider">
+                           {item.title}
+                        </h4>
+                        <p className="font-body text-xs text-[var(--color-ink-muted)] mt-0.5">
+                           {item.desc}
+                        </p>
                      </div>
                   </div>
-               </div>
+               ))}
             </div>
          )}
-      </>
+      </div>
    );
 }

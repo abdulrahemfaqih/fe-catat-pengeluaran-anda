@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import icon from "../assets/icon_login.svg";
 import LoginGoogleButton from "../components/LoginGoogleButton";
 import TutorialPenggunaanAtLogin from "../components/TutorialPenggunaanAtLogin";
-import LoadingLogin from "../components/LoadingLogin";
-import PlayfulBackground from "../components/PlayfulBackground";
+import { ArrowRight, BookOpen, AlertCircle } from "lucide-react";
 
 const Login = () => {
    const {
@@ -16,8 +14,9 @@ const Login = () => {
       loading,
       isAuthChecked,
       loginWithGoogle,
-      googleLoginLoading
+      googleLoginLoading,
    } = useContext(AuthContext);
+
    const [isRegister, setIsRegister] = useState(false);
    const [formData, setFormData] = useState({
       name: "",
@@ -42,15 +41,14 @@ const Login = () => {
    }, [authError, loading]);
 
    useEffect(() => {
-      // Clear validation errors when switching between login and register
       setValidationErrors({});
       setLocalAuthError(null);
    }, [isRegister]);
 
    if (!isAuthChecked) {
       return (
-         <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-            <div className="animate-pulse text-xl font-bold dark:text-white transition-colors duration-300">Loading...</div>
+         <div className="flex items-center justify-center min-h-screen bg-[var(--color-bg)] font-mono text-xs uppercase tracking-widest text-[var(--color-ink)]">
+            MEMERIKSA SESI...
          </div>
       );
    }
@@ -59,7 +57,6 @@ const Login = () => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
 
-      // Clear validation error for this field when user types
       if (validationErrors[name]) {
          setValidationErrors({
             ...validationErrors,
@@ -71,23 +68,20 @@ const Login = () => {
    const validateForm = () => {
       const errors = {};
 
-      // Name validation (only for register)
       if (isRegister && !formData.name.trim()) {
-         errors.name = "Nama tidak boleh kosong";
+         errors.name = "NAMA TIDAK BOLEH KOSONG";
       }
 
-      // Email validation
       if (!formData.email) {
-         errors.email = "Email tidak boleh kosong";
+         errors.email = "EMAIL TIDAK BOLEH KOSONG";
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-         errors.email = "Format email tidak valid";
+         errors.email = "FORMAT EMAIL TIDAK VALID";
       }
 
-      // Password validation
       if (!formData.password) {
-         errors.password = "Password tidak boleh kosong";
+         errors.password = "PASSWORD TIDAK BOLEH KOSONG";
       } else if (isRegister && formData.password.length < 6) {
-         errors.password = "Password minimal 6 karakter";
+         errors.password = "PASSWORD MINIMAL 6 KARAKTER";
       }
 
       setValidationErrors(errors);
@@ -96,12 +90,9 @@ const Login = () => {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
-      // Validate form first
       const isValid = validateForm();
       if (!isValid) return;
 
-      // Clear previous auth errors
       setLocalAuthError(null);
 
       if (isRegister) {
@@ -115,147 +106,174 @@ const Login = () => {
       loginWithGoogle();
    };
 
-
    return (
-      <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 items-center justify-center px-3 py-4 sm:py-6 relative transition-colors duration-300">
-         {/* Add the playful background */}
-         <PlayfulBackground />
-
-         {/* Existing content wrapped with z-10 to ensure it's above the background */}
-         <div className="w-full max-w-md z-10 relative">
-            {/* More compact header with integrated logo */}
-            <div className="flex items-center mb-4 justify-center">
-               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center border-3 border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] mr-3 transition-colors duration-300">
-                  <img src={icon} alt="Login Icon" className="w-9 h-9 sm:w-12 sm:h-12" />
+      <div className="min-h-screen w-full flex flex-col md:flex-row bg-[var(--color-bg)] text-[var(--color-ink)]">
+         {/* Kolom Kiri: Branding & Statement Visual (Inverted Substrate §7) */}
+         <div className="w-full md:w-[45%] bg-[var(--color-ink)] text-[var(--color-bg)] p-8 sm:p-12 md:p-16 flex flex-col justify-between border-b-[3px] md:border-b-0 md:border-r-[3px] border-[var(--color-ink)]">
+            <div>
+               {/* Brand Header */}
+               <div className="flex items-center gap-2 mb-8">
+                  <span className="w-4 h-4 bg-[var(--color-accent)] border border-[var(--color-bg)] inline-block" />
+                  <span className="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)] font-bold">
+                     CATAT PENGELUARAN ANDA
+                  </span>
                </div>
-               <h1 className="text-2xl sm:text-3xl font-bold dark:text-white transition-colors duration-300">
-                  {isRegister ? "Daftar Baru" : "Login"}
+
+               <h1 className="font-macro uppercase tracking-tighter leading-none text-5xl sm:text-6xl lg:text-7xl mb-4 text-[var(--color-bg)]">
+                  KEUANGAN
                </h1>
-            </div>
 
-            <form
-               onSubmit={handleSubmit}
-               className="relative overflow-hidden rounded-xl border-4 border-black bg-white dark:bg-gray-800 p-5 sm:p-6 shadow-[6px_6px_0px_rgba(0,0,0,1)] w-full transition-colors duration-300"
-            >
-               {/* Small decorative corner */}
-               <div className="absolute -top-2 -right-2 bg-yellow-300 dark:bg-yellow-600 w-12 h-12 rounded-bl-2xl border-b-3 border-l-3 border-black transform rotate-6 transition-colors duration-300">
-                  <div className="absolute bottom-1 left-1 text-xs font-bold dark:text-black transition-colors duration-300">
-                     {isRegister ? "New" : "Hi!"}
-                  </div>
+               <p className="font-mono text-xs sm:text-sm uppercase tracking-wider text-[var(--color-accent)] font-semibold max-w-sm">
+                  KENDALI PENUH ARUS KAS, ANGGARAN KATEGORI, DAN ARSIP WISHLIST.
+               </p>
+            </div>
+         </div>
+
+         {/* Kolom Kanan: Form Authentication */}
+         <div className="w-full md:w-[55%] flex items-center justify-center p-6 sm:p-10 md:p-16 bg-[var(--color-bg)]">
+            <div className="w-full max-w-md bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] shadow-[6px_6px_0_var(--color-ink)] p-6 sm:p-8">
+               {/* Title with accent underline */}
+               <div className="mb-6">
+                  <h2 className="font-mono uppercase text-2xl font-bold tracking-tight inline-block pb-1 border-b-[3px] border-[var(--color-accent)] text-[var(--color-ink)]">
+                     {isRegister ? "DAFTAR AKUN" : "LOGIN"}
+                  </h2>
+                  <p className="font-body text-xs text-[var(--color-ink-muted)] mt-2">
+                     {isRegister
+                        ? "Daftarkan akun baru untuk mulai mencatat keuangan Anda."
+                        : "Masukkan email dan kata sandi Anda untuk masuk."}
+                  </p>
                </div>
 
-               {/* More compact spacing between form elements */}
-               {isRegister && (
-                  <div className="mb-3 sm:mb-4">
-                     <label className="block mb-1 font-bold dark:text-white transition-colors duration-300">Nama</label>
+               {/* Error Banner */}
+               {localAuthError && (
+                  <div className="mb-5 p-3 border-2 border-[var(--color-negative)] bg-[var(--color-surface)] text-[var(--color-negative)] font-mono text-xs font-bold flex items-center gap-2">
+                     <AlertCircle size={16} className="shrink-0" />
+                     <span>{localAuthError.toUpperCase()}</span>
+                  </div>
+               )}
+
+               {/* Form Fields */}
+               <form onSubmit={handleSubmit} className="space-y-4">
+                  {isRegister && (
+                     <div>
+                        <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                           NAMA LENGKAP
+                        </label>
+                        <input
+                           type="text"
+                           name="name"
+                           value={formData.name}
+                           onChange={handleChange}
+                           className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2.5 font-body text-sm focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
+                           placeholder="Nama Lengkap"
+                        />
+                        {validationErrors.name && (
+                           <p className="font-mono text-[10px] text-[var(--color-negative)] mt-1 uppercase font-bold">
+                              {validationErrors.name}
+                           </p>
+                        )}
+                     </div>
+                  )}
+
+                  <div>
+                     <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                        ALAMAT EMAIL
+                     </label>
                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
+                        type="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleChange}
-                        className={`w-full border-3 ${validationErrors.name ? "border-red-500" : "border-black"
-                           } p-2 sm:p-3 rounded-lg focus:outline-none dark:bg-gray-700 dark:text-white transition-colors duration-300`}
+                        className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2.5 font-body text-sm focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
+                        placeholder="email@domain.com"
                      />
-                     {validationErrors.name && (
-                        <p className="text-red-500 dark:text-red-400 text-xs mt-1 transition-colors duration-300">
-                           {validationErrors.name}
+                     {validationErrors.email && (
+                        <p className="font-mono text-[10px] text-[var(--color-negative)] mt-1 uppercase font-bold">
+                           {validationErrors.email}
                         </p>
                      )}
                   </div>
-               )}
 
-               <div className="mb-3 sm:mb-4">
-                  <label className="block mb-1 font-bold dark:text-white transition-colors duration-300">Email</label>
-                  <input
-                     type="email"
-                     name="email"
-                     value={formData.email}
-                     onChange={handleChange}
-                     className={`w-full border-3 ${validationErrors.email ? "border-red-500" : "border-black"
-                        } p-2 sm:p-3 rounded-lg focus:outline-none dark:bg-gray-700 dark:text-white transition-colors duration-300`}
-                  />
-                  {validationErrors.email && (
-                     <p className="text-red-500 dark:text-red-400 text-xs mt-1 transition-colors duration-300">
-                        {validationErrors.email}
-                     </p>
-                  )}
-               </div>
-
-               <div className="mb-4">
-                  <label className="block mb-1 font-bold dark:text-white transition-colors duration-300">Password</label>
-                  <input
-                     type="password"
-                     name="password"
-                     value={formData.password}
-                     onChange={handleChange}
-                     className={`w-full border-3 ${validationErrors.password ? "border-red-500" : "border-black"
-                        } p-2 sm:p-3 rounded-lg focus:outline-none dark:bg-gray-700 dark:text-white transition-colors duration-300`}
-                  />
-                  {validationErrors.password && (
-                     <p className="text-red-500 dark:text-red-400 text-xs mt-1 transition-colors duration-300">
-                        {validationErrors.password}
-                     </p>
-                  )}
-               </div>
-
-               {!loading && localAuthError && (
-                  <div className="mb-3 p-2 bg-red-100 dark:bg-red-900/50 border-2 border-red-400 dark:border-red-600 rounded-lg text-red-700 dark:text-red-300 text-center text-sm transition-colors duration-300">
-                     {localAuthError}
+                  <div>
+                     <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                        KATA SANDI
+                     </label>
+                     <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2.5 font-body text-sm focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
+                        placeholder="••••••••"
+                     />
+                     {validationErrors.password && (
+                        <p className="font-mono text-[10px] text-[var(--color-negative)] mt-1 uppercase font-bold">
+                           {validationErrors.password}
+                        </p>
+                     )}
                   </div>
-               )}
 
-               {/* Action buttons in single column with more compact design */}
-               <div className="space-y-2">
+                  {/* Submit Button */}
                   <button
                      type="submit"
                      disabled={loading}
-                     className={`w-full border-3 border-black bg-blue-400 dark:bg-blue-700 text-black dark:text-white py-2 sm:py-3 rounded-lg font-bold hover:bg-black hover:text-white dark:hover:bg-black dark:hover:text-blue-300 transition shadow-[4px_4px_0px_rgba(0,0,0,1)] ${loading ? "opacity-90" : ""} transition-colors duration-300`}
+                     className="w-full mt-2 font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-accent)] text-[var(--color-accent-ink)] border-2 border-[var(--color-ink)] py-3 shadow-[4px_4px_0_var(--color-ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--color-ink)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all duration-100 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
                   >
-                     {loading ? (
-                        <span className="flex items-center justify-center gap-2">
-                           <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                           </svg>
-                           {isRegister ? "Mendaftar..." : "Masuk..."}
-                        </span>
-                     ) : (
-                        isRegister ? "Daftar" : "Masuk"
-                     )}
+                     <span>{loading ? "MEMPROSES..." : isRegister ? "DAFTAR SEKARANG" : "MASUK"}</span>
+                     {!loading && <ArrowRight size={14} className="stroke-[3]" />}
                   </button>
+               </form>
 
+               {/* Divider ── ATAU ── */}
+               <div className="relative my-6 text-center">
+                  <div className="absolute inset-0 flex items-center">
+                     <div className="w-full border-t border-[var(--color-ink)]" />
+                  </div>
+                  <span className="relative bg-[var(--color-surface)] px-3 font-mono text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider uppercase">
+                     ATAU
+                  </span>
+               </div>
+
+               {/* Google OAuth Button Container */}
+               <div className="border-2 border-[var(--color-ink)] p-px">
                   <LoginGoogleButton
                      onClick={handleGoogleLogin}
                      isLoading={googleLoginLoading}
+                     isRegister={isRegister}
                   />
                </div>
 
-
-               {/* Footer with register/login toggle and tutorial */}
-               <div className="mt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center text-sm">
-                  <p className="dark:text-gray-300 transition-colors duration-300">
-                     {isRegister ? "Sudah punya akun?" : "Belum punya akun?"}{" "}
-                     <span
-                        onClick={() => setIsRegister(!isRegister)}
-                        className="text-blue-500 dark:text-blue-400 underline cursor-pointer font-medium transition-colors duration-300"
-                     >
-                        {isRegister ? "Login" : "Register"}
+               {/* Footer switch & tutorial button */}
+               <div className="mt-6 pt-4 border-t border-[var(--color-ink)]/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
+                  <div>
+                     <span className="text-[var(--color-ink-muted)]">
+                        {isRegister ? "Sudah terdaftar? " : "Belum punya akun? "}
                      </span>
-                  </p>
+                     <button
+                        type="button"
+                        onClick={() => setIsRegister(!isRegister)}
+                        className="font-bold underline decoration-[var(--color-accent)] decoration-2 underline-offset-2 text-[var(--color-ink)] hover:text-[var(--color-warning)]"
+                     >
+                        {isRegister ? "MASUK" : "DAFTAR"}
+                     </button>
+                  </div>
 
                   <button
                      type="button"
                      onClick={() => setShowTutorial(true)}
-                     className="mt-3 sm:mt-0 px-3 py-1 border-2 border-black bg-yellow-300 dark:bg-yellow-600 text-black dark:text-white rounded-lg font-bold text-xs hover:bg-black hover:text-yellow-300 dark:hover:bg-black dark:hover:text-yellow-400 transition shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-colors duration-300"
+                     className="inline-flex items-center gap-1.5 font-bold uppercase text-[11px] border border-[var(--color-ink)] px-2.5 py-1 bg-[var(--color-surface)] hover:bg-[var(--color-bg)] transition-colors"
                   >
-                     📚 Tutorial
+                     <BookOpen size={12} className="stroke-[2.5]" />
+                     <span>PANDUAN</span>
                   </button>
                </div>
-            </form>
+            </div>
          </div>
 
-         {/* Modal Tutorial */}
-         {showTutorial && <TutorialPenggunaanAtLogin setShowTutorial={setShowTutorial} />}
+         {/* Tutorial Modal */}
+         {showTutorial && (
+            <TutorialPenggunaanAtLogin setShowTutorial={setShowTutorial} />
+         )}
       </div>
    );
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import TransactionTable from "../components/TransactionTable";
 import BudgetEditor from "../components/BudgetEditor";
@@ -8,10 +8,8 @@ import HistoryButtons from "../components/HistoryButtons";
 import api from "../utils/api";
 import Header from "../components/Header";
 import WelcomeMessage from "../components/WelcomeMessage";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import StatsCardKeuangan from "../components/StatsCardKeuangan";
-import DataLoadingIndicator from "../components/DataLoadingIndicator";
-import TransactionModal from "../components/TransactionModal";
 import QuickAddTransactionButton from "../components/QuickAddTransactionButton";
 
 const Dashboard = () => {
@@ -23,13 +21,9 @@ const Dashboard = () => {
    const [isLoading, setIsLoading] = useState(true);
    const [isScrolled, setIsScrolled] = useState(false);
 
-
-   // Add history update counter to track changes
    const [historyUpdateCounter, setHistoryUpdateCounter] = useState(0);
    const [showHistoryModal, setShowHistoryModal] = useState(false);
 
-   // State untuk menampung total pengeluaran aktual per kategori
-   // Updated with new categories
    const [actualSpending, setActualSpending] = useState({
       Makanan: 0,
       Transportasi: 0,
@@ -39,31 +33,23 @@ const Dashboard = () => {
       "Kebutuhan Pribadi": 0,
    });
 
-   // Handle scroll events to make FAB transparent when scrolling
    useEffect(() => {
       const handleScroll = () => {
          const scrolled = window.scrollY > 100;
          setIsScrolled(scrolled);
       };
 
-      window.addEventListener('scroll', handleScroll);
-      return () => window.removeEventListener('scroll', handleScroll);
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
    }, []);
 
-   // Handler for when history is deleted
    const handleHistoryDeleted = () => {
-      console.log("History deleted, updating counter");
-      // Force immediate update with async function
       setTimeout(() => {
          setHistoryUpdateCounter((prev) => prev + 1);
       }, 0);
    };
 
-   const handleQuickAddTransaction = () => {
-      setShowAddTransactionModal(true);
-   };
-
-   // Fetch data saat user login
+   // Fetch data
    useEffect(() => {
       const fetchData = async () => {
          try {
@@ -73,12 +59,12 @@ const Dashboard = () => {
                api.get("/budgets"),
                api.get("/pemasukan"),
             ]);
-            setTransactions(txRes.data);
-            setBudgets(budgetRes.data);
-            setMonthlyIncome(incomeRes.data[0]);
+            setTransactions(txRes.data || []);
+            setBudgets(budgetRes.data || []);
+            setMonthlyIncome(incomeRes.data?.[0] || null);
          } catch (error) {
             console.error("Error fetching data", error);
-            toast.error("Gagal mengambil data", { duration: 3000 });
+            toast.error("GAGAL MENGAMBIL DATA KEUANGAN");
          } finally {
             setIsLoading(false);
          }
@@ -100,17 +86,14 @@ const Dashboard = () => {
 
          transactions.forEach((tx) => {
             if (spending[tx.category] !== undefined) {
-               spending[tx.category] += tx.amount;
+               spending[tx.category] += tx.amount || 0;
             } else {
-               // Handle any categories not in our predefined list
-               spending[tx.category] = spending[tx.category] || 0;
-               spending[tx.category] += tx.amount;
+               spending[tx.category] = (spending[tx.category] || 0) + (tx.amount || 0);
             }
          });
 
          setActualSpending(spending);
       } else {
-         // Jika belum ada transaksi, reset ke 0
          setActualSpending({
             Makanan: 0,
             Transportasi: 0,
@@ -125,61 +108,56 @@ const Dashboard = () => {
    if (!user) return null;
 
    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-         <Header logout={logout} />
-         <Toaster />
+      <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-ink)] flex flex-col justify-between">
+         <div>
+            <Header logout={logout} />
 
-         <main className="container mx-auto px-4 py-8">
-            {/* Welcome Message with Card Style */}
-            <div className="mb-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
+               {/* Welcome Banner */}
                <WelcomeMessage user={user} />
-            </div>
 
-            {/* Stats Cards Row */}
-            <StatsCardKeuangan
-               budgets={budgets}
-               actualSpending={actualSpending}
-               monthlyIncome={monthlyIncome}
-               isLoading={isLoading}
-            />
-
-            {/* Income and Budget Section */}
-            <div className="grid lg:grid-cols-2 gap-8 mb-8">
-               {/* Monthly Income Card */}
-               <MonthlyIncomeCard
-                  monthlyIncome={monthlyIncome}
-                  setMonthlyIncome={setMonthlyIncome}
-               />
-
-               {/* Budget Editor Card */}
-               <BudgetEditor
+               {/* Stats Cards (#1, #2, #3) */}
+               <StatsCardKeuangan
                   budgets={budgets}
-                  setBudgets={setBudgets}
                   actualSpending={actualSpending}
                   monthlyIncome={monthlyIncome}
-                  isLoadingEditor={isLoading}
+                  isLoading={isLoading}
                />
-            </div>
 
-            {/* History Buttons - Pass historyUpdateCounter */}
-            <HistoryButtons
-               onOpenHistoryModal={() => setShowHistoryModal(true)}
-               isLoadingPengeluaran={isLoadingPengeluaran}
-               setIsLoadingPengeluaran={setIsLoadingPengeluaran}
-               historyUpdated={historyUpdateCounter}
-            />
+               {/* Pemasukan & Budget Grid */}
+               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <MonthlyIncomeCard
+                     monthlyIncome={monthlyIncome}
+                     setMonthlyIncome={setMonthlyIncome}
+                  />
 
-            {/* Transaction Table Card */}
-            <div className="rounded-xl border-4 border-black bg-white dark:bg-gray-800 p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
+                  <BudgetEditor
+                     budgets={budgets}
+                     setBudgets={setBudgets}
+                     actualSpending={actualSpending}
+                     monthlyIncome={monthlyIncome}
+                     isLoadingEditor={isLoading}
+                  />
+               </div>
+
+               {/* History Archive Action Strip */}
+               <HistoryButtons
+                  onOpenHistoryModal={() => setShowHistoryModal(true)}
+                  isLoadingPengeluaran={isLoadingPengeluaran}
+                  setIsLoadingPengeluaran={setIsLoadingPengeluaran}
+                  historyUpdated={historyUpdateCounter}
+               />
+
+               {/* Transaction Journal Table */}
                <TransactionTable
                   isLoadingTransactions={isLoading}
                   transactions={transactions}
                   setTransactions={setTransactions}
                />
-            </div>
-         </main>
+            </main>
+         </div>
 
-         {/* History Modal - Add onDelete callback */}
+         {/* History Modal */}
          {showHistoryModal && (
             <HistoryModal
                onClose={() => setShowHistoryModal(false)}
@@ -187,28 +165,20 @@ const Dashboard = () => {
             />
          )}
 
-
-
-         {/* Add the Quick Add Transaction Button Component */}
+         {/* Quick Add FAB */}
          <QuickAddTransactionButton
             refreshTransactions={setTransactions}
             isScrolled={isScrolled}
          />
 
-
-
-
-
-         <footer className="border-t-3 sm:border-t-4 border-black py-4 mt-8 bg-white dark:bg-gray-800 dark:text-white transition-colors duration-300">
-            <div className="container mx-auto px-4">
-               <div className="flex items-center justify-center gap-2">
-                  {/* Copyright with highlight */}
-                  <p className="text-sm font-bold relative inline-block">
-                     <span className="relative z-10">
-                        © {new Date().getFullYear()} Abdul Rahem Faqih
-                     </span>
-                     <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-200 dark:bg-yellow-600 -z-0"></span>
-                  </p>
+         {/* Industrial Print Footer */}
+         <footer className="border-t-[3px] border-[var(--color-ink)] bg-[var(--color-surface)] py-4 mt-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-xs text-[var(--color-ink-muted)]">
+               <div>
+                  <span>CATAT PENGELUARAN ANDA</span>
+               </div>
+               <div className="uppercase">
+                  © {new Date().getFullYear()} ABDUL RAHEM FAQIH — ALL RIGHTS RESERVED
                </div>
             </div>
          </footer>

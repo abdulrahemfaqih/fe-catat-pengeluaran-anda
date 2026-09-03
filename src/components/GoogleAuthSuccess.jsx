@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
@@ -8,8 +8,6 @@ const GoogleAuthSuccess = () => {
 
    useEffect(() => {
       const success = processGoogleAuthSuccess();
-
-      // Redirect setelah proses auth
       if (success) {
          navigate("/");
       } else {
@@ -18,11 +16,15 @@ const GoogleAuthSuccess = () => {
    }, [processGoogleAuthSuccess, navigate]);
 
    return (
-      <div className="flex items-center justify-center min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-         <div className="text-center p-8 rounded-xl border-4 border-black bg-blue-50 dark:bg-blue-900/30 shadow-[6px_6px_0px_rgba(0,0,0,1)] transition-colors duration-300">
-            <div className="inline-block animate-spin h-12 w-12 border-4 border-blue-500 dark:border-blue-400 border-t-transparent rounded-full mb-4 transition-colors duration-300"></div>
-            <h2 className="text-xl font-bold dark:text-white transition-colors duration-300">Mengautentikasi...</h2>
-            <p className="text-gray-600 dark:text-gray-300 mt-2 transition-colors duration-300">Mohon tunggu sebentar</p>
+      <div className="flex items-center justify-center min-h-screen bg-[var(--color-bg)] p-4">
+         <div className="text-center p-8 border-[3px] border-[var(--color-ink)] bg-[var(--color-surface)] shadow-[6px_6px_0_var(--color-ink)] max-w-sm w-full">
+            <span className="w-3 h-3 bg-[var(--color-accent)] animate-ping inline-block mb-4" />
+            <h2 className="font-macro uppercase text-lg text-[var(--color-ink)] tracking-tight">
+               MENGOTENTIKASI...
+            </h2>
+            <p className="font-mono text-xs text-[var(--color-ink-muted)] mt-2 uppercase tracking-wide">
+               Sinkronisasi sesi Google Anda
+            </p>
          </div>
       </div>
    );

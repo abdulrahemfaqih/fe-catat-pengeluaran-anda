@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
+import { Check } from "lucide-react";
 
 const BudgetEditor = ({
    budgets,
    setBudgets,
-   actualSpending,
+   actualSpending = {},
    monthlyIncome,
    isLoadingEditor = false,
 }) => {
@@ -13,48 +14,26 @@ const BudgetEditor = ({
    const [loading, setLoading] = useState(false);
 
    useEffect(() => {
-      setEditBudgets(budgets);
+      setEditBudgets(budgets || []);
    }, [budgets]);
 
    const handleChange = (category, value) => {
+      const parsedVal = isNaN(value) ? 0 : Math.max(0, value);
       setEditBudgets((prev) =>
-         prev.map((budget) =>
-            budget.category === category ? { ...budget, budget: value } : budget
+         prev.map((b) =>
+            b.category === category ? { ...b, budget: parsedVal } : b
          )
       );
    };
 
-   // Updated with dark mode variants
-   const categoryColors = {
-      Makanan: "bg-red-100 dark:bg-red-900",
-      Transportasi: "bg-blue-100 dark:bg-blue-900",
-      Hiburan: "bg-yellow-100 dark:bg-yellow-900",
-      "Kebutuhan Pribadi": "bg-teal-100 dark:bg-teal-900",
-      Pendidikan: "bg-purple-100 dark:bg-purple-900",
-      Kesehatan: "bg-pink-100 dark:bg-pink-900",
-   };
-
-   const categoryIcons = {
-      Makanan: "🍔",
-      Transportasi: "🚗",
-      Hiburan: "🎉",
-      "Kebutuhan Pribadi": "🧴",
-      Pendidikan: "📚",
-      Kesehatan: "🏥",
-   };
-
    // Hitung total budget
-   const totalBudget = editBudgets.reduce((sum, item) => sum + item.budget, 0);
+   const totalBudget = editBudgets.reduce((sum, item) => sum + (item.budget || 0), 0);
 
    const handleSave = async () => {
-      // Check if monthlyIncome exists and is not undefined
-      if (monthlyIncome !== undefined) {
+      if (monthlyIncome !== undefined && monthlyIncome !== null) {
          const incomeAmount = monthlyIncome?.amount || 0;
-
          if (totalBudget !== incomeAmount) {
-            toast.error("Total budget harus sama dengan pemasukan bulanan", {
-               duration: 4000,
-            });
+            toast.error("TOTAL BUDGET HARUS SAMA DENGAN PEMASUKAN BULANAN");
             return;
          }
       }
@@ -67,10 +46,10 @@ const BudgetEditor = ({
             )
          );
          setBudgets(editBudgets);
-         toast.success("Budget berhasil disimpan", { duration: 3000 });
+         toast.success("BUDGET BERHASIL DISIMPAN");
       } catch (error) {
          console.error("Error updating budget", error);
-         toast.error("Gagal menyimpan budget", { duration: 3000 });
+         toast.error("GAGAL MENYIMPAN BUDGET");
       } finally {
          setLoading(false);
       }
@@ -78,175 +57,156 @@ const BudgetEditor = ({
 
    if (isLoadingEditor) {
       return (
-         <div className="rounded-xl border-4 border-black bg-white dark:bg-gray-800 p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-            <div className="animate-pulse">
-               <div className="h-8 bg-gray-200 dark:bg-gray-600 rounded-lg w-64 mb-6"></div>
+         <div className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] p-6 shadow-[4px_4px_0_var(--color-ink)]">
+            <div className="animate-pulse space-y-4">
+               <div className="h-6 bg-[var(--color-ink)]/10 w-48 mb-6" />
                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {[1, 2, 3, 4].map((item) => (
-                     <div
-                        key={item}
-                        className="relative overflow-hidden rounded-lg border-3 border-black bg-gray-100 dark:bg-gray-700 p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]"
-                     >
-                        <div className="absolute -top-1 -right-1 rounded-bl-lg bg-white dark:bg-gray-600 border-b-3 border-l-3 border-black px-2 py-1">
-                           <div className="h-7 w-7 rounded-full bg-gray-200 dark:bg-gray-500"></div>
-                        </div>
-                        <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded-lg w-24 mb-3"></div>
-                        <div className="flex items-center gap-3 mb-3">
-                           <div className="h-5 bg-gray-200 dark:bg-gray-600 rounded-lg w-16"></div>
-                           <div className="h-10 bg-gray-200 dark:bg-gray-600 rounded-md w-32"></div>
-                        </div>
-                        <div className="bg-white dark:bg-gray-600 border-2 border-black rounded-md p-2">
-                           <div className="h-5 bg-gray-200 dark:bg-gray-500 rounded-lg w-full"></div>
-                        </div>
-                     </div>
+                  {[1, 2, 3, 4].map((i) => (
+                     <div key={i} className="h-32 border-2 border-[var(--color-ink)]/20 bg-[var(--color-ink)]/5 p-4" />
                   ))}
                </div>
-               <div className="mt-4 p-3 border-3 border-black rounded-lg bg-gray-50 dark:bg-gray-700">
-                  <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded-lg w-44"></div>
-               </div>
-               <div className="mt-4 h-10 bg-gray-200 dark:bg-gray-600 rounded-lg w-40"></div>
             </div>
          </div>
       );
    }
 
    return (
-      <div className="rounded-xl border-4 border-black bg-white dark:bg-gray-800 p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-         <h2 className="text-2xl font-bold mb-4 dark:text-white">
-            Budget Per Kategori
-         </h2>
+      <div className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] p-6 shadow-[4px_4px_0_var(--color-ink)]">
+         <div className="border-b-2 border-[var(--color-ink)] pb-3 mb-5">
+            <h2 className="font-macro uppercase text-lg sm:text-xl text-[var(--color-ink)] tracking-tight">
+               BUDGET PER KATEGORI
+            </h2>
+         </div>
+
          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {editBudgets.map((item) => (
-               <div
-                  key={item._id}
-                  className={`relative overflow-hidden rounded-lg border-3 border-black ${
-                     categoryColors[item.category] ||
-                     "bg-gray-100 dark:bg-gray-700"
-                  } p-4 shadow-[4px_4px_0px_rgba(0,0,0,1)]`}
-               >
-                  <div className="absolute -top-1 -right-1 rounded-bl-lg bg-white dark:bg-gray-700 border-b-3 border-l-3 border-black px-2 py-1">
-                     <span className="text-xl">
-                        {categoryIcons[item.category] || "📊"}
-                     </span>
-                  </div>
-                  <span className="font-bold text-lg mb-3 block pt-1 dark:text-white">
-                     {item.category}
-                  </span>
-                  <div className="flex items-center gap-3 mb-3">
-                     <label className="font-medium text-black dark:text-white">
-                        Budget:
-                     </label>
-                     <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-gray-700 dark:text-gray-300">
-                           Rp
-                        </span>
-                        <input
-                           type="number"
-                           value={item.budget}
-                           onChange={(e) =>
-                              handleChange(
-                                 item.category,
-                                 parseFloat(e.target.value)
-                              )
-                           }
-                           className="border-3 border-black p-2 pl-10 rounded-md w-32 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 bg-blue-50 dark:bg-blue-900 dark:text-white text-base font-medium shadow-[3px_3px_0px_rgba(0,0,0,0.1)]"
-                        />
-                     </div>
-                  </div>
+            {editBudgets.map((item) => {
+               const spending = actualSpending[item.category] || 0;
+               const budget = item.budget || 0;
+               const ratio = budget > 0 ? (spending / budget) * 100 : 0;
+               const filledSegments = Math.min(10, Math.round((spending / (budget || 1)) * 10));
 
-                  {/* Budget vs Actual Comparison */}
-                  <div className="bg-white dark:bg-gray-700 border-2 border-black rounded-md p-2 mb-2">
-                     <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-gray-800 dark:text-gray-200">
-                           Pengeluaran Aktual:
-                           <span className="font-bold ml-1 dark:text-white">
-                              Rp{" "}
-                              {(
-                                 actualSpending[item.category] || 0
-                              ).toLocaleString()}
+               // Status semantik
+               const isOver = spending > budget && budget > 0;
+               const isNear = spending >= budget * 0.8 && !isOver && budget > 0;
+               const isSafe = !isOver && !isNear;
+
+               const statusColor = isOver
+                  ? "bg-[var(--color-negative)]"
+                  : isNear
+                  ? "bg-[var(--color-warning)]"
+                  : "bg-[var(--color-positive)]";
+
+               const statusBorderText = isOver
+                  ? "border-[var(--color-negative)] text-[var(--color-negative)]"
+                  : isNear
+                  ? "border-[var(--color-warning)] text-[var(--color-warning)]"
+                  : "border-[var(--color-positive)] text-[var(--color-positive)]";
+
+               return (
+                  <div
+                     key={item._id}
+                     className="bg-[var(--color-surface)] border-2 border-[var(--color-ink)] p-4 flex flex-col justify-between"
+                  >
+                     <div>
+                        {/* Header card per kategori */}
+                        <div className="mb-3">
+                           <span className="font-mono font-bold text-xs uppercase tracking-wider text-[var(--color-ink)]">
+                              {item.category}
                            </span>
-                        </span>
+                        </div>
+
+                        {/* Input Budget */}
+                        <div className="mb-3">
+                           <label className="font-mono text-[10px] uppercase tracking-wider text-[var(--color-ink-muted)] block mb-1">
+                              ALOKASI BUDGET:
+                           </label>
+                           <div className="relative">
+                              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 font-mono font-bold text-xs text-[var(--color-ink-muted)]">
+                                 RP
+                              </span>
+                              <input
+                                 type="number"
+                                 value={item.budget}
+                                 onChange={(e) =>
+                                    handleChange(
+                                       item.category,
+                                       parseFloat(e.target.value) || 0
+                                    )
+                                 }
+                                 className="w-full border border-[var(--color-ink)] bg-[var(--color-bg)] text-[var(--color-ink)] font-mono text-sm py-1.5 pl-9 pr-2 tabular-nums focus:outline-2 focus:outline-[var(--color-accent)]"
+                              />
+                           </div>
+                        </div>
+
+                        {/* Pengeluaran Aktual Info */}
+                        <div className="font-mono text-xs text-[var(--color-ink-muted)] flex items-center justify-between mb-2">
+                           <span className="uppercase text-[10px] tracking-wide">AKTUAL:</span>
+                           <span className="font-bold tabular-nums text-[var(--color-ink)]">
+                              Rp {Number(spending).toLocaleString("id-ID")}
+                           </span>
+                        </div>
+
+                        {/* Segmented Bar Telemetry Gauge (§6.5) */}
+                        <div className="flex gap-[2px] h-3.5 w-full mb-3" title={`${Math.round(ratio)}% terpakai`}>
+                           {Array.from({ length: 10 }).map((_, i) => (
+                              <div
+                                 key={i}
+                                 className={`flex-1 border border-[var(--color-ink)] ${
+                                    i < filledSegments ? statusColor : "bg-[var(--color-surface)]"
+                                 }`}
+                              />
+                           ))}
+                        </div>
                      </div>
 
-                     {/* Budget Usage Progress Bar */}
-                     {item.budget > 0 && (
-                        <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 border border-gray-300 dark:border-gray-500 mt-1 overflow-hidden">
-                           <div
-                              className={`h-full rounded-full ${
-                                 actualSpending[item.category] >= item.budget
-                                    ? "bg-red-500" // Over budget (same color for both modes)
-                                    : actualSpending[item.category] >=
-                                      item.budget * 0.8
-                                    ? "bg-yellow-500" // Approaching limit (same for both)
-                                    : "bg-green-500" // Safe (same for both)
-                              }`}
-                              style={{
-                                 width: `${Math.min(
-                                    100,
-                                    ((actualSpending[item.category] || 0) /
-                                       item.budget) *
-                                       100
-                                 )}%`,
-                              }}
-                           />
+                     {/* Status Badge Kotak Outline (§6.5) */}
+                     {budget > 0 ? (
+                        <div
+                           className={`font-mono uppercase text-[11px] font-bold border-2 px-2 py-1 flex items-center justify-between tracking-tight ${statusBorderText}`}
+                        >
+                           <span>
+                              {isOver
+                                 ? "▲ MELEBIHI BUDGET"
+                                 : isNear
+                                 ? "● HAMPIR MELEBIHI"
+                                 : "✓ DALAM BATAS"}
+                           </span>
+                           <span className="tabular-nums font-bold">
+                              {Math.round(ratio)}%
+                           </span>
+                        </div>
+                     ) : (
+                        <div className="font-mono uppercase text-[11px] border-2 border-[var(--color-ink)] text-[var(--color-ink-muted)] px-2 py-1 text-center">
+                           [ BELUM DISET ]
                         </div>
                      )}
                   </div>
-
-                  {/* Budget Status Badge */}
-                  {item.budget > 0 && (
-                     <div
-                        className={`text-sm font-medium rounded-full px-3 py-1 inline-flex items-center gap-1 border-2 border-black ${
-                           actualSpending[item.category] >= item.budget
-                              ? "bg-red-200 dark:bg-red-800 dark:text-white" // Over budget
-                              : actualSpending[item.category] >=
-                                item.budget * 0.8
-                              ? "bg-yellow-200 dark:bg-yellow-800 dark:text-white" // Approaching limit
-                              : "bg-green-200 dark:bg-green-800 dark:text-white" // Safe
-                        }`}
-                     >
-                        <span>
-                           {actualSpending[item.category] >= item.budget
-                              ? "⚠️ Melebihi Budget"
-                              : actualSpending[item.category] >=
-                                item.budget * 0.8
-                              ? "⚠️ Hampir Melebihi"
-                              : "✅ Dalam Batas"}
-                        </span>
-                        <span className="font-bold">
-                           {Math.round(
-                              ((actualSpending[item.category] || 0) /
-                                 (item.budget || 1)) *
-                                 100
-                           )}
-                           %
-                        </span>
-                     </div>
-                  )}
-               </div>
-            ))}
+               );
+            })}
          </div>
-         <div className="mt-4 p-3 border-3 border-black rounded-lg bg-gray-50 dark:bg-gray-700">
-            <span className="font-medium dark:text-white">Total Budget: </span>
-            <span className="font-bold text-lg dark:text-white">
-               Rp {totalBudget.toLocaleString()}
+
+         {/* Summary Bar */}
+         <div className="mt-5 p-3 border-2 border-[var(--color-ink)] bg-[var(--color-bg)] flex items-center justify-between font-mono text-sm">
+            <span className="text-[var(--color-ink-muted)] uppercase tracking-wider font-semibold">
+               TOTAL ALOKASI BUDGET:
+            </span>
+            <span className="font-bold text-base text-[var(--color-ink)] tabular-nums">
+               Rp {Number(totalBudget).toLocaleString("id-ID")}
             </span>
          </div>
 
+         {/* Action Button */}
          <button
             onClick={handleSave}
             disabled={loading}
-            className="mt-4 px-6 py-2 border-3 border-black bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-300 transition-all duration-300 shadow-[4px_4px_0px_rgba(0,0,0,1)] disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
+            className="mt-4 font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-accent)] text-[var(--color-accent-ink)] border-2 border-[var(--color-ink)] px-6 py-2.5 shadow-[4px_4px_0_var(--color-ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--color-ink)] active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-40 disabled:pointer-events-none transition-all duration-100 flex items-center gap-2"
          >
             {loading ? (
-               <>
-                  <span className="inline-block w-4 h-4 border-3 border-t-transparent border-black dark:border-white rounded-full animate-spin"></span>
-                  <span>Menyimpan...</span>
-               </>
+               <span>MENYIMPAN...</span>
             ) : (
                <>
-                  <span className="text-lg">💾</span>
-                  <span>Simpan Budget</span>
+                  <Check size={16} className="stroke-[3]" />
+                  <span>SIMPAN ALOKASI BUDGET</span>
                </>
             )}
          </button>

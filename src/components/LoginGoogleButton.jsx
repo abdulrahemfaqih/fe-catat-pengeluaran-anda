@@ -1,7 +1,6 @@
 import React from "react";
 
 const LoginGoogleButton = ({ onClick, isLoading, isRegister = false }) => {
-   // Pass the authentication mode when clicked
    const handleClick = () => {
       onClick(isRegister ? "register" : "login");
    };
@@ -11,25 +10,17 @@ const LoginGoogleButton = ({ onClick, isLoading, isRegister = false }) => {
          type="button"
          onClick={handleClick}
          disabled={isLoading}
-         className={`w-full mt-3 flex items-center justify-center gap-3 border-3 border-black bg-white dark:bg-gray-700 py-3 rounded-lg font-bold text-black dark:text-white transition-colors duration-300 ${
-            isLoading
-               ? "opacity-80 cursor-wait shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-               : "hover:bg-gray-50 dark:hover:bg-gray-600 shadow-[5px_5px_0px_rgba(0,0,0,1)] hover:shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:-translate-y-1"
-         }`}
+         className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] py-2.5 font-mono uppercase text-xs font-bold tracking-wider shadow-[3px_3px_0_var(--color-ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--color-ink)] active:translate-x-1 active:translate-y-1 active:shadow-none transition-all duration-100 flex items-center justify-center gap-2.5 disabled:opacity-50 disabled:pointer-events-none"
       >
          {isLoading ? (
-            <>
-               {/* Improved spinner with full circle design */}
-               <div className="w-6 h-6 rounded-full border-3 border-blue-300 dark:border-blue-400 border-t-blue-600 dark:border-t-blue-300 animate-spin transition-colors duration-300"></div>
-               <span className="ml-2 truncate">Menyambungkan...</span>
-            </>
+            <span>MENYAMBUNGKAN KE GOOGLE...</span>
          ) : (
             <>
                <svg
-                  width="24"
-                  height="24"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
-                  className="dark:drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]"
+                  className="shrink-0"
                >
                   <path
                      fill="#4285F4"
@@ -49,7 +40,7 @@ const LoginGoogleButton = ({ onClick, isLoading, isRegister = false }) => {
                   />
                </svg>
                <span>
-                  {isRegister ? "Daftar dengan Google" : "Login dengan Google"}
+                  {isRegister ? "DAFTAR DENGAN GOOGLE" : "MASUK DENGAN GOOGLE"}
                </span>
             </>
          )}

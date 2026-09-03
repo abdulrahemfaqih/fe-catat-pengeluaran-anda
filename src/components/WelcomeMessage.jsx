@@ -1,27 +1,17 @@
+import React from "react";
 import PropTypes from "prop-types";
 
 export default function WelcomeMessage({ user }) {
-   return (
-      <section className="relative overflow-hidden rounded-xl border-4 border-black bg-blue-50 dark:bg-gray-800 p-6 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-         {/* Ribbon decoration - diperbaiki dengan z-index dan ukuran yang lebih kecil di mobile */}
-         <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 bg-yellow-300 dark:bg-yellow-600 border-b-4 border-l-4 border-black transform rotate-0 -z-0">
-            <div className="absolute bottom-1 left-1 text-base sm:text-lg font-bold">
-               ✨
-            </div>
-         </div>
+   const userName = user && user.name ? user.name : "Pengguna";
 
-         {/* Content wrapper - ditambahkan max-width agar teks tidak tumpang tindih dengan ribbon */}
-         <div className="relative z-10 max-w-[calc(100%-3rem)]">
-            <h2 className="text-xl sm:text-2xl font-bold mb-2 break-words dark:text-white">
-               Selamat Datang,
-               <span className="text-blue-600 dark:text-blue-300 block sm:inline">
-                  {user && user.name ? ` ${user.name}` : ""}!
-               </span>
-            </h2>
-            <p className="text-gray-700 dark:text-gray-200">
-               Kelola keuangan pribadi Anda dengan mudah dan menyenangkan.
-            </p>
-         </div>
+   return (
+      <section className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] p-5 sm:p-6 shadow-[4px_4px_0_var(--color-ink)]">
+         <h2 className="font-macro uppercase text-xl sm:text-2xl text-[var(--color-ink)] tracking-tight">
+            SELAMAT DATANG, <span className="underline decoration-[var(--color-accent)] decoration-4 underline-offset-4">{userName}</span>
+         </h2>
+         <p className="font-mono text-xs text-[var(--color-ink-muted)] mt-1.5 uppercase tracking-wide">
+            Kelola pengeluaran dan anggaran bulanan Anda dengan rapi
+         </p>
       </section>
    );
 }

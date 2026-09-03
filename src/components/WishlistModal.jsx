@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { X, Check } from "lucide-react";
 
 const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
    const [name, setName] = useState("");
@@ -9,7 +10,6 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
    const [imageUrls, setImageUrls] = useState("");
    const [isLoading, setIsLoading] = useState(false);
 
-   // Convert ANY value to string safely
    const safeToString = (value) => {
       try {
          if (value === null || value === undefined) return "";
@@ -25,7 +25,6 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
          try {
             setName(safeToString(item.name));
 
-            // Handle price
             if (item.price !== undefined && item.price !== null) {
                const priceValue = parseFloat(item.price);
                if (!isNaN(priceValue)) {
@@ -42,8 +41,6 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
 
             setDescription(safeToString(item.description));
             setPurchaseLink(safeToString(item.purchaseLink));
-
-            // Handle imageUrls - don't use trim() or any string methods
             setImageUrls(safeToString(item.imageUrls));
          } catch (error) {
             console.error("Error setting form values:", error);
@@ -81,11 +78,8 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-
       try {
          setIsLoading(true);
-
-         // Create item with sanitized values
          const newItem = {
             _id: item ? item._id : Date.now(),
             name: safeToString(name),
@@ -100,7 +94,6 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
          onClose();
       } catch (error) {
          console.error("Error saving wishlist item:", error);
-         alert("Error saving item. Please try again.");
       } finally {
          setIsLoading(false);
       }
@@ -113,129 +106,144 @@ const WishlistModal = ({ isOpen, onClose, onSave, item }) => {
 
    if (!isOpen) return null;
 
-   // Determine if we should show the image preview
-   const hasImageUrl =
-      imageUrls !== null && imageUrls !== undefined && imageUrls !== "";
+   const hasImageUrl = Boolean(imageUrls && imageUrls.trim() !== "");
 
    return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl w-96 md:w-104 border-3 border-black shadow-xl transform transition-all animate-fadeIn my-4 mx-2 max-h-[calc(100vh-2rem)] overflow-y-auto transition-colors duration-300">
-            <div className="flex justify-between items-center mb-4 pt-1 bg-white dark:bg-gray-800 z-10 transition-colors duration-300">
-               <h2 className="text-2xl font-bold flex items-center dark:text-white transition-colors duration-300">
-                  <span className="inline-flex items-center justify-center w-8 h-8 rounded-full mr-2 bg-yellow-200 dark:bg-yellow-600 border-2 border-black transition-colors duration-300">
-                     {item ? "✏️" : "✨"}
-                  </span>
-                  {item ? "Update Wishlist" : "Tambah Wishlist"}
-               </h2>
+      <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 animate-fadeIn">
+         <div className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] shadow-[8px_8px_0_var(--color-ink)] w-full max-w-lg max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="p-4 sm:p-5 border-b-[3px] border-[var(--color-ink)] flex items-center justify-between">
+               <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 bg-[var(--color-accent)] border border-[var(--color-ink)]" />
+                  <h2 className="font-macro uppercase text-base sm:text-lg tracking-tight text-[var(--color-ink)]">
+                     {item ? "EDIT ITEM WISHLIST" : "TAMBAH ITEM WISHLIST"}
+                  </h2>
+               </div>
+
                <button
                   onClick={handleClose}
-                  className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white dark:text-white dark:hover:bg-black dark:hover:text-yellow-400 transition-colors shrink-0 ml-2"
+                  className="w-8 h-8 border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-bg)] transition-colors"
+                  aria-label="Tutup"
                >
-                  ×
+                  <X size={18} className="stroke-[2.5]" />
                </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Modal Form */}
+            <form onSubmit={handleSubmit} className="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4">
+               {/* Name */}
                <div>
-                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">Nama</label>
+                  <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                     NAMA BARANG
+                  </label>
                   <input
                      type="text"
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
+                     className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2 font-body text-sm focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
                      value={name}
                      onChange={(e) => setName(e.target.value)}
-                     placeholder="Nintendo Switch"
+                     placeholder="Misal: Mechanical Keyboard Keychron V1"
                      required
                   />
                </div>
+
+               {/* Price */}
                <div>
-                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">Harga</label>
+                  <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                     ESTIMASI HARGA
+                  </label>
                   <div className="relative">
-                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-700 dark:text-gray-300 font-medium transition-colors duration-300">Rp</span>
-                     </div>
+                     <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-xs font-bold text-[var(--color-ink-muted)]">
+                        RP
+                     </span>
                      <input
                         type="text"
-                        className="w-full px-3 py-2 pl-10 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
+                        className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2 pl-10 font-mono text-sm tabular-nums focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
                         value={displayPrice}
                         onChange={handlePriceChange}
-                        placeholder="3.000.000"
+                        placeholder="0"
                         required
                      />
                   </div>
                </div>
+
+               {/* Description */}
                <div>
-                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">Deskripsi</label>
+                  <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                     CATATAN / ALASAN PEMBELIAN
+                  </label>
                   <textarea
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] min-h-24 dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
+                     className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2 font-body text-xs min-h-20 focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
                      value={description}
                      onChange={(e) => setDescription(e.target.value)}
-                     placeholder="Alasan mengapa saya ingin membelinya..."
+                     placeholder="Tuliskan catatan detail kebutuhan atau target tanggal pembelian..."
                      required
-                  ></textarea>
+                  />
                </div>
+
+               {/* Purchase Link */}
                <div>
-                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">
-                     Link Pembelian
+                  <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                     LINK TOKO / PRODUK
                   </label>
                   <input
                      type="url"
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
+                     className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2 font-mono text-xs focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
                      value={purchaseLink}
                      onChange={(e) => setPurchaseLink(e.target.value)}
                      placeholder="https://tokopedia.com/..."
                      required
                   />
                </div>
+
+               {/* Image URL */}
                <div>
-                  <label className="block mb-1 font-medium dark:text-white transition-colors duration-300">
-                     URL Gambar (Opsional)
+                  <label className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider">
+                     URL FOTO BARANG (OPSIONAL)
                   </label>
                   <input
                      type="url"
-                     className="w-full px-3 py-2 border-3 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-300 shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:bg-gray-700 dark:text-white dark:focus:ring-yellow-500 transition-colors duration-300"
+                     className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] p-2 font-mono text-xs focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
                      value={imageUrls}
                      onChange={(e) => setImageUrls(e.target.value)}
-                     placeholder="https://example.com/image.jpg"
+                     placeholder="https://images.unsplash.com/..."
                   />
                </div>
 
-               {/* Image preview - using a simple boolean check */}
+               {/* Preview */}
                {hasImageUrl && (
-                  <div className="relative mt-2 rounded-lg overflow-hidden border-3 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                     <div className="absolute top-0 right-0 m-2">
-                        <span className="px-2 py-1 bg-yellow-200 dark:bg-yellow-600 rounded-lg text-xs border-2 border-black shadow-[1px_1px_0px_rgba(0,0,0,1)] transition-colors duration-300">
-                           Preview
-                        </span>
-                     </div>
+                  <div className="border-2 border-[var(--color-ink)] p-2 bg-[var(--color-bg)]">
+                     <span className="font-mono text-[10px] uppercase font-bold text-[var(--color-ink-muted)] block mb-1">
+                        PREVIEW FOTO:
+                     </span>
                      <img
                         src={imageUrls}
                         alt="Preview"
-                        className="w-full h-48 object-cover"
+                        className="w-full h-36 object-cover border border-[var(--color-ink)]"
                         onError={(e) => {
                            e.target.onerror = null;
-                           e.target.src =
-                              "https://via.placeholder.com/400x300?text=Gambar+Tidak+Tersedia";
-                           e.target.className =
-                              "w-full h-48 object-contain bg-gray-100 dark:bg-gray-700 transition-colors duration-300";
+                           e.target.style.display = "none";
                         }}
                      />
                   </div>
                )}
 
-               <div className="flex justify-end gap-3 pt-4">
+               {/* Action Buttons */}
+               <div className="flex justify-end gap-3 pt-3 border-t border-[var(--color-ink)]/15">
                   <button
                      type="button"
-                     className="px-4 py-2 border-3 border-black bg-gray-100 dark:bg-gray-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-white dark:hover:bg-black dark:hover:text-gray-300 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
                      onClick={handleClose}
+                     className="font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-surface)] text-[var(--color-ink)] border-2 border-[var(--color-ink)] px-4 py-2 hover:bg-[var(--color-bg)] transition-colors"
                   >
-                     Batal
+                     BATAL
                   </button>
+
                   <button
                      type="submit"
-                     className="px-4 py-2 border-3 border-black bg-yellow-200 dark:bg-yellow-600 text-black dark:text-white font-bold rounded-xl hover:bg-black hover:text-yellow-200 dark:hover:bg-black dark:hover:text-yellow-400 transition-all duration-300 shadow-[3px_3px_0px_rgba(0,0,0,1)]"
                      disabled={isLoading}
+                     className="font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-accent)] text-[var(--color-accent-ink)] border-2 border-[var(--color-ink)] px-5 py-2 shadow-[3px_3px_0_var(--color-ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--color-ink)] active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-40 transition-all flex items-center gap-1.5"
                   >
-                     {isLoading ? "Menyimpan..." : "Simpan Item"}
+                     <Check size={14} className="stroke-[3]" />
+                     <span>{isLoading ? "MENYIMPAN..." : "SIMPAN ITEM"}</span>
                   </button>
                </div>
             </form>

@@ -1,43 +1,43 @@
 import React from "react";
+import { Wrench } from "lucide-react";
 
 const UnderMaintenancePage = () => {
    return (
-      <div className="min-h-screen bg-yellow-50 flex items-center justify-center p-6">
-         <div className="max-w-lg w-full bg-white rounded-xl border-4 border-black p-8 shadow-[4px_4px_0px_rgba(0,0,0,1)]">
-            <div className="relative">
-               <div className="absolute -top-16 -right-12 h-28 w-28 bg-blue-100 rounded-full border-4 border-black flex items-center justify-center transform rotate-12">
-                  <span className="text-4xl">🛠️</span>
+      <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-ink)] flex items-center justify-center p-6">
+         <div className="max-w-lg w-full bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] p-8 shadow-[6px_6px_0_var(--color-ink)]">
+            <div className="flex items-center gap-2 mb-4 text-[var(--color-warning)] pb-2 border-b-2 border-[var(--color-ink)]">
+               <Wrench size={22} className="stroke-[2.5]" />
+               <span className="font-mono text-xs uppercase tracking-widest font-bold">
+                  SYSTEM // UNDER MAINTENANCE
+               </span>
+            </div>
+
+            <h1 className="font-macro uppercase text-2xl sm:text-3xl tracking-tight mb-4">
+               SEDANG DALAM PEMELIHARAAN
+            </h1>
+
+            <div className="space-y-4 font-mono text-xs text-[var(--color-ink)] mb-6">
+               <div className="border border-[var(--color-ink)]/20 p-3 bg-[var(--color-bg)]">
+                  <span className="font-bold text-[var(--color-ink-muted)] block mb-1">
+                     STATUS OPERASI:
+                  </span>
+                  <p>
+                     Sistem sedang mengalami pembaruan infrastruktur berkala untuk meningkatkan keandalan sistem pencatatan.
+                  </p>
                </div>
 
-               <h1 className="text-3xl font-bold mb-2">Sedang Perbaikan!</h1>
-               <div className="w-full h-2 bg-black mb-6"></div>
-
-               <div className="space-y-6">
-                  <div className="flex items-start space-x-3">
-                     <span className="text-2xl">👷‍♀️</span>
-                     <p className="text-lg">
-                        Mohon maaf, aplikasi sedang dalam perbaikan untuk
-                        meningkatkan pengalaman Anda!
-                     </p>
-                  </div>
-
-                  <div className="flex items-start space-x-3">
-                     <span className="text-2xl">⏰</span>
-                     <p className="text-lg">
-                        Kami akan segera kembali dengan fitur yang lebih baik.
-                     </p>
-                  </div>
-
-                  <div className="flex items-start space-x-3 mt-4">
-                     <span className="text-2xl">📅</span>
-                     <p className="text-lg">Silakan kembali lagi nanti.</p>
-                  </div>
-                  <div className="border-2 border-black border-dashed p-4 bg-yellow-100 rounded-lg">
-                     <p className="font-medium text-center">
-                        Terima kasih atas kesabaran Anda!
-                     </p>
-                  </div>
+               <div className="border border-[var(--color-ink)]/20 p-3 bg-[var(--color-bg)]">
+                  <span className="font-bold text-[var(--color-ink-muted)] block mb-1">
+                     PERKIRAAN WAKTU:
+                  </span>
+                  <p>
+                     Layanan akan kembali beroperasi dalam waktu singkat. Silakan muat ulang halaman beberapa saat lagi.
+                  </p>
                </div>
+            </div>
+
+            <div className="font-mono text-[11px] text-center text-[var(--color-ink-muted)] uppercase border-t border-[var(--color-ink)]/15 pt-3">
+               KEUANGAN SYSTEM // SERVICE DESK: ABDULRAHEMFAQIH.WORKS
             </div>
          </div>
       </div>

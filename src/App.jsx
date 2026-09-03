@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import UnderMaintenancePage from "./pages/UnderMaintenance";
 import GoogleAuthSuccess from "./components/GoogleAuthSuccess";
 import { ThemeProvider } from "./context/ThemeContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
    const isUnderMaintenance =
@@ -26,6 +27,41 @@ function App() {
    return (
       <ThemeProvider>
          <AuthProvider>
+            <Toaster
+               position="top-right"
+               toastOptions={{
+                  duration: 3500,
+                  style: {
+                     background: "var(--color-surface)",
+                     color: "var(--color-ink)",
+                     border: "2px solid var(--color-ink)",
+                     borderRadius: 0,
+                     fontFamily: "var(--font-mono)",
+                     fontSize: "0.85rem",
+                     textTransform: "uppercase",
+                     boxShadow: "4px 4px 0 var(--color-ink)",
+                     fontWeight: 600,
+                  },
+                  success: {
+                     style: {
+                        border: "2px solid var(--color-positive)",
+                     },
+                     iconTheme: {
+                        primary: "var(--color-positive)",
+                        secondary: "var(--color-surface)",
+                     },
+                  },
+                  error: {
+                     style: {
+                        border: "2px solid var(--color-negative)",
+                     },
+                     iconTheme: {
+                        primary: "var(--color-negative)",
+                        secondary: "var(--color-surface)",
+                     },
+                  },
+               }}
+            />
             <Router>
                {isUnderMaintenance ? (
                   <UnderMaintenancePage />

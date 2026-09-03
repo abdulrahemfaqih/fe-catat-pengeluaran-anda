@@ -1,4 +1,5 @@
 import React from "react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 
 const WishlistPagination = ({
    currentPage,
@@ -6,52 +7,34 @@ const WishlistPagination = ({
    itemsPerPage,
    onPageChange,
 }) => {
-   // Calculate total pages
    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-   // Don't show pagination if there's only one page or no items
    if (totalPages <= 1 || totalItems === 0) {
       return null;
    }
 
-   // Very simple page click handler
    const handleClick = (pageNumber) => {
-      // Prevent clicks on current page or invalid pages
       if (pageNumber === currentPage || pageNumber < 1 || pageNumber > totalPages) {
          return;
       }
-      // Direct call with no setTimeout or other delays
       onPageChange(pageNumber);
    };
 
-   // Generate page numbers with ellipsis
    const getPageNumbers = () => {
       const pageNumbers = [];
 
-      // Logic for page numbers display with ellipsis
       for (let i = 1; i <= totalPages; i++) {
-         // Always show first page, last page, and pages around current page
          if (
             i === 1 ||
             i === totalPages ||
             (i >= currentPage - 1 && i <= currentPage + 1)
          ) {
-            pageNumbers.push({
-               number: i,
-               type: "page"
-            });
-         } else if (
-            i === currentPage - 2 ||
-            i === currentPage + 2
-         ) {
-            // Show ellipsis for gaps
-            pageNumbers.push({
-               type: "ellipsis"
-            });
+            pageNumbers.push({ number: i, type: "page" });
+         } else if (i === currentPage - 2 || i === currentPage + 2) {
+            pageNumbers.push({ type: "ellipsis" });
          }
       }
 
-      // Remove duplicate ellipsis
       return pageNumbers.filter((item, index, array) => {
          if (item.type === "ellipsis") {
             return array[index - 1]?.type !== "ellipsis";
@@ -63,45 +46,36 @@ const WishlistPagination = ({
    const pageNumbers = getPageNumbers();
 
    return (
-      <div className="mt-8 flex justify-center">
-         <div className="flex flex-wrap gap-2 items-center">
-            {/* First page button */}
+      <div className="mt-8 flex justify-center font-mono text-xs select-none">
+         <div className="flex flex-wrap gap-1.5 items-center">
+            {/* First page */}
             <button
                onClick={() => handleClick(1)}
                disabled={currentPage === 1}
-               className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${currentPage === 1
-                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  }`}
+               className="w-9 h-9 flex items-center justify-center border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] shadow-[2px_2px_0_var(--color-ink)] hover:bg-[var(--color-bg)] disabled:opacity-30 disabled:pointer-events-none transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                aria-label="First page"
                type="button"
             >
-               «
+               <ChevronsLeft size={14} className="stroke-[2]" />
             </button>
 
-            {/* Previous page button */}
+            {/* Prev page */}
             <button
                onClick={() => handleClick(currentPage - 1)}
                disabled={currentPage === 1}
-               className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${currentPage === 1
-                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  }`}
+               className="w-9 h-9 flex items-center justify-center border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] shadow-[2px_2px_0_var(--color-ink)] hover:bg-[var(--color-bg)] disabled:opacity-30 disabled:pointer-events-none transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                aria-label="Previous page"
                type="button"
             >
-               ‹
+               <ChevronLeft size={14} className="stroke-[2]" />
             </button>
 
-            {/* Page numbers and ellipsis */}
-            {pageNumbers.map((item, index) => (
+            {/* Numbers */}
+            {pageNumbers.map((item, index) =>
                item.type === "ellipsis" ? (
                   <span
                      key={`ellipsis-${index}`}
-                     className="px-2 dark:text-white"
-                     aria-hidden="true"
+                     className="w-9 h-9 flex items-center justify-center text-[var(--color-ink-muted)] font-bold"
                   >
                      ...
                   </span>
@@ -109,11 +83,11 @@ const WishlistPagination = ({
                   <button
                      key={`page-${item.number}`}
                      onClick={() => handleClick(item.number)}
-                     className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                        ${currentPage === item.number
-                           ? "bg-yellow-300 dark:bg-yellow-600 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transform -rotate-2"
-                           : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                        }`}
+                     className={`w-9 h-9 flex items-center justify-center border-2 border-[var(--color-ink)] font-bold transition-all ${
+                        currentPage === item.number
+                           ? "bg-[var(--color-accent)] text-[var(--color-accent-ink)] shadow-[2px_2px_0_var(--color-ink)] -translate-x-0.5 -translate-y-0.5"
+                           : "bg-[var(--color-surface)] text-[var(--color-ink)] shadow-[2px_2px_0_var(--color-ink)] hover:bg-[var(--color-bg)] active:translate-x-0 active:translate-y-0 active:shadow-none"
+                     }`}
                      aria-label={`Page ${item.number}`}
                      aria-current={currentPage === item.number ? "page" : undefined}
                      type="button"
@@ -121,36 +95,28 @@ const WishlistPagination = ({
                      {item.number}
                   </button>
                )
-            ))}
+            )}
 
-            {/* Next page button */}
+            {/* Next page */}
             <button
                onClick={() => handleClick(currentPage + 1)}
                disabled={currentPage === totalPages}
-               className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${currentPage === totalPages
-                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  }`}
+               className="w-9 h-9 flex items-center justify-center border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] shadow-[2px_2px_0_var(--color-ink)] hover:bg-[var(--color-bg)] disabled:opacity-30 disabled:pointer-events-none transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                aria-label="Next page"
                type="button"
             >
-               ›
+               <ChevronRight size={14} className="stroke-[2]" />
             </button>
 
-            {/* Last page button */}
+            {/* Last page */}
             <button
                onClick={() => handleClick(totalPages)}
                disabled={currentPage === totalPages}
-               className={`w-10 h-10 flex items-center justify-center rounded-lg border-3 border-black font-bold transition-colors duration-300
-                  ${currentPage === totalPages
-                     ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed opacity-60"
-                     : "bg-white dark:bg-gray-800 hover:bg-yellow-100 dark:hover:bg-gray-700 dark:text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                  }`}
+               className="w-9 h-9 flex items-center justify-center border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] shadow-[2px_2px_0_var(--color-ink)] hover:bg-[var(--color-bg)] disabled:opacity-30 disabled:pointer-events-none transition-all active:translate-x-0.5 active:translate-y-0.5 active:shadow-none"
                aria-label="Last page"
                type="button"
             >
-               »
+               <ChevronsRight size={14} className="stroke-[2]" />
             </button>
          </div>
       </div>

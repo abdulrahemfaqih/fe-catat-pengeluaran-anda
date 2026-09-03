@@ -1,4 +1,5 @@
 import React from "react";
+import { Search, RotateCcw, X } from "lucide-react";
 
 const TransactionFilter = ({
    searchTerm,
@@ -18,187 +19,121 @@ const TransactionFilter = ({
 }) => {
    return (
       <div
-         className={`mb-6 border-3 border-black rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 dark:text-white shadow-[6px_6px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300 transform ${
+         className={`mb-6 border-2 border-[var(--color-ink)] bg-[var(--color-surface)] shadow-[4px_4px_0_var(--color-ink)] ${
             !showSearchFilters ? "hidden sm:block" : "block"
          }`}
       >
-         <div className="bg-blue-200 dark:bg-blue-800 px-4 py-3 border-b-3 border-black flex items-center justify-between transition-colors duration-300">
-            <h3 className="font-bold text-lg flex items-center">
-               <span className="bg-white dark:bg-gray-700 p-1 rounded-lg border-2 border-black mr-2 shadow-[2px_2px_0px_rgba(0,0,0,0.3)] transition-colors duration-300">
-                  🔍
-               </span>
-               Filter Transaksi
+         {/* Filter Header Inverted (§6.8) */}
+         <div className="bg-[var(--color-ink)] text-[var(--color-bg)] px-4 py-2.5 flex items-center justify-between">
+            <h3 className="font-mono uppercase text-xs font-bold tracking-wider flex items-center gap-2">
+               <Search size={14} className="stroke-[2.5]" />
+               <span>FILTER & PENCARIAN TRANSAKSI</span>
             </h3>
             <button
-               onClick={() => setShowSearchFilters(!showSearchFilters)}
-               className="sm:hidden px-2 py-1 border-2 border-black bg-white dark:bg-gray-700 dark:text-white rounded-lg hover:bg-black hover:text-white dark:hover:bg-gray-900 transition-colors duration-300"
+               onClick={() => setShowSearchFilters(false)}
+               className="sm:hidden text-[var(--color-bg)] p-1 hover:opacity-75"
+               aria-label="Tutup filter"
             >
-               {showSearchFilters ? "❌ Tutup" : "🔍 Buka"}
+               <X size={16} />
             </button>
          </div>
 
-         <div className="p-5">
-            <form onSubmit={handleSearchSubmit} className="space-y-5">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {/* Text Search - Enhanced */}
-                  <div className="bg-white dark:bg-gray-800 border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] transition-colors duration-300">
-                     <h4 className="font-bold text-sm uppercase mb-3 flex items-center">
-                        <span className="bg-yellow-100 dark:bg-yellow-800 p-1 rounded-lg border-2 border-black mr-2 transition-colors duration-300">
-                           📝
-                        </span>
-                        Cari Transaksi
-                     </h4>
-                     <div className="flex flex-col md:flex-row gap-3">
-                        <div className="flex-1">
-                           <label
-                              htmlFor="searchTerm"
-                              className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
-                           >
-                              Kata Kunci
-                           </label>
-                           <div className="relative">
-                              <input
-                                 type="text"
-                                 id="searchTerm"
-                                 value={searchTerm}
-                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                 className="w-full border-2 border-black rounded-lg p-2 pl-9 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] h-10 bg-white dark:bg-gray-700 text-black dark:text-white transition-colors duration-300"
-                                 placeholder="Cari transaksi..."
-                              />
-                              <span className="absolute left-3 top-1/2 -translate-y-1/2">
-                                 🔍
-                              </span>
-                           </div>
-                        </div>
-                        <div className="md:w-1/3">
-                           <label
-                              htmlFor="searchColumn"
-                              className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
-                           >
-                              Cari Di
-                           </label>
-                           <div className="relative">
-                              <select
-                                 id="searchColumn"
-                                 value={searchColumn}
-                                 onChange={(e) =>
-                                    setSearchColumn(e.target.value)
-                                 }
-                                 className="w-full border-2 appearance-none border-black rounded-lg p-2 pl-8 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white h-10 transition-colors duration-300"
-                              >
-                                 <option value="all">Semua Kolom</option>
-                                 <option value="date">Tanggal</option>
-                                 <option value="name">Nama</option>
-                                 <option value="category">Kategori</option>
-                              </select>
-                              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                                 📋
-                              </span>
-                              <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none dark:text-white transition-colors duration-300">
-                                 ▼
-                              </span>
-                           </div>
-                        </div>
+         <div className="p-4 sm:p-5">
+            <form onSubmit={handleSearchSubmit} className="space-y-4">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Text Search */}
+                  <div>
+                     <label
+                        htmlFor="searchTerm"
+                        className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider"
+                     >
+                        KATA KUNCI PENCARIAN
+                     </label>
+                     <div className="flex gap-2">
+                        <input
+                           type="text"
+                           id="searchTerm"
+                           value={searchTerm}
+                           onChange={(e) => setSearchTerm(e.target.value)}
+                           className="flex-1 border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] px-3 py-2 font-mono text-xs focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
+                           placeholder="Ketik kata kunci..."
+                        />
+                        <select
+                           id="searchColumn"
+                           value={searchColumn}
+                           onChange={(e) => setSearchColumn(e.target.value)}
+                           className="border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] px-3 py-2 font-mono text-xs uppercase focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
+                        >
+                           <option value="all">SEMUA KOLOM</option>
+                           <option value="date">TANGGAL</option>
+                           <option value="name">NAMA</option>
+                           <option value="category">KATEGORI</option>
+                        </select>
                      </div>
                   </div>
-                  {/* Amount Filter - Enhanced */}
-                  <div className="bg-white dark:bg-gray-800 border-3 border-black rounded-xl p-4 shadow-[4px_4px_0px_rgba(0,0,0,0.2)] transition-colors duration-300">
-                     <h4 className="font-bold text-sm uppercase mb-3 flex items-center">
-                        <span className="bg-green-100 dark:bg-green-800 p-1 rounded-lg border-2 border-black mr-2 transition-colors duration-300">
-                           💰
-                        </span>
-                        Filter Nominal
-                     </h4>
-                     <div className="flex flex-col md:flex-row gap-3">
-                        <div className="md:w-1/3">
-                           <label
-                              htmlFor="amountOperator"
-                              className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
-                           >
-                              Operator
-                           </label>
-                           <div className="relative">
-                              <select
-                                 id="amountOperator"
-                                 value={searchAmountOperator}
-                                 onChange={(e) =>
-                                    setSearchAmountOperator(e.target.value)
-                                 }
-                                 className="w-full border-2 appearance-none border-black rounded-lg p-2 pl-8 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] bg-white dark:bg-gray-700 text-black dark:text-white h-10 transition-colors duration-300"
-                              >
-                                 <option value="equals">Sama dengan (=)</option>
-                                 <option value="greater">
-                                    Lebih dari (&gt;)
-                                 </option>
-                                 <option value="less">
-                                    Kurang dari (&lt;)
-                                 </option>
-                                 <option value="greaterEqual">
-                                    Minimal (≥)
-                                 </option>
-                                 <option value="lessEqual">Maksimal (≤)</option>
-                              </select>
-                              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                                 ⚙️
-                              </span>
-                              <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none dark:text-white transition-colors duration-300">
-                                 ▼
-                              </span>
-                           </div>
-                        </div>
-                        <div className="flex-1">
-                           <label
-                              htmlFor="amountValue"
-                              className="block mb-1 font-medium text-sm dark:text-gray-200 transition-colors duration-300"
-                           >
-                              Nilai Nominal
-                           </label>
-                           <div className="relative">
-                              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-300 font-medium transition-colors duration-300">
-                                 Rp
-                              </span>
-                              <input
-                                 type="number"
-                                 id="amountValue"
-                                 value={searchAmountValue}
-                                 onChange={(e) =>
-                                    setSearchAmountValue(e.target.value)
-                                 }
-                                 className="w-full border-2 border-black rounded-lg p-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-[2px_2px_0px_rgba(0,0,0,1)] h-10 bg-white dark:bg-gray-700 text-black dark:text-white transition-colors duration-300"
-                                 placeholder="Contoh: 50000"
-                              />
-                           </div>
+
+                  {/* Amount Filter */}
+                  <div>
+                     <label
+                        htmlFor="amountValue"
+                        className="block mb-1 font-mono uppercase text-[11px] font-bold text-[var(--color-ink-muted)] tracking-wider"
+                     >
+                        FILTER NOMINAL RUPIAH
+                     </label>
+                     <div className="flex gap-2">
+                        <select
+                           id="amountOperator"
+                           value={searchAmountOperator}
+                           onChange={(e) => setSearchAmountOperator(e.target.value)}
+                           className="border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] px-3 py-2 font-mono text-xs uppercase focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
+                        >
+                           <option value="equals">SAMA DENGAN (=)</option>
+                           <option value="greater">LEBIH DARI (&gt;)</option>
+                           <option value="less">KURANG DARI (&lt;)</option>
+                           <option value="greaterEqual">MINIMAL (≥)</option>
+                           <option value="lessEqual">MAKSIMAL (≤)</option>
+                        </select>
+                        <div className="relative flex-1">
+                           <span className="absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-xs font-bold text-[var(--color-ink-muted)]">
+                              RP
+                           </span>
+                           <input
+                              type="number"
+                              id="amountValue"
+                              value={searchAmountValue}
+                              onChange={(e) => setSearchAmountValue(e.target.value)}
+                              className="w-full border-2 border-[var(--color-ink)] bg-[var(--color-surface)] text-[var(--color-ink)] px-3 py-2 pl-9 font-mono text-xs tabular-nums focus:outline-2 focus:outline-[var(--color-accent)] focus:outline-offset-2"
+                              placeholder="0"
+                           />
                         </div>
                      </div>
                   </div>
                </div>
 
-               {/* Action Buttons */}
-               <div className="flex flex-wrap gap-3 justify-end mt-2">
+               {/* Footer filter status & Reset */}
+               <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[var(--color-ink)]/15">
+                  <div className="font-mono text-xs text-[var(--color-ink-muted)]">
+                     {filteredTransactions.length !== (transactions || []).length && (
+                        <span>
+                           FILTER AKTIF:{" "}
+                           <strong className="text-[var(--color-ink)]">
+                              {filteredTransactions.length}
+                           </strong>{" "}
+                           DARI {(transactions || []).length} TRANSAKSI DITEMUKAN
+                        </span>
+                     )}
+                  </div>
+
                   <button
                      type="button"
                      onClick={resetFilters}
-                     className="px-5 py-2 border-3 border-black bg-white dark:bg-gray-700 text-black dark:text-white font-bold rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] flex items-center gap-2"
+                     className="font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-surface)] text-[var(--color-ink)] border-2 border-[var(--color-ink)] px-4 py-1.5 shadow-[2px_2px_0_var(--color-ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0_var(--color-ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-100 flex items-center gap-1.5"
                   >
-                     <span>🔄</span>
-                     Reset Filter
+                     <RotateCcw size={13} className="stroke-[2.5]" />
+                     <span>RESET FILTER</span>
                   </button>
                </div>
             </form>
-
-            {filteredTransactions.length !== transactions.length && (
-               <div className="mt-4 px-4 py-3 bg-gradient-to-r from-yellow-100 to-yellow-50 dark:from-yellow-800 dark:to-yellow-900 dark:text-white border-2 border-yellow-500 dark:border-yellow-600 rounded-lg text-sm flex items-center transition-colors duration-300">
-                  <span className="font-bold mr-2 bg-white dark:bg-gray-700 p-1 border-2 border-yellow-500 dark:border-yellow-600 rounded-md transition-colors duration-300">
-                     📋
-                  </span>
-                  <span>
-                     <span className="font-bold">
-                        {filteredTransactions.length} dari {transactions.length}
-                     </span>{" "}
-                     transaksi sesuai filter yang diterapkan
-                  </span>
-               </div>
-            )}
          </div>
       </div>
    );

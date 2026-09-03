@@ -1,91 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const DataLoadingIndicator = ({ isLoading, initialDelay = 1000 }) => {
-    const [showIndicator, setShowIndicator] = useState(false);
-    const [elapsedTime, setElapsedTime] = useState(0);
-    const [message, setMessage] = useState('Memuat data...');
+   const [showIndicator, setShowIndicator] = useState(false);
+   const [elapsedTime, setElapsedTime] = useState(0);
+   const [message, setMessage] = useState("MEMUAT DATA...");
 
-    useEffect(() => {
+   useEffect(() => {
+      const timer = setTimeout(() => {
+         if (isLoading) {
+            setShowIndicator(true);
+         }
+      }, initialDelay);
 
-        const timer = setTimeout(() => {
-            if (isLoading) {
-                setShowIndicator(true);
-            }
-        }, initialDelay);
+      return () => clearTimeout(timer);
+   }, [isLoading, initialDelay]);
 
-        return () => clearTimeout(timer);
-    }, [isLoading, initialDelay]);
+   useEffect(() => {
+      let interval;
 
-    useEffect(() => {
-        let interval;
+      if (showIndicator && isLoading) {
+         interval = setInterval(() => {
+            setElapsedTime((prev) => {
+               const newTime = prev + 1;
+               if (newTime > 10) {
+                  setMessage("MENGAMBIL DATA DARI SERVER, MOHON TUNGGU...");
+               } else if (newTime > 5) {
+                  setMessage("MENYINKRONKAN INFORMASI KEUANGAN ANDA...");
+               }
+               return newTime;
+            });
+         }, 1000);
+      }
 
-        if (showIndicator && isLoading) {
-            interval = setInterval(() => {
-                setElapsedTime(prev => {
-                    const newTime = prev + 1;
+      return () => {
+         if (interval) clearInterval(interval);
+      };
+   }, [showIndicator, isLoading]);
 
-                    // Update message based on elapsed time
-                    if (newTime > 10) {
-                        setMessage('Mohon tunggu sebentar, mengambil data anda...');
-                    } else if (newTime > 5) {
-                        setMessage('Sedang menyiapkan informasi keuangan anda...');
-                    }
+   useEffect(() => {
+      if (!isLoading) {
+         const hideTimer = setTimeout(() => {
+            setShowIndicator(false);
+         }, 400);
 
-                    return newTime;
-                });
-            }, 1000);
-        }
+         return () => clearTimeout(hideTimer);
+      }
+   }, [isLoading]);
 
-        return () => {
-            if (interval) clearInterval(interval);
-        };
-    }, [showIndicator, isLoading]);
+   if (!showIndicator) return null;
 
-    useEffect(() => {
-        if (!isLoading) {
-            // When loading completes, keep the message visible briefly before hiding
-            const hideTimer = setTimeout(() => {
-                setShowIndicator(false);
-            }, 500);
-
-            return () => clearTimeout(hideTimer);
-        }
-    }, [isLoading]);
-
-    if (!showIndicator) return null;
-
-    return (
-        <div className="mb-8 rounded-xl border-4 border-black bg-yellow-50 p-5 shadow-[8px_8px_0px_rgba(0,0,0,1)] relative overflow-hidden animate-fadeIn">
-            <div className="absolute -top-3 -right-3 w-20 h-20 bg-yellow-200 rounded-bl-full -mr-2 -mt-2 border-b-4 border-l-4 border-black"></div>
-
-            <div className="flex items-center gap-4 relative z-10">
-                <div className="shrink-0">
-                    <div className="w-12 h-12 border-4 border-black border-t-blue-400 rounded-full animate-spin"></div>
-                </div>
-
-                <div>
-                    <h3 className="font-bold text-lg mb-1 flex items-center gap-2">
-                        <span>⏱️</span>
-                        {message}
-                    </h3>
-
-                    <div className="text-sm text-gray-700">
-                        <span>
-                            {elapsedTime > 10 ? (
-                                "Pertama kali memuat mungkin membutuhkan waktu lebih lama. Silakan tunggu sebentar ya."
-                            ) : (
-                                "Sedang mempersiapkan data, harap bersabar sebentar."
-                            )}
-                        </span>
-
-                        <div className="mt-2 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                            <div className="bg-blue-600 h-2.5 rounded-full animate-pulse" style={{ width: '80%' }}></div>
-                        </div>
-                    </div>
-                </div>
+   return (
+      <div className="mb-6 border-2 border-[var(--color-ink)] bg-[var(--color-surface)] p-4 shadow-[4px_4px_0_var(--color-ink)] animate-fadeIn font-mono">
+         <div className="flex items-center gap-3">
+            <span className="w-2.5 h-2.5 bg-[var(--color-accent)] animate-ping shrink-0" />
+            <div className="flex-1">
+               <h3 className="text-xs uppercase font-bold text-[var(--color-ink)] tracking-wider mb-1">
+                  {message}
+               </h3>
+               <div className="w-full bg-[var(--color-bg)] border border-[var(--color-ink)] h-2 overflow-hidden">
+                  <div className="bg-[var(--color-accent)] h-full w-2/3 animate-pulse" />
+               </div>
             </div>
-        </div>
-    );
+         </div>
+      </div>
+   );
 };
 
 export default DataLoadingIndicator;

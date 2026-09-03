@@ -1,4 +1,5 @@
 import React from "react";
+import { AlertTriangle } from "lucide-react";
 
 const TransactionDeleteConfirmation = ({
    isOpen,
@@ -12,75 +13,48 @@ const TransactionDeleteConfirmation = ({
 
    return (
       <div
-         className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn"
+         className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 animate-fadeIn"
          onClick={onClose}
       >
          <div
-            className="bg-white dark:bg-gray-800 p-5 sm:p-6 rounded-xl w-full max-w-md border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform transition-all relative dark:text-white transition-colors duration-300"
+            className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] shadow-[8px_8px_0_var(--color-ink)] p-5 sm:p-6 w-full max-w-md"
             onClick={(e) => e.stopPropagation()}
          >
+            <div className="flex items-center gap-2 text-[var(--color-negative)] mb-3 pb-2 border-b-2 border-[var(--color-ink)]">
+               <AlertTriangle size={20} className="stroke-[2.5]" />
+               <h3 className="font-mono uppercase text-sm font-bold tracking-wider">
+                  HAPUS TRANSAKSI
+               </h3>
+            </div>
 
-            <div className="flex items-center gap-3 mb-4">
-               <div className="flex-shrink-0 bg-red-100 dark:bg-red-700 w-10 h-10 rounded-full border-3 border-black flex items-center justify-center transition-colors duration-300">
-                  <span className="text-xl">🗑️</span>
+            <p className="font-body text-xs text-[var(--color-ink)] mb-3">
+               Apakah Anda yakin ingin menghapus transaksi ini dari buku catatan?
+            </p>
+
+            {transactionName && (
+               <div className="border-2 border-[var(--color-ink)] bg-[var(--color-bg)] p-3 mb-5 font-mono">
+                  <div className="font-bold text-sm text-[var(--color-ink)] mb-1">
+                     {transactionName}
+                  </div>
+                  <div className="text-xs font-bold text-[var(--color-negative)] tabular-nums">
+                     Rp {Number(transactionAmount || 0).toLocaleString("id-ID")}
+                  </div>
                </div>
-               <h3 className="text-xl font-bold">Hapus Transaksi</h3>
-            </div>
+            )}
 
-            <div className="bg-yellow-50 dark:bg-yellow-900 dark:text-gray-100 border-3 border-black rounded-lg p-3 mb-4 transition-colors duration-300">
-               <p className="font-medium">
-                  Yakin ingin menghapus transaksi ini?
-                  {transactionName && (
-                     <span className="block mt-2 font-bold border-t-2 border-dashed border-black/30 dark:border-white/30 pt-2 transition-colors duration-300">
-                        <span className="block mb-1">{transactionName}</span>
-                        <span className="text-lg">
-                           Rp{" "}
-                           {Number(transactionAmount).toLocaleString("id-ID")}
-                        </span>
-                     </span>
-                  )}
-               </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 mt-5 sm:justify-end">
+            <div className="flex gap-3 justify-end">
                <button
                   onClick={onClose}
-                  className="order-2 sm:order-1 py-2 px-4 border-3 border-black bg-gray-100 dark:bg-gray-600 dark:text-white rounded-lg font-bold hover:bg-black hover:text-white dark:hover:bg-gray-900 transition-all shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px]"
+                  className="font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-surface)] text-[var(--color-ink)] border-2 border-[var(--color-ink)] px-4 py-2 hover:bg-[var(--color-bg)] transition-colors"
                >
-                  Batal
+                  BATAL
                </button>
                <button
                   onClick={onConfirm}
                   disabled={isLoading}
-                  className="order-1 sm:order-2 py-2 px-4 border-3 border-black bg-red-200 dark:bg-red-700 dark:text-white rounded-lg font-bold hover:bg-red-300 dark:hover:bg-red-600 transition-all shadow-[3px_3px_0px_rgba(0,0,0,1)] hover:shadow-[1px_1px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="font-mono uppercase text-xs tracking-wider font-bold bg-[var(--color-surface)] text-[var(--color-negative)] border-2 border-[var(--color-negative)] px-4 py-2 shadow-[3px_3px_0_var(--color-negative)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--color-negative)] active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-40 transition-all"
                >
-                  {isLoading ? (
-                     <span className="flex items-center justify-center gap-2">
-                        <svg
-                           className="animate-spin h-4 w-4"
-                           xmlns="http://www.w3.org/2000/svg"
-                           fill="none"
-                           viewBox="0 0 24 24"
-                        >
-                           <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                           ></circle>
-                           <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                           ></path>
-                        </svg>
-                        Menghapus...
-                     </span>
-                  ) : (
-                     "Ya, Hapus"
-                  )}
+                  {isLoading ? "MENGHAPUS..." : "HAPUS TRANSAKSI"}
                </button>
             </div>
          </div>
